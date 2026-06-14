@@ -64,7 +64,6 @@
 | Status | Arti |
 |---|---|
 | 🟠 Baru masuk | Tiket sudah diterima, belum diproses |
-| 🔵 Sedang diproses | Admin sedang meninjau tiket Anda |
 | 🟢 Sudah dibalas | Admin sudah memberikan jawaban |
 | ⚪ Selesai | Tiket telah ditutup |
 
@@ -102,10 +101,9 @@
 ### 2. Kelola Tiket
 
 #### Ringkasan (Summary)
-Di bagian atas panel admin, tersedia **4 kartu ringkasan**:
+Di bagian atas panel admin, tersedia **3 kartu ringkasan**:
 - **Total tiket** — jumlah seluruh tiket yang masuk
 - **Baru masuk** — tiket yang belum diproses
-- **Sedang diproses** — tiket yang sedang ditinjau
 - **Sudah dibalas / Selesai** — tiket yang sudah ditangani
 
 #### Filter dan Pencarian
