@@ -966,8 +966,20 @@
         function renderAdminList() { const q = ($('searchAdmin')?.value || '').toLowerCase().trim(); const topik = $('filterTopik')?.value || ''; const status = $('filterStatus')?.value || ''; const sort = $('sortAdmin')?.value || 'newest'; let filtered = adminData.filter(t => { const s = [t.nama, t.email, t.hp, t.SOBAT_ID, t.topik, t.pertanyaan, t.kategori_gemini].join(' ').toLowerCase(); const st = badgeStatus(t.status).txt; const stKey = badgeStatus(t.status).txt === 'Baru masuk' ? 'baru' : badgeStatus(t.status).txt === 'Sedang diproses' ? 'proses' : badgeStatus(t.status).txt === 'Sudah dibalas' ? 'terjawab' : 'selesai'; return (!q || s.includes(q)) && (!topik || String(t.topik || '') === topik) && (!status || stKey === status); }); filtered.sort((a, b) => sort === 'oldest' ? new Date(a.timestamp) - new Date(b.timestamp) : new Date(b.timestamp) - new Date(a.timestamp)); $('adminSummary').textContent = `Tiket tampil: ${filtered.length}`; $('adminList').innerHTML = filtered.length ? filtered.map(t => itemTicket(t, true)).join('') : '<div class="empty">Tidak ada tiket sesuai filter.</div>'; }
         function renderAdminForum(grouped) { $('adminForumList').innerHTML = Object.keys(grouped || {}).length ? Object.keys(grouped).map(k => `<div class="item"><div class="item-head"><div><div class="item-title">${escapeHtml(k)}</div><div class="muted">Pertanyaan dengan tema yang serupa.</div></div></div>${grouped[k].map(x => itemTicket(x)).join('')}</div>`).join('') : '<div class="empty">Belum ada data forum.</div>'; }
         function toggleSelect(id, checked) { if (checked) { if (!adminCache.find(x => x.id === id)) adminCache.push({ id }); } else { adminCache = adminCache.filter(x => x.id !== id); } }
-        function selectAllAdmin(state) { document.querySelectorAll('#admin-list input[type="checkbox"]').forEach(cb => cb.checked = state); adminCache = state ? adminData.map(x => ({ id: x.id })) : []; }
-        async function answerOne(id) { if (isBusy) return; const el = $('jawab-' + id); const j = el ? el.value.trim() : ''; if (!j) { toast('Isi jawaban terlebih dahulu.', 'warn'); return; } await withLoading(async () => { const r = await apiPost('answerTicket', { ticketId: id, jawaban: j, answeredByEmail: me.email }); toast(r.success ? `Jawaban tersimpan untuk tiket ${id}.` : (r.message || 'Gagal menyimpan jawaban.'), r.success ? 'success' : 'error'); await loadAll(); }, 'Mengirim jawaban...'); }
+        function selectAllAdmin(state) {
+            document.querySelectorAll('#adminList input[type="checkbox"]').forEach(cb => {
+                cb.checked = state;
+                const card = cb.closest('.item');
+                if (!card) return;
+                const ta = card.querySelector('textarea[id^="jawab-"]');
+                const ticketId = ta ? ta.id.replace('jawab-', '') : null;
+                if (!ticketId) return;
+                if (state && !adminCache.find(x => x.id === ticketId)) adminCache.push({ id: ticketId });
+                else if (!state) adminCache = adminCache.filter(x => x.id !== ticketId);
+            });
+        }
+
+        async function answerOne(id) { if (isBusy) return; const el = document.getElementById('jawab-' + id); const j = el ? el.value.trim() : ''; if (!j) { toast('Isi jawaban terlebih dahulu.', 'warn'); return; } await withLoading(async () => { const r = await apiPost('answerTicket', { ticketId: id, jawaban: j, answeredByEmail: me.email }); toast(r.success ? `Jawaban tersimpan untuk tiket ${id}.` : (r.message || 'Gagal menyimpan jawaban.'), r.success ? 'success' : 'error'); await loadAll(); }, 'Mengirim jawaban...'); }
 
         async function processOne(id) {
             if (isBusy) return;
@@ -979,7 +991,7 @@
         }
 
         async function finishOne(id) { if (isBusy) return; await withLoading(async () => { const r = await apiPost('markComplete', { ticketId: id }); toast(r.success ? `Tiket ${id} ditandai selesai.` : (r.message || 'Gagal menutup tiket.'), r.success ? 'success' : 'error'); await loadAll(); }, 'Menandai selesai...'); }
-        async function bulkAnswerSelected() { if (isBusy) return; const items = []; document.querySelectorAll('#admin-list .item').forEach(card => { const chk = card.querySelector('input[type="checkbox"]'); const input = card.querySelector('input[id^="jawab-"]'); if (chk && chk.checked && input && input.value.trim()) items.push({ ticketId: input.id.replace('jawab-', ''), jawaban: input.value.trim() }); }); if (!items.length) { toast('Pilih tiket dan isi jawaban dulu.', 'warn'); return; } await withLoading(async () => { const r = await apiPost('answerTicketsBulk', { items, answeredByEmail: me.email }); const okCount = (r.results || []).filter(x => x.success).length; toast(r.success ? `${okCount} jawaban terkirim.` : (r.message || 'Gagal mengirim jawaban massal.'), r.success ? 'success' : 'error'); await loadAll(); }, 'Mengirim jawaban massal...'); }
+        async function bulkAnswerSelected() { if (isBusy) return; const items = []; document.querySelectorAll('#adminList .item').forEach(card => { const chk = card.querySelector('input[type="checkbox"]'); const ta = card.querySelector('textarea[id^="jawab-"]'); if (chk && chk.checked && ta && ta.value.trim()) items.push({ ticketId: ta.id.replace('jawab-', ''), jawaban: ta.value.trim() }); }); if (!items.length) { toast('Pilih tiket dan isi jawaban dulu.', 'warn'); return; } await withLoading(async () => { const r = await apiPost('answerTicketsBulk', { items, answeredByEmail: me.email }); const okCount = (r.results || []).filter(x => x.success).length; toast(r.success ? `${okCount} jawaban terkirim.` : (r.message || 'Gagal mengirim jawaban massal.'), r.success ? 'success' : 'error'); await loadAll(); }, 'Mengirim jawaban massal...'); }
         async function loadAll() { await loadMyTickets(); await loadForum(); await loadNotif(); if (role === 'ADMIN') await loadAdmin(); }
         function msg(id, text) { $(id).textContent = text; }
         function toast(text, type = 'info') { const wrap = $('toastWrap'); if (!wrap) return; const el = document.createElement('div'); el.className = 'toast ' + type; el.textContent = text; wrap.appendChild(el); setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(4px)'; el.style.transition = 'all .25s ease'; }, 3200); setTimeout(() => el.remove(), 3600); }
