@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ruang Kita</title>
+    <title>Ruang Kita - Final</title>
     <link rel="icon" href="data:,">
     <style>
         :root {
@@ -601,6 +601,86 @@
             background: #fffdf9;
             color: var(--muted);
             text-align: center
+        }
+
+        @media (max-width:768px) {
+            .wrap {
+                padding: 10px
+            }
+
+            .card {
+                padding: 14px;
+                border-radius: 14px
+            }
+
+            .top {
+                align-items: flex-start
+            }
+
+            .top>div:last-child {
+                width: 100%;
+                text-align: left
+            }
+
+            .view-switch {
+                flex-direction: column
+            }
+
+            .view-switch button {
+                width: 100%;
+                min-width: 0
+            }
+
+            .tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 4px;
+                -webkit-overflow-scrolling: touch
+            }
+
+            .tab {
+                flex: 0 0 auto;
+                white-space: nowrap
+            }
+
+            .row,
+            .row3,
+            .split,
+            .searchbar,
+            .admin-layout {
+                grid-template-columns: 1fr !important
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .toolbar {
+                flex-direction: column
+            }
+
+            .toolbar>* {
+                width: 100%;
+                min-width: 0
+            }
+
+            .item {
+                padding: 12px
+            }
+
+            .item-meta {
+                font-size: 12px;
+                word-break: break-word
+            }
+
+            .checkline {
+                flex-direction: column
+            }
+
+            .checkline input[type="text"],
+            .checkline input:not([type]) {
+                width: 100%
+            }
         }
     </style>
 </head>
