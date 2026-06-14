@@ -18,7 +18,8 @@
             --shadow: 0 10px 30px rgba(156, 84, 32, .08);
             --ok: #2f8f5b;
             --danger: #b42318;
-            --warn: #b86a12
+            --warn: #b86a12;
+            --info: #0369a1
         }
 
         * {
@@ -84,15 +85,13 @@
 
         .split {
             display: grid;
-            grid-template-columns: 1.2fr .8fr;
+            grid-template-columns: 1.45fr .85fr;
             gap: 16px
         }
 
         @media (max-width:1100px) {
-            .row3 {
-                grid-template-columns: repeat(2, minmax(0, 1fr))
-            }
 
+            .row3,
             .split {
                 grid-template-columns: 1fr
             }
@@ -225,22 +224,29 @@
             font-weight: 700;
             margin-right: 6px;
             margin-bottom: 6px;
-            border: 1px solid transparent
+            border: 1px solid transparent;
+            white-space: nowrap
         }
 
-        .b-terkirim {
+        .b-new {
             background: #fff0e4;
             color: #a04f12;
             border-color: #f3d2b2
         }
 
-        .b-terjawab {
+        .b-process {
+            background: #eef8ff;
+            color: #0369a1;
+            border-color: #c6e8ff
+        }
+
+        .b-replied {
             background: #e9f7ef;
             color: #1f7a46;
             border-color: #bfe5cf
         }
 
-        .b-selesai {
+        .b-done {
             background: #f4efe9;
             color: #6e5b4e;
             border-color: #e3d7c9
@@ -272,6 +278,45 @@
             background: linear-gradient(180deg, #fff 0%, #fffdf9 100%)
         }
 
+        .item-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: flex-start
+        }
+
+        .item-title {
+            font-weight: 800;
+            font-size: 15px;
+            line-height: 1.35
+        }
+
+        .item-meta {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.45
+        }
+
+        .item-body {
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 1.5
+        }
+
+        .item-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #7c4b2a;
+            background: var(--soft);
+            border: 1px solid #ead8c7;
+            border-radius: 999px;
+            padding: 5px 10px;
+            display: inline-flex;
+            align-items: center
+        }
+
         .grid-actions {
             display: flex;
             gap: 8px;
@@ -287,7 +332,7 @@
         .section-title {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             gap: 10px;
             flex-wrap: wrap;
             margin-bottom: 10px
@@ -348,7 +393,7 @@
         }
 
         .dense {
-            max-width: 1100px;
+            max-width: 1140px;
             margin: 0 auto
         }
 
@@ -455,7 +500,7 @@
             z-index: 10000;
             display: grid;
             gap: 10px;
-            max-width: min(360px, calc(100vw - 28px))
+            max-width: min(420px, calc(100vw - 28px))
         }
 
         .toast {
@@ -492,6 +537,70 @@
             background: #fff7ed;
             color: #b45309
         }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px
+        }
+
+        .summary {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 14px
+        }
+
+        .summary .v {
+            font-size: 24px;
+            font-weight: 800;
+            margin-top: 6px
+        }
+
+        .summary .l {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        @media (max-width:900px) {
+            .summary-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+        }
+
+        @media (max-width:520px) {
+            .summary-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 1.45fr .95fr;
+            gap: 16px
+        }
+
+        @media (max-width:1100px) {
+            .admin-layout {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .panel-box {
+            background: linear-gradient(180deg, #fff 0%, #fffdf9 100%);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 14px
+        }
+
+        .empty {
+            padding: 18px;
+            border: 1px dashed #e4d3bf;
+            border-radius: 16px;
+            background: #fffdf9;
+            color: var(--muted);
+            text-align: center
+        }
     </style>
 </head>
 
@@ -507,14 +616,18 @@
         <div class="card top sticky-top">
             <div>
                 <h2>RUANG KITA</h2>
-                <div class="muted">Ruang Kita: Ruang Informasi dan Konsultasi Mitra Sensus Ekonomi 2026 - BPS Kota
-                    Denpasar</div>
+                <div class="muted">Ruang informasi dan konsultasi Mitra Sensus Ekonomi 2026 - BPS Kota Denpasar</div>
             </div>
             <div id="profileBox" class="muted"></div>
         </div>
+
         <div id="loginCard" class="card">
             <div class="section-title">
-                <h3>Login</h3><span class="chip">Email only</span>
+                <div>
+                    <h3>Masuk</h3>
+                    <div class="muted">Gunakan email yang terdaftar di MasterPetugas atau Admin.</div>
+                </div>
+                <span class="chip">Email only</span>
             </div>
             <div class="row3">
                 <div><label>Email</label><input id="email" type="email" placeholder="Masukkan email"></div>
@@ -522,21 +635,30 @@
             </div>
             <div id="loginMsg" class="muted" style="margin-top:10px"></div>
         </div>
+
         <div id="app" class="hidden">
-            <div class="view-switch sticky-top" style="padding-top:8px;margin-top:-8px"><button id="btnUserView"
-                    onclick="switchView('user')">Tampilan User</button><button id="btnAdminView" class="btn4 hidden"
-                    onclick="switchView('admin')">Tampilan Admin</button><button id="btnLogout" class="btn5"
-                    onclick="logout()">Logout</button></div>
+            <div class="view-switch sticky-top" style="padding-top:8px;margin-top:-8px">
+                <button id="btnUserView" onclick="switchView('user')">Tampilan User</button>
+                <button id="btnAdminView" class="btn4 hidden" onclick="switchView('admin')">Tampilan Admin</button>
+                <button id="btnLogout" class="btn5" onclick="logout()">Logout</button>
+            </div>
+
             <div id="userSection">
                 <div class="tabs sticky-top" style="padding-top:8px;margin-top:-8px">
                     <div class="tab active" id="tab-user-create" onclick="openTab('user-create')">Buat Tiket</div>
-                    <div class="tab" id="tab-user-list" onclick="openTab('user-list')">Daftar Tiket</div>
-                    <div class="tab" id="tab-forum" onclick="openTab('forum')">Forum</div>
-                    <div class="tab" id="tab-notif" onclick="openTab('notif')">Notifikasi</div>
+                    <div class="tab" id="tab-user-list" onclick="openTab('user-list')">Riwayat Tiket</div>
+                    <div class="tab" id="tab-forum" onclick="openTab('forum')">Forum Diskusi</div>
+                    <div class="tab" id="tab-notif" onclick="openTab('notif')">Pemberitahuan</div>
                 </div>
+
                 <div id="user-create" class="card">
                     <div class="section-title">
-                        <h3>Buat Tiket</h3><span class="chip">Data diri otomatis dari MasterPetugas</span>
+                        <div>
+                            <h3>Buat Tiket</h3>
+                            <div class="muted">Data diri otomatis dari MasterPetugas. Lampiran gambar bersifat opsional.
+                            </div>
+                        </div>
+                        <span class="chip">Isi pertanyaan lalu kirim</span>
                     </div>
                     <div class="row">
                         <div><label>Nama</label><input id="nama" readonly></div>
@@ -551,94 +673,150 @@
                                 <option>Lainnya</option>
                             </select></div>
                     </div>
-                    <div style="margin-top:12px"><label>Lampiran Gambar (opsional)</label><input id="lampiran"
-                            type="file" accept="image/*" capture="environment">
+                    <div style="margin-top:12px">
+                        <label>Lampiran Gambar (opsional)</label>
+                        <input id="lampiran" type="file" accept="image/*" capture="environment">
                         <div id="lampiranPreview" class="preview"><img id="lampiranImg">
                             <div class="muted" id="lampiranName"></div>
                         </div>
                     </div>
                     <div style="margin-top:12px"><label>Pertanyaan</label><textarea id="pertanyaan"
                             placeholder="Tulis pertanyaan..." maxlength="2000"></textarea></div>
-                    <div class="grid-actions"><button id="submitBtn" onclick="submitTicket()">Submit</button><button
-                            class="btn2" onclick="clearForm()">Reset</button></div>
-                    <div id="createMsg" class="muted" style="margin-top:10px"></div>
+                    <div class="grid-actions"><button id="submitBtn" onclick="submitTicket()">Kirim
+                            Tiket</button><button class="btn2" onclick="clearForm()">Reset</button></div>
+                    <div class="muted" style="margin-top:10px">Tiket akan tersimpan bersama status awal <b>baru
+                            masuk</b>. Jika ada lampiran, file akan ikut disimpan bila izin Drive tersedia.</div>
                 </div>
+
                 <div id="user-list" class="card hidden">
                     <div class="section-title">
-                        <h3>Daftar Tiket Saya</h3><span class="chip">Terkirim • Terjawab • Selesai</span>
+                        <div>
+                            <h3>Riwayat Tiket Saya</h3>
+                            <div class="muted">Lihat status terbaru: baru masuk, sedang diproses, sudah dibalas, atau
+                                selesai.</div>
+                        </div>
+                        <span class="chip">Status tiket ditampilkan jelas</span>
                     </div>
                     <div id="myTickets"></div>
                 </div>
+
                 <div id="forum" class="card hidden">
                     <div class="section-title">
-                        <h3>Forum</h3><span class="chip">Dikelompokkan Gemini</span>
+                        <div>
+                            <h3>Forum Diskusi</h3>
+                            <div class="muted">Pertanyaan dikelompokkan otomatis berdasarkan tema yang mirip.</div>
+                        </div>
+                        <span class="chip">Dikelompokkan otomatis</span>
                     </div>
                     <div id="forumList"></div>
                 </div>
+
                 <div id="notif" class="card hidden">
                     <div class="section-title">
-                        <h3>Notifikasi</h3>
+                        <div>
+                            <h3>Pemberitahuan</h3>
+                            <div class="muted">Ringkasan singkat status tiket Anda.</div>
+                        </div>
                     </div>
                     <div id="notifList"></div>
                 </div>
             </div>
+
             <div id="adminSection" class="hidden">
                 <div class="tabs sticky-top" style="padding-top:8px;margin-top:-8px">
-                    <div class="tab active" id="tab-admin-list" onclick="openTab('admin-list')">Admin Tiket</div>
-                    <div class="tab" id="tab-admin-forum" onclick="openTab('admin-forum')">Admin Forum</div>
+                    <div class="tab active" id="tab-admin-list" onclick="openTab('admin-list')">Kelola Tiket</div>
+                    <div class="tab" id="tab-admin-forum" onclick="openTab('admin-forum')">Forum Admin</div>
                 </div>
+
                 <div id="admin-list" class="card">
                     <div class="section-title">
-                        <h3>Daftar Pengajuan Tiket - Admin</h3><span class="chip">Jawab 1 per 1 atau massal</span>
-                    </div>
-                    <div class="split">
                         <div>
-                            <div class="searchbar">
-                                <div><label>Cari tiket</label><input id="searchAdmin"
-                                        placeholder="Nama, email, pertanyaan, topik" oninput="renderAdminList()"></div>
-                                <div><label>Filter topik</label><select id="filterTopik" onchange="renderAdminList()">
-                                        <option value="">Semua</option>
-                                        <option value="Fasih">Fasih</option>
-                                        <option value="Konsep Lapangan">Konsep Lapangan</option>
-                                        <option value="Lainnya">Lainnya</option>
-                                    </select></div>
+                            <h3>Kelola Tiket</h3>
+                            <div class="muted">Cari, filter, balas satu tiket, atau balas banyak tiket sekaligus.</div>
+                        </div>
+                        <span class="chip">Admin workspace</span>
+                    </div>
+
+                    <div class="summary-grid" id="adminSummaryGrid"></div>
+
+                    <div class="admin-layout" style="margin-top:14px">
+                        <div>
+                            <div class="panel-box">
+                                <div class="searchbar">
+                                    <div><label>Cari tiket</label><input id="searchAdmin"
+                                            placeholder="Nama, email, pertanyaan, topik" oninput="renderAdminList()">
+                                    </div>
+                                    <div><label>Filter status</label><select id="filterStatus"
+                                            onchange="renderAdminList()">
+                                            <option value="">Semua</option>
+                                            <option value="baru">Baru masuk</option>
+                                            <option value="proses">Sedang diproses</option>
+                                            <option value="terjawab">Sudah dibalas</option>
+                                            <option value="selesai">Selesai</option>
+                                        </select></div>
+                                </div>
+                                <div class="searchbar" style="margin-top:10px">
+                                    <div><label>Filter topik</label><select id="filterTopik"
+                                            onchange="renderAdminList()">
+                                            <option value="">Semua</option>
+                                            <option value="Fasih">Fasih</option>
+                                            <option value="Konsep Lapangan">Konsep Lapangan</option>
+                                            <option value="Lainnya">Lainnya</option>
+                                        </select></div>
+                                    <div><label>Urutkan</label><select id="sortAdmin" onchange="renderAdminList()">
+                                            <option value="newest">Terbaru</option>
+                                            <option value="oldest">Terlama</option>
+                                        </select></div>
+                                </div>
+                                <div class="toolbar" style="margin-top:10px"><button class="btn3"
+                                        onclick="selectAllAdmin(true)">Pilih Semua</button><button class="btn4"
+                                        onclick="selectAllAdmin(false)">Batal Pilih</button><button id="bulkBtn"
+                                        onclick="bulkAnswerSelected()">Kirim Jawaban Terpilih</button></div>
+                                <div id="adminSummary" class="muted" style="margin-top:10px"></div>
+                                <div id="adminList" class="list-grid" style="margin-top:10px"></div>
                             </div>
-                            <div class="toolbar" style="margin-top:10px"><button class="btn3"
-                                    onclick="selectAllAdmin(true)">Pilih Semua</button><button class="btn4"
-                                    onclick="selectAllAdmin(false)">Batal Pilih</button><button id="bulkBtn"
-                                    onclick="bulkAnswerSelected()">Kirim Jawaban Terpilih</button></div>
-                            <div id="adminSummary" class="muted" style="margin-top:10px"></div>
-                            <div id="adminList" class="list-grid"></div>
                         </div>
                         <div>
-                            <div class="item">
-                                <h4>Panel Admin</h4>
-                                <div class="muted" style="margin-top:8px">Centang tiket lalu isi jawaban pada setiap
-                                    kartu, atau gunakan tombol kirim jawaban terpilih.</div>
-                                <div id="bulkMsg" class="muted" style="margin-top:10px"></div>
+                            <div class="panel-box">
+                                <h4>Panel Tindakan</h4>
+                                <div class="muted" style="margin-top:8px">Pilih tiket di kiri untuk dibalas satu per
+                                    satu atau gunakan tombol kirim massal.</div>
+                                <div style="margin-top:12px">
+                                    <div class="item-label">Arti status</div>
+                                    <div class="muted" style="margin-top:8px">• Baru masuk: tiket baru diterima.<br>•
+                                        Sedang diproses: tiket sedang ditinjau.<br>• Sudah dibalas: sudah ada jawaban
+                                        admin.<br>• Selesai: tiket sudah ditutup.</div>
+                                </div>
+                                <div id="bulkMsg" class="muted" style="margin-top:14px"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div id="admin-forum" class="card hidden">
                     <div class="section-title">
-                        <h3>Forum Admin</h3>
+                        <div>
+                            <h3>Forum Admin</h3>
+                            <div class="muted">Kumpulan pertanyaan berdasarkan tema yang mirip.</div>
+                        </div>
+                        <span class="chip">Untuk memantau pola pertanyaan</span>
                     </div>
                     <div id="adminForumList"></div>
                 </div>
             </div>
         </div>
     </div>
+
     <script>
         let me = null, role = null, adminCache = [], adminData = [], isBusy = false;
         const apiBase = 'https://script.google.com/macros/s/AKfycbxBrzw-cFZXyqnplwTRH_VrrEQmKexQGrsLwgS4Vk3LWShklBnqnWymGCD-24gvOgEC/exec';
         const $ = id => document.getElementById(id);
+        const STATUS_MAP = { 'baru': 'baru', 'proses': 'proses', 'terjawab': 'terjawab', 'selesai': 'selesai', 'open': 'baru', 'answered': 'terjawab', 'closed': 'selesai' };
         function setLoading(show, text = 'Memproses...') { $('loadingText').textContent = text; $('loadingOverlay').classList.toggle('show', !!show); document.body.style.overflow = show ? 'hidden' : ''; }
-        function setDisabled(disabled) { ['loginBtn', 'submitBtn', 'bulkBtn', 'topik', 'pertanyaan', 'email', 'searchAdmin', 'filterTopik', 'btnUserView', 'btnAdminView'].forEach(id => { const el = $(id); if (el) el.disabled = disabled; }); document.querySelectorAll('button').forEach(b => { if (!['btnUserView', 'btnAdminView', 'btnLogout'].includes(b.id)) b.disabled = disabled || b.disabled; }); }
+        function setDisabled(disabled) { ['loginBtn', 'submitBtn', 'bulkBtn', 'topik', 'pertanyaan', 'email', 'searchAdmin', 'filterTopik', 'sortAdmin', 'filterStatus', 'btnUserView', 'btnAdminView'].forEach(id => { const el = $(id); if (el) el.disabled = disabled; }); document.querySelectorAll('button').forEach(b => { if (!['btnUserView', 'btnAdminView', 'btnLogout'].includes(b.id)) b.disabled = disabled || b.disabled; }); }
         async function withLoading(fn, text = 'Memproses...') { if (isBusy) return { success: false, message: 'Masih memproses, tunggu sebentar.' }; isBusy = true; setLoading(true, text); setDisabled(true); try { return await fn(); } finally { setDisabled(false); setLoading(false); isBusy = false; } }
         function apiGet(action, params = {}) { const u = new URL(apiBase); u.searchParams.set('action', action); Object.keys(params).forEach(k => u.searchParams.set(k, params[k])); return fetch(u.toString(), { method: 'GET', redirect: 'follow' }).then(r => r.json()); }
         function apiPost(action, body = {}) { return fetch(apiBase, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action, ...body }), redirect: 'follow' }).then(r => r.json()); }
-        function badgeClass(v) { v = (v || '').toLowerCase(); if (v.includes('terkirim')) return 'b-terkirim'; if (v.includes('terjawab')) return 'b-terjawab'; if (v.includes('selesai')) return 'b-selesai'; if (v.includes('fasih')) return 'b-fasih'; if (v.includes('konsep')) return 'b-konsep'; return 'b-lainnya'; }
         function setActiveTab(id) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); const m = { 'user-create': 'tab-user-create', 'user-list': 'tab-user-list', 'forum': 'tab-forum', 'notif': 'tab-notif', 'admin-list': 'tab-admin-list', 'admin-forum': 'tab-admin-forum' }; const el = $(m[id]); if (el) el.classList.add('active'); }
         function openTab(id) { ['user-create', 'user-list', 'forum', 'notif', 'admin-list', 'admin-forum'].forEach(x => $(x).classList.add('hidden')); $(id).classList.remove('hidden'); setActiveTab(id); }
         function switchView(view) { const userSection = $('userSection'); const adminSection = $('adminSection'); if (view === 'admin') { userSection.classList.remove('hidden'); adminSection.classList.remove('hidden'); openTab('admin-list'); } else { adminSection.classList.add('hidden'); userSection.classList.remove('hidden'); openTab('user-create'); } }
@@ -646,31 +824,33 @@
         function loadSession() { try { const raw = localStorage.getItem('rk_session'); if (!raw) return false; const s = JSON.parse(raw); if (!s || !s.me || !s.role) return false; me = s.me; role = s.role; return true; } catch (e) { return false; } }
         function logout() { localStorage.removeItem('rk_session'); location.reload(); }
         async function restoreSession() { if (!loadSession()) return false; $('loginCard').classList.add('hidden'); $('app').classList.remove('hidden'); $('profileBox').textContent = `${me.nama || ''} | ${role}`; fillProfile(); $('btnAdminView').classList.toggle('hidden', role !== 'ADMIN'); switchView(role === 'ADMIN' ? 'admin' : 'user'); await loadAll(); return true; }
-        async function login() { await withLoading(async () => { const email = $('email').value.trim(); if (!email) { toast('Email wajib diisi', 'warn'); return; } const r = await apiGet('login', { email }); if (!r.success) { toast(r.message || 'Login gagal', 'error'); return; } me = r.data; role = r.role; saveSession(); await apiPost('logLogin', { email: me.email, role, name: me.nama || '' }); $('loginCard').classList.add('hidden'); $('app').classList.remove('hidden'); $('profileBox').textContent = `${me.nama || ''} | ${role}`; fillProfile(); $('btnAdminView').classList.toggle('hidden', role !== 'ADMIN'); switchView(role === 'ADMIN' ? 'admin' : 'user'); await loadAll(); toast('Login berhasil', 'success'); }, 'Sedang login...'); }
+        async function login() { await withLoading(async () => { const email = $('email').value.trim(); if (!email) { toast('Email wajib diisi.', 'warn'); return; } const r = await apiGet('login', { email }); if (!r.success) { toast(r.message || 'Login gagal.', 'error'); return; } me = r.data; role = r.role; saveSession(); await apiPost('logLogin', { email: me.email, role, name: me.nama || '' }); $('loginCard').classList.add('hidden'); $('app').classList.remove('hidden'); $('profileBox').textContent = `${me.nama || ''} | ${role}`; fillProfile(); $('btnAdminView').classList.toggle('hidden', role !== 'ADMIN'); switchView(role === 'ADMIN' ? 'admin' : 'user'); await loadAll(); toast('Login berhasil.', 'success'); }, 'Sedang login...'); }
         function fillProfile() { if (!me) return; $('nama').value = me.nama || ''; $('hp').value = me.hp || ''; $('sobat').value = me.SOBAT_ID || ''; $('userEmail').value = me.email || ''; }
         function clearForm() { $('topik').value = 'Fasih'; $('pertanyaan').value = ''; if ($('lampiran')) $('lampiran').value = ''; if ($('lampiranPreview')) $('lampiranPreview').style.display = 'none'; msg('createMsg', ''); }
         function toBase64(file) { return new Promise((resolve, reject) => { const r = new FileReader(); r.onload = () => resolve(String(r.result || '').split(',')[1] || ''); r.onerror = reject; r.readAsDataURL(file); }); }
         $('lampiran')?.addEventListener('change', () => { const f = $('lampiran')?.files?.[0]; if (!f) { $('lampiranPreview').style.display = 'none'; return; } $('lampiranPreview').style.display = 'flex'; $('lampiranName').textContent = f.name; const reader = new FileReader(); reader.onload = () => $('lampiranImg').src = reader.result; reader.readAsDataURL(f); });
-        async function submitTicket() { if (isBusy) return; const pert = $('pertanyaan').value.trim(); const file = $('lampiran')?.files?.[0] || null; if (!pert) { toast('Pertanyaan wajib diisi', 'warn'); return; } if (file && !/^image\//.test(file.type || '')) { toast('Lampiran harus berupa gambar', 'warn'); return; } await withLoading(async () => { let lampiranData = '', lampiranName = '', lampiranMime = ''; if (file) { lampiranData = await toBase64(file); lampiranName = file.name; lampiranMime = file.type || 'image/jpeg'; } const r = await apiPost('createTicket', { email: me.email, topik: $('topik').value, pertanyaan: pert, lampiranData, lampiranName, lampiranMime }); if (r.success) { const att = r.lampiranStatus === 'tersimpan' ? 'Lampiran tersimpan.' : (file ? 'Lampiran gagal tersimpan.' : ''); toast(`${r.message} ${att}`.trim(), r.lampiranStatus === 'gagal_simpan' ? 'warn' : 'success'); clearForm(); await loadAll(); } else { toast(r.message || 'Gagal', 'error'); } }, 'Mengirim tiket...'); }
-        function escapeHtml(s) { return String(s || '').replace(/[&<>"]+/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m])); }
-        function itemTicket(t, admin = false) { const checked = adminCache.some(x => x.id === t.id); const img = t.lampiranUrl ? `<div style="margin-top:8px"><a href="${t.lampiranUrl}" target="_blank" rel="noopener">Lihat lampiran gambar</a></div>` : ''; const st = t.lampiranStatus || ''; const stBadge = st === 'tersimpan' ? '<span class="badge b-terjawab">Lampiran tersimpan</span>' : (st === 'gagal_simpan' ? '<span class="badge b-terkirim">Lampiran belum tersimpan</span>' : ''); return `<div class="item"><div><span class="badge ${badgeClass(t.badge)}">${escapeHtml(t.badge || 'Terkirim')}</span><span class="badge ${badgeClass(t.topik)}">${escapeHtml(t.topik || '-')}</span>${stBadge}</div><div class="muted" style="margin-top:6px">${escapeHtml(t.nama || '')} | ${escapeHtml(t.email || '')} | ${escapeHtml(t.hp || '')} | ${escapeHtml(t.SOBAT_ID || '')}</div><div style="margin-top:8px"><b>Pertanyaan:</b> ${escapeHtml(t.pertanyaan || '')}</div>${img}<div style="margin-top:8px"><b>Jawaban:</b> ${t.jawaban ? escapeHtml(t.jawaban) : 'Belum dijawab'}</div>${admin ? `<div class="checkline"><input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleSelect('${t.id}', this.checked)"><div style="flex:1"><input id="jawab-${t.id}" placeholder="Tulis jawaban untuk tiket ini"></div><button class="btn3" onclick="answerOne('${t.id}')">Jawab 1</button><button class="btn4" onclick="finishOne('${t.id}')">Selesai</button></div>` : ''}</div>`; }
-        async function loadMyTickets() { const r = await apiGet('tickets', { email: me.email }); $('myTickets').innerHTML = (r.data || []).length ? `<div class="scroll-x"><div class="table-like">${r.data.map(x => itemTicket(x)).join('')}</div></div>` : '<div class="muted">Belum ada tiket.</div>'; }
-        async function loadForum() { const r = await apiGet('forum'); const g = r.data || {}; const keys = Object.keys(g); $('forumList').innerHTML = keys.length ? keys.map(k => `<div class="item"><h4>${escapeHtml(k)}</h4>${g[k].map(x => itemTicket(x)).join('')}</div>`).join('') : '<div class="muted">Belum ada data forum.</div>'; }
-        async function loadNotif() { const r = await apiGet('notif', { email: me.email }); const arr = r.data || []; $('notifList').innerHTML = arr.length ? arr.map(x => `<div class="item"><div><span class="badge ${badgeClass(x.badge)}">${escapeHtml(x.badge)}</span></div><div style="margin-top:8px">${escapeHtml(x.topik || '-')} - ${x.isAnswered ? 'Sudah terjawab' : 'Belum terjawab'}</div>${x.lampiranUrl ? `<div style="margin-top:8px"><a href="${x.lampiranUrl}" target="_blank" rel="noopener">Lihat lampiran gambar</a></div>` : ''}</div>`).join('') : '<div class="muted">Belum ada notifikasi.</div>'; }
-        async function loadAdmin() { const r = await apiGet('adminTickets'); adminData = flattenForum(r.data || {}); adminCache = []; renderAdminList(); renderAdminForum(r.data || {}); }
+        async function submitTicket() { if (isBusy) return; const pert = $('pertanyaan').value.trim(); const file = $('lampiran')?.files?.[0] || null; if (!pert) { toast('Pertanyaan wajib diisi.', 'warn'); return; } if (file && !/^image\//.test(file.type || '')) { toast('Lampiran harus berupa gambar.', 'warn'); return; } await withLoading(async () => { let lampiranData = '', lampiranName = '', lampiranMime = ''; if (file) { lampiranData = await toBase64(file); lampiranName = file.name; lampiranMime = file.type || 'image/jpeg'; } const r = await apiPost('createTicket', { email: me.email, topik: $('topik').value, pertanyaan: pert, lampiranData, lampiranName, lampiranMime }); if (r.success) { const note = file ? (r.lampiranStatus === 'tersimpan' ? 'Lampiran tersimpan.' : 'Lampiran belum tersimpan.') : 'Tanpa lampiran.'; toast(`Tiket berhasil dikirim. ${note}`, r.lampiranStatus === 'gagal_simpan' ? 'warn' : 'success'); clearForm(); await loadAll(); } else { toast(r.message || 'Tiket gagal dikirim.', 'error'); } }, 'Mengirim tiket...'); }
+        function escapeHtml(s) { return String(s || '').replace(/[&<>\"]+/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m])); }
+        function badgeStatus(v) { const s = String(v || '').toLowerCase(); if (['open', 'baru', 'terkirim'].includes(s)) return { cls: 'b-new', txt: 'Baru masuk' }; if (['process', 'proses', 'diproses'].includes(s)) return { cls: 'b-process', txt: 'Sedang diproses' }; if (['answered', 'terjawab'].includes(s)) return { cls: 'b-replied', txt: 'Sudah dibalas' }; if (['closed', 'selesai'].includes(s)) return { cls: 'b-done', txt: 'Selesai' }; return { cls: 'b-new', txt: 'Baru masuk' }; }
+        function itemTicket(t, admin = false) { const checked = adminCache.some(x => x.id === t.id); const img = t.lampiranUrl ? `<div style="margin-top:10px"><a href="${t.lampiranUrl}" target="_blank" rel="noopener">Buka lampiran gambar</a></div>` : ''; const st = badgeStatus(t.status || 'open'); const lp = t.lampiranStatus ? `<span class="badge ${t.lampiranStatus === 'tersimpan' ? 'b-replied' : 'b-new'}">${t.lampiranStatus === 'tersimpan' ? 'Lampiran tersimpan' : 'Lampiran belum tersimpan'}</span>` : ''; return `<div class="item"><div class="item-head"><div><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(t.topik)}">${escapeHtml(t.topik || '-')}</span>${lp}</div><div class="item-title">${escapeHtml(t.nama || '')}</div><div class="item-meta">${escapeHtml(t.email || '')} • ${escapeHtml(t.hp || '')} • ${escapeHtml(t.SOBAT_ID || '')}</div></div><div class="item-label">${escapeHtml(new Date(t.timestamp || Date.now()).toLocaleString('id-ID'))}</div></div><div class="item-body"><b>Pertanyaan:</b> ${escapeHtml(t.pertanyaan || '')}</div>${img}<div class="item-body"><b>Jawaban:</b> ${t.jawaban ? escapeHtml(t.jawaban) : 'Belum ada jawaban'}</div>${admin ? `<div class="checkline"><input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleSelect('${t.id}', this.checked)"><div style="flex:1"><input id="jawab-${t.id}" placeholder="Tulis jawaban untuk tiket ini"></div><button class="btn3" onclick="answerOne('${t.id}')">Balas</button><button class="btn4" onclick="finishOne('${t.id}')">Tutup</button></div>` : ''}</div>`; }
+        async function loadMyTickets() { const r = await apiGet('tickets', { email: me.email }); $('myTickets').innerHTML = (r.data || []).length ? `<div class="scroll-x"><div class="table-like">${r.data.map(x => itemTicket(x)).join('')}</div></div>` : '<div class="empty">Belum ada tiket yang dikirim.</div>'; }
+        async function loadForum() { const r = await apiGet('forum'); const g = r.data || {}; const keys = Object.keys(g); $('forumList').innerHTML = keys.length ? keys.map(k => `<div class="item"><div class="item-head"><div><div class="item-title">${escapeHtml(k)}</div><div class="muted">Kumpulan pertanyaan berdasarkan tema yang mirip.</div></div></div>${g[k].map(x => itemTicket(x)).join('')}</div>`).join('') : '<div class="empty">Belum ada data forum.</div>'; }
+        async function loadNotif() { const r = await apiGet('notif', { email: me.email }); const arr = r.data || []; $('notifList').innerHTML = arr.length ? arr.map(x => { const st = badgeStatus(x.status || 'open'); return `<div class="item"><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(x.topik)}">${escapeHtml(x.topik || '-')}</span></div><div class="item-body">Tiket Anda untuk topik <b>${escapeHtml(x.topik || '-')}</b> ${st.txt.toLowerCase()}.</div>${x.lampiranUrl ? `<div style="margin-top:8px"><a href="${x.lampiranUrl}" target="_blank" rel="noopener">Buka lampiran gambar</a></div>` : ''}</div>` }).join('') : '<div class="empty">Belum ada pemberitahuan.</div>'; }
+        async function loadAdmin() { const r = await apiGet('adminTickets'); adminData = flattenForum(r.data || {}); adminCache = []; renderAdminSummary(); renderAdminList(); renderAdminForum(r.data || {}); }
         function flattenForum(grouped) { const arr = []; Object.keys(grouped || {}).forEach(k => (grouped[k] || []).forEach(t => arr.push(t))); return arr; }
-        function renderAdminList() { const q = ($('searchAdmin')?.value || '').toLowerCase().trim(); const topik = $('filterTopik')?.value || ''; const filtered = adminData.filter(t => { const s = [t.nama, t.email, t.hp, t.SOBAT_ID, t.topik, t.pertanyaan, t.kategori_gemini].join(' ').toLowerCase(); return (!q || s.includes(q)) && (!topik || String(t.topik || '') === topik); }); $('adminSummary').textContent = `Total tiket tampil: ${filtered.length}`; $('adminList').innerHTML = filtered.length ? filtered.map(t => itemTicket(t, true)).join('') : '<div class="muted">Tidak ada tiket sesuai filter.</div>'; }
-        function renderAdminForum(grouped) { $('adminForumList').innerHTML = Object.keys(grouped || {}).length ? Object.keys(grouped).map(k => `<div class="item"><h4>${escapeHtml(k)}</h4>${grouped[k].map(x => itemTicket(x)).join('')}</div>`).join('') : '<div class="muted">Belum ada data forum.</div>'; }
+        function renderAdminSummary() { const total = adminData.length; const baru = adminData.filter(x => badgeStatus(x.status).txt === 'Baru masuk').length; const proses = adminData.filter(x => badgeStatus(x.status).txt === 'Sedang diproses').length; const jawab = adminData.filter(x => badgeStatus(x.status).txt === 'Sudah dibalas').length; const done = adminData.filter(x => badgeStatus(x.status).txt === 'Selesai').length; $('adminSummaryGrid').innerHTML = [`<div class="summary"><div class="l">Total tiket</div><div class="v">${total}</div></div>`, `<div class="summary"><div class="l">Baru masuk</div><div class="v">${baru}</div></div>`, `<div class="summary"><div class="l">Sedang diproses</div><div class="v">${proses}</div></div>`, `<div class="summary"><div class="l">Sudah dibalas / selesai</div><div class="v">${jawab + done}</div></div>`].join(''); }
+        function renderAdminList() { const q = ($('searchAdmin')?.value || '').toLowerCase().trim(); const topik = $('filterTopik')?.value || ''; const status = $('filterStatus')?.value || ''; const sort = $('sortAdmin')?.value || 'newest'; let filtered = adminData.filter(t => { const s = [t.nama, t.email, t.hp, t.SOBAT_ID, t.topik, t.pertanyaan, t.kategori_gemini].join(' ').toLowerCase(); const st = badgeStatus(t.status).txt; const stKey = badgeStatus(t.status).txt === 'Baru masuk' ? 'baru' : badgeStatus(t.status).txt === 'Sedang diproses' ? 'proses' : badgeStatus(t.status).txt === 'Sudah dibalas' ? 'terjawab' : 'selesai'; return (!q || s.includes(q)) && (!topik || String(t.topik || '') === topik) && (!status || stKey === status); }); filtered.sort((a, b) => sort === 'oldest' ? new Date(a.timestamp) - new Date(b.timestamp) : new Date(b.timestamp) - new Date(a.timestamp)); $('adminSummary').textContent = `Tiket tampil: ${filtered.length}`; $('adminList').innerHTML = filtered.length ? filtered.map(t => itemTicket(t, true)).join('') : '<div class="empty">Tidak ada tiket sesuai filter.</div>'; }
+        function renderAdminForum(grouped) { $('adminForumList').innerHTML = Object.keys(grouped || {}).length ? Object.keys(grouped).map(k => `<div class="item"><div class="item-head"><div><div class="item-title">${escapeHtml(k)}</div><div class="muted">Pertanyaan dengan tema yang serupa.</div></div></div>${grouped[k].map(x => itemTicket(x)).join('')}</div>`).join('') : '<div class="empty">Belum ada data forum.</div>'; }
         function toggleSelect(id, checked) { if (checked) { if (!adminCache.find(x => x.id === id)) adminCache.push({ id }); } else { adminCache = adminCache.filter(x => x.id !== id); } }
         function selectAllAdmin(state) { document.querySelectorAll('#admin-list input[type="checkbox"]').forEach(cb => cb.checked = state); adminCache = state ? adminData.map(x => ({ id: x.id })) : []; }
-        async function answerOne(id) { if (isBusy) return; const el = $('jawab-' + id); const j = el ? el.value.trim() : ''; if (!j) { toast('Jawaban wajib diisi', 'warn'); return; } await withLoading(async () => { const r = await apiPost('answerTicket', { ticketId: id, jawaban: j, answeredByEmail: me.email }); toast(r.message || (r.success ? 'OK' : 'Gagal'), r.success ? 'success' : 'error'); await loadAll(); }, 'Mengirim jawaban...'); }
-        async function finishOne(id) { if (isBusy) return; await withLoading(async () => { const r = await apiPost('markComplete', { ticketId: id }); toast(r.message || (r.success ? 'OK' : 'Gagal'), r.success ? 'success' : 'error'); await loadAll(); }, 'Menandai selesai...'); }
-        async function bulkAnswerSelected() { if (isBusy) return; const items = []; document.querySelectorAll('#admin-list .item').forEach(card => { const chk = card.querySelector('input[type="checkbox"]'); const input = card.querySelector('input[id^="jawab-"]'); if (chk && chk.checked && input && input.value.trim()) { items.push({ ticketId: input.id.replace('jawab-', ''), jawaban: input.value.trim() }); } }); if (!items.length) { toast('Pilih tiket dan isi jawaban dulu', 'warn'); return; } await withLoading(async () => { const r = await apiPost('answerTicketsBulk', { items, answeredByEmail: me.email }); toast(r.success ? 'Jawaban bulk terkirim' : (r.message || 'Gagal'), r.success ? 'success' : 'error'); await loadAll(); }, 'Mengirim jawaban bulk...'); }
+        async function answerOne(id) { if (isBusy) return; const el = $('jawab-' + id); const j = el ? el.value.trim() : ''; if (!j) { toast('Isi jawaban terlebih dahulu.', 'warn'); return; } await withLoading(async () => { const r = await apiPost('answerTicket', { ticketId: id, jawaban: j, answeredByEmail: me.email }); toast(r.success ? `Jawaban tersimpan untuk tiket ${id}.` : (r.message || 'Gagal menyimpan jawaban.'), r.success ? 'success' : 'error'); await loadAll(); }, 'Mengirim jawaban...'); }
+        async function finishOne(id) { if (isBusy) return; await withLoading(async () => { const r = await apiPost('markComplete', { ticketId: id }); toast(r.success ? `Tiket ${id} ditandai selesai.` : (r.message || 'Gagal menutup tiket.'), r.success ? 'success' : 'error'); await loadAll(); }, 'Menandai selesai...'); }
+        async function bulkAnswerSelected() { if (isBusy) return; const items = []; document.querySelectorAll('#admin-list .item').forEach(card => { const chk = card.querySelector('input[type="checkbox"]'); const input = card.querySelector('input[id^="jawab-"]'); if (chk && chk.checked && input && input.value.trim()) items.push({ ticketId: input.id.replace('jawab-', ''), jawaban: input.value.trim() }); }); if (!items.length) { toast('Pilih tiket dan isi jawaban dulu.', 'warn'); return; } await withLoading(async () => { const r = await apiPost('answerTicketsBulk', { items, answeredByEmail: me.email }); const okCount = (r.results || []).filter(x => x.success).length; toast(r.success ? `${okCount} jawaban terkirim.` : (r.message || 'Gagal mengirim jawaban massal.'), r.success ? 'success' : 'error'); await loadAll(); }, 'Mengirim jawaban massal...'); }
         async function loadAll() { await loadMyTickets(); await loadForum(); await loadNotif(); if (role === 'ADMIN') await loadAdmin(); }
         function msg(id, text) { $(id).textContent = text; }
-        function toast(text, type = 'info') { const wrap = $('toastWrap'); if (!wrap) return; const el = document.createElement('div'); el.className = 'toast ' + type; el.textContent = text; wrap.appendChild(el); setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(4px)'; el.style.transition = 'all .25s ease'; }, 2500); setTimeout(() => el.remove(), 2900); }
+        function toast(text, type = 'info') { const wrap = $('toastWrap'); if (!wrap) return; const el = document.createElement('div'); el.className = 'toast ' + type; el.textContent = text; wrap.appendChild(el); setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(4px)'; el.style.transition = 'all .25s ease'; }, 3200); setTimeout(() => el.remove(), 3600); }
         function notify(res) { if (!res) return false; const ok = !!res.success; toast(String(res.message || (ok ? 'Berhasil' : 'Gagal')), ok ? 'success' : 'error'); return ok; }
-        (async function init() { if (!(await restoreSession())) { document.getElementById('app').classList.add('hidden'); } })();
+        (async function init() { if (!(await restoreSession())) document.getElementById('app').classList.add('hidden'); })();
     </script>
 </body>
 
