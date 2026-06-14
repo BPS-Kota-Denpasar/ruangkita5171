@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Si REKA</title>
+    <style>
+        :root {
+            --bg: #fffaf4;
+            --card: #fff;
+            --text: #2f241d;
+            --muted: #7a6456;
+            --pri: #c26b2a;
+            --pri2: #9c5420;
+            --line: #ead8c7;
+            --soft: #f7e8da;
+            --shadow: 0 10px 30px rgba(156, 84, 32, .08);
+            --ok: #2f8f5b;
+            --danger: #b42318;
+            --warn: #b86a12
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, Arial, sans-serif;
+            background: linear-gradient(180deg, #fffdf9 0%, #fff7ee 100%);
+            color: var(--text)
+        }
+
+        .wrap {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 16px
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 18px;
+            margin-bottom: 16px
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            border-left: 6px solid var(--pri)
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        p {
+            margin: 0
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.45
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px
+        }
+
+        .row3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px
+        }
+
+        .split {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 16px
+        }
+
+        @media (max-width:1100px) {
+            .row3 {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .split {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media (max-width:820px) {
+
+            .row,
+            .row3 {
+                grid-template-columns: 1fr
+            }
+
+            .wrap {
+                padding: 12px
+            }
+
+            .card {
+                padding: 16px;
+                border-radius: 16px
+            }
+        }
+
+        @media (max-width:520px) {
+            .wrap {
+                padding: 10px
+            }
+
+            .card {
+                padding: 14px;
+                border-radius: 14px
+            }
+
+            .tabs {
+                gap: 6px
+            }
+
+            .tab {
+                padding: 9px 11px;
+                font-size: 13px
+            }
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            padding: 11px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: .15s ease
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--pri);
+            box-shadow: 0 0 0 4px rgba(194, 107, 42, .12)
+        }
+
+        textarea {
+            min-height: 124px;
+            resize: vertical;
+            background: #fff
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: linear-gradient(180deg, var(--pri), var(--pri2));
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 8px 18px rgba(194, 107, 42, .18)
+        }
+
+        .btn2 {
+            background: #8b5a44
+        }
+
+        .btn3 {
+            background: var(--ok)
+        }
+
+        .btn4 {
+            background: #6b7280
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 0 0 16px
+        }
+
+        .tab {
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: #f1e3d6;
+            color: #5a3d2d;
+            cursor: pointer;
+            font-size: 14px;
+            border: 1px solid #ead8c7;
+            user-select: none
+        }
+
+        .tab.active {
+            background: linear-gradient(180deg, var(--pri), var(--pri2));
+            color: #fff;
+            border-color: transparent
+        }
+
+        .hidden {
+            display: none
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 6px;
+            margin-bottom: 6px;
+            border: 1px solid transparent
+        }
+
+        .b-terkirim {
+            background: #fff0e4;
+            color: #a04f12;
+            border-color: #f3d2b2
+        }
+
+        .b-terjawab {
+            background: #e9f7ef;
+            color: #1f7a46;
+            border-color: #bfe5cf
+        }
+
+        .b-selesai {
+            background: #f4efe9;
+            color: #6e5b4e;
+            border-color: #e3d7c9
+        }
+
+        .b-fasih {
+            background: #efe5ff;
+            color: #6d28d9;
+            border-color: #dccdff
+        }
+
+        .b-konsep {
+            background: #fff1e1;
+            color: #b45309;
+            border-color: #ffd8aa
+        }
+
+        .b-lainnya {
+            background: #e6f4ff;
+            color: #0369a1;
+            border-color: #c6e8ff
+        }
+
+        .item {
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 14px;
+            margin-top: 12px;
+            background: linear-gradient(180deg, #fff 0%, #fffdf9 100%)
+        }
+
+        .grid-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px
+        }
+
+        .grid-actions>* {
+            flex: 1;
+            min-width: 150px
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 10px
+        }
+
+        .chip {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: var(--soft);
+            color: #7c4b2a;
+            font-size: 12px;
+            margin: 0 6px 6px 0;
+            border: 1px solid #ead8c7
+        }
+
+        .scroll-x {
+            overflow-x: auto
+        }
+
+        .table-like {
+            min-width: 780px
+        }
+
+        .checkline {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            margin-top: 8px
+        }
+
+        .checkline input {
+            width: auto;
+            margin-top: 3px
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .toolbar>* {
+            flex: 1;
+            min-width: 140px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="card top">
+            <div>
+                <h2>RUANG KITA</h2>
+                <div class="muted">Ruang Kita: Ruang Informasi dan Konsultasi Mitra Sensus Ekonomi 2026 - BPS Kota
+                    Denpasar</div>
+            </div>
+            <div id="profileBox" class="muted"></div>
+        </div>
+
+        <div id="loginCard" class="card">
+            <div class="section-title">
+                <h3>Login</h3><span class="chip">Email only</span>
+            </div>
+            <div class="row3">
+                <div><label>Email</label><input id="email" type="email" placeholder="Masukkan email"></div>
+                <div style="align-self:end"><button onclick="login()">Masuk</button></div>
+            </div>
+            <div id="loginMsg" class="muted" style="margin-top:10px"></div>
+        </div>
+
+        <div id="app" class="hidden">
+            <div class="tabs">
+                <div class="tab active" id="tab-user-create" onclick="openTab('user-create')">Buat Tiket</div>
+                <div class="tab" id="tab-user-list" onclick="openTab('user-list')">Daftar Tiket</div>
+                <div class="tab" id="tab-forum" onclick="openTab('forum')">Forum</div>
+                <div class="tab" id="tab-notif" onclick="openTab('notif')">Notifikasi</div>
+                <div class="tab hidden" id="tab-admin-list" onclick="openTab('admin-list')">Admin Tiket</div>
+                <div class="tab hidden" id="tab-admin-forum" onclick="openTab('admin-forum')">Admin Forum</div>
+            </div>
+
+            <div id="user-create" class="card">
+                <div class="section-title">
+                    <h3>Buat Tiket</h3><span class="chip">Data diri otomatis dari MasterPetugas</span>
+                </div>
+                <div class="row">
+                    <div><label>Nama</label><input id="nama" readonly></div>
+                    <div><label>HP</label><input id="hp" readonly></div>
+                    <div><label>SOBAT_ID</label><input id="sobat" readonly></div>
+                    <div><label>Email</label><input id="userEmail" readonly></div>
+                </div>
+                <div class="row" style="margin-top:12px">
+                    <div><label>Topik</label><select id="topik">
+                            <option>Fasih</option>
+                            <option>Konsep Lapangan</option>
+                            <option>Lainnya</option>
+                        </select></div>
+                </div>
+                <div style="margin-top:12px"><label>Pertanyaan</label><textarea id="pertanyaan"
+                        placeholder="Tulis pertanyaan..."></textarea></div>
+                <div class="grid-actions"><button onclick="submitTicket()">Submit</button><button class="btn2"
+                        onclick="clearForm()">Reset</button></div>
+                <div id="createMsg" class="muted" style="margin-top:10px"></div>
+            </div>
+
+            <div id="user-list" class="card hidden">
+                <div class="section-title">
+                    <h3>Daftar Tiket Saya</h3><span class="chip">Terkirim • Terjawab • Selesai</span>
+                </div>
+                <div id="myTickets"></div>
+            </div>
+            <div id="forum" class="card hidden">
+                <div class="section-title">
+                    <h3>Forum</h3><span class="chip">Dikelompokkan Gemini</span>
+                </div>
+                <div id="forumList"></div>
+            </div>
+            <div id="notif" class="card hidden">
+                <div class="section-title">
+                    <h3>Notifikasi</h3>
+                </div>
+                <div id="notifList"></div>
+            </div>
+
+            <div id="admin-list" class="card hidden">
+                <div class="section-title">
+                    <h3>Daftar Pengajuan Tiket - Admin</h3><span class="chip">Jawab 1 per 1 atau massal</span>
+                </div>
+                <div class="split">
+                    <div>
+                        <div class="toolbar">
+                            <button class="btn3" onclick="selectAllAdmin(true)">Pilih Semua</button>
+                            <button class="btn4" onclick="selectAllAdmin(false)">Batal Pilih</button>
+                            <button onclick="bulkAnswerSelected()">Kirim Jawaban Terpilih</button>
+                        </div>
+                        <div id="adminList"></div>
+                    </div>
+                    <div>
+                        <div class="item">
+                            <h4>Panel Admin</h4>
+                            <div class="muted" style="margin-top:8px">Centang tiket lalu isi jawaban pada setiap kartu,
+                                atau gunakan tombol kirim jawaban terpilih.</div>
+                            <div id="bulkMsg" class="muted" style="margin-top:10px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="admin-forum" class="card hidden">
+                <div class="section-title">
+                    <h3>Forum Admin</h3>
+                </div>
+                <div id="adminForumList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let me = null, role = null, adminCache = [];
+        const apiBase = 'https://script.google.com/macros/s/AKfycbxBrzw-cFZXyqnplwTRH_VrrEQmKexQGrsLwgS4Vk3LWShklBnqnWymGCD-24gvOgEC/exec';
+        function apiGet(action, params = {}) { const u = new URL(apiBase); u.searchParams.set('action', action); Object.keys(params).forEach(k => u.searchParams.set(k, params[k])); return fetch(u.toString()).then(r => r.json()); }
+        function apiPost(action, body = {}) { return fetch(apiBase, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action, ...body }) }).then(r => r.json()); }
+        function badgeClass(v) { v = (v || '').toLowerCase(); if (v.includes('terkirim')) return 'b-terkirim'; if (v.includes('terjawab')) return 'b-terjawab'; if (v.includes('selesai')) return 'b-selesai'; if (v.includes('fasih')) return 'b-fasih'; if (v.includes('konsep')) return 'b-konsep'; return 'b-lainnya'; }
+        function openTab(id) { ['user-create', 'user-list', 'forum', 'notif', 'admin-list', 'admin-forum'].forEach(x => document.getElementById(x).classList.add('hidden')); document.getElementById(id).classList.remove('hidden'); document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); const m = { 'user-create': 'tab-user-create', 'user-list': 'tab-user-list', 'forum': 'tab-forum', 'notif': 'tab-notif', 'admin-list': 'tab-admin-list', 'admin-forum': 'tab-admin-forum' }; document.getElementById(m[id]).classList.add('active'); }
+        async function login() { const email = document.getElementById('email').value.trim(); if (!email) { msg('loginMsg', 'Email wajib diisi'); return; } const r = await apiGet('login', { email }); if (!r.success) { msg('loginMsg', r.message || 'Login gagal'); return; } me = r.data; role = r.role; document.getElementById('loginCard').classList.add('hidden'); document.getElementById('app').classList.remove('hidden'); document.getElementById('profileBox').textContent = `${me.nama || ''} | ${role}`; fillProfile(); if (role === 'ADMIN') { document.getElementById('tab-admin-list').classList.remove('hidden'); document.getElementById('tab-admin-forum').classList.remove('hidden'); } await loadAll(); }
+        function fillProfile() { if (!me) return; document.getElementById('nama').value = me.nama || ''; document.getElementById('hp').value = me.hp || ''; document.getElementById('sobat').value = me.SOBAT_ID || ''; document.getElementById('userEmail').value = me.email || ''; }
+        function clearForm() { document.getElementById('topik').value = 'Fasih'; document.getElementById('pertanyaan').value = ''; msg('createMsg', ''); }
+        async function submitTicket() { const pert = document.getElementById('pertanyaan').value.trim(); if (!pert) { msg('createMsg', 'Pertanyaan wajib diisi'); return; } const r = await apiPost('createTicket', { email: me.email, topik: topik.value, pertanyaan: pert }); msg('createMsg', r.success ? `${r.message} (${r.ticketId})` : (r.message || 'Gagal')); if (r.success) { clearForm(); await loadAll(); } }
+        function itemTicket(t, admin = false) { const checked = adminCache.some(x => x.id === t.id); return `<div class="item"><div><span class="badge ${badgeClass(t.badge)}">${t.badge || 'Terkirim'}</span><span class="badge ${badgeClass(t.topik)}">${t.topik || '-'}</span></div><div class="muted" style="margin-top:6px">${t.nama || ''} | ${t.email || ''} | ${t.hp || ''} | ${t.SOBAT_ID || ''}</div><div style="margin-top:8px"><b>Pertanyaan:</b> ${t.pertanyaan || ''}</div><div style="margin-top:8px"><b>Jawaban:</b> ${t.jawaban ? t.jawaban : 'Belum dijawab'}</div>${admin ? `<div class="checkline"><input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleSelect('${t.id}', this.checked)"><div style="flex:1"><input id="jawab-${t.id}" placeholder="Tulis jawaban untuk tiket ini"></div><button class="btn3" onclick="answerOne('${t.id}')">Jawab 1</button><button class="btn4" onclick="finishOne('${t.id}')">Selesai</button></div>` : ''}</div>`; }
+        async function loadMyTickets() { const r = await apiGet('tickets', { email: me.email }); myTickets.innerHTML = (r.data || []).length ? `<div class="scroll-x"><div class="table-like">${r.data.map(x => itemTicket(x)).join('')}</div></div>` : '<div class="muted">Belum ada tiket.</div>'; }
+        async function loadForum() { const r = await apiGet('forum'); const g = r.data || {}; const keys = Object.keys(g); forumList.innerHTML = keys.length ? keys.map(k => `<div class="item"><h4>${k}</h4>${g[k].map(x => itemTicket(x)).join('')}</div>`).join('') : '<div class="muted">Belum ada data forum.</div>'; }
+        async function loadNotif() { const r = await apiGet('notif', { email: me.email }); const arr = r.data || []; notifList.innerHTML = arr.length ? arr.map(x => `<div class="item"><div><span class="badge ${badgeClass(x.badge)}">${x.badge}</span></div><div style="margin-top:8px">${x.topik || '-'} - ${x.isAnswered ? 'Sudah terjawab' : 'Belum terjawab'}</div></div>`).join('') : '<div class="muted">Belum ada notifikasi.</div>'; }
+        async function loadAdmin() { const r = await apiGet('adminTickets'); const g = r.data || {}; const keys = Object.keys(g); adminCache = []; if (keys.length) { keys.forEach(k => adminCache.push(...(g[k] || []))); } adminList.innerHTML = keys.length ? keys.map(k => `<div class="item"><h4>${k}</h4>${g[k].map(x => itemTicket(x, true)).join('')}</div>`).join('') : '<div class="muted">Belum ada tiket.</div>'; adminForumList.innerHTML = adminList.innerHTML; }
+        function toggleSelect(id, checked) { if (checked) { if (!adminCache.find(x => x.id === id)) adminCache.push({ id }); } else { adminCache = adminCache.filter(x => x.id !== id); } }
+        function selectAllAdmin(state) { document.querySelectorAll('#admin-list input[type="checkbox"]').forEach(cb => cb.checked = state); adminCache = state ? [...adminCache] : []; }
+        async function answerOne(id) { const el = document.getElementById('jawab-' + id); const j = el ? el.value.trim() : ''; if (!j) { alert('Jawaban wajib diisi'); return; } const r = await apiPost('answerTicket', { ticketId: id, jawaban: j, answeredByEmail: me.email }); alert(r.message || (r.success ? 'OK' : 'Gagal')); await loadAll(); }
+        async function finishOne(id) { const r = await apiPost('markComplete', { ticketId: id }); alert(r.message || (r.success ? 'OK' : 'Gagal')); await loadAll(); }
+        async function bulkAnswerSelected() { const items = []; document.querySelectorAll('#admin-list .item').forEach(card => { const chk = card.querySelector('input[type="checkbox"]'); const input = card.querySelector('input[id^="jawab-"]'); if (chk && chk.checked && input && input.value.trim()) { items.push({ ticketId: input.id.replace('jawab-', ''), jawaban: input.value.trim() }); } }); if (!items.length) { msg('bulkMsg', 'Pilih tiket dan isi jawaban dulu'); return; } const r = await apiPost('answerTicketsBulk', { items, answeredByEmail: me.email }); msg('bulkMsg', r.success ? 'Jawaban bulk terkirim' : (r.message || 'Gagal')); await loadAll(); }
+        async function loadAll() { await loadMyTickets(); await loadForum(); await loadNotif(); if (role === 'ADMIN') await loadAdmin(); }
+        function msg(id, text) { document.getElementById(id).textContent = text; }
+        if (!apiBase) { document.body.insertAdjacentHTML('afterbegin', '<div style="padding:12px;background:#b42318;color:#fff;text-align:center">Tambahkan parameter ?api=URL_DEPLOYMENT_APPS_SCRIPT pada URL GitHub Pages</div>'); }
+    </script>
+</body>
+
+</html>
