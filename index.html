@@ -984,7 +984,7 @@
         async function processOne(id) {
             if (isBusy) return;
             await withLoading(async () => {
-                const r = await apiPost('markProcess', { ticketId: id });
+                const r = await apiPost('markProcess', { ticketId: id, answeredByEmail: me.email });
                 toast(r.success ? `Tiket ${id} ditandai sedang diproses.` : (r.message || 'Gagal mengubah status.'), r.success ? 'success' : 'error');
                 await loadAll();
             }, 'Memproses...');
