@@ -447,6 +447,51 @@
             border: 1px solid var(--line);
             object-fit: cover
         }
+
+        .toast-wrap {
+            position: fixed;
+            right: 14px;
+            bottom: 14px;
+            z-index: 10000;
+            display: grid;
+            gap: 10px;
+            max-width: min(360px, calc(100vw - 28px))
+        }
+
+        .toast {
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+            background: #fff;
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.35
+        }
+
+        .toast.success {
+            border-color: #bfe5cf;
+            background: #edf9f1;
+            color: #1f7a46
+        }
+
+        .toast.error {
+            border-color: #f6c7c2;
+            background: #fff1f0;
+            color: #b42318
+        }
+
+        .toast.info {
+            border-color: #c6e8ff;
+            background: #eef8ff;
+            color: #0369a1
+        }
+
+        .toast.warn {
+            border-color: #ffd8aa;
+            background: #fff7ed;
+            color: #b45309
+        }
     </style>
 </head>
 
@@ -457,6 +502,7 @@
             <div id="loadingText" class="muted">Memproses...</div>
         </div>
     </div>
+    <div id="toastWrap" class="toast-wrap"></div>
     <div class="wrap dense">
         <div class="card top sticky-top">
             <div>
@@ -600,12 +646,12 @@
         function loadSession() { try { const raw = localStorage.getItem('rk_session'); if (!raw) return false; const s = JSON.parse(raw); if (!s || !s.me || !s.role) return false; me = s.me; role = s.role; return true; } catch (e) { return false; } }
         function logout() { localStorage.removeItem('rk_session'); location.reload(); }
         async function restoreSession() { if (!loadSession()) return false; $('loginCard').classList.add('hidden'); $('app').classList.remove('hidden'); $('profileBox').textContent = `${me.nama || ''} | ${role}`; fillProfile(); $('btnAdminView').classList.toggle('hidden', role !== 'ADMIN'); switchView(role === 'ADMIN' ? 'admin' : 'user'); await loadAll(); return true; }
-        async function login() { await withLoading(async () => { const email = $('email').value.trim(); if (!email) { msg('loginMsg', 'Email wajib diisi'); return; } const r = await apiGet('login', { email }); if (!r.success) { msg('loginMsg', r.message || 'Login gagal'); return; } me = r.data; role = r.role; saveSession(); await apiPost('logLogin', { email: me.email, role, name: me.nama || '' }); $('loginCard').classList.add('hidden'); $('app').classList.remove('hidden'); $('profileBox').textContent = `${me.nama || ''} | ${role}`; fillProfile(); $('btnAdminView').classList.toggle('hidden', role !== 'ADMIN'); switchView(role === 'ADMIN' ? 'admin' : 'user'); await loadAll(); }, 'Sedang login...'); }
+        async function login() { await withLoading(async () => { const email = $('email').value.trim(); if (!email) { toast('Email wajib diisi', 'warn'); return; } const r = await apiGet('login', { email }); if (!r.success) { toast(r.message || 'Login gagal', 'error'); return; } me = r.data; role = r.role; saveSession(); await apiPost('logLogin', { email: me.email, role, name: me.nama || '' }); $('loginCard').classList.add('hidden'); $('app').classList.remove('hidden'); $('profileBox').textContent = `${me.nama || ''} | ${role}`; fillProfile(); $('btnAdminView').classList.toggle('hidden', role !== 'ADMIN'); switchView(role === 'ADMIN' ? 'admin' : 'user'); await loadAll(); toast('Login berhasil', 'success'); }, 'Sedang login...'); }
         function fillProfile() { if (!me) return; $('nama').value = me.nama || ''; $('hp').value = me.hp || ''; $('sobat').value = me.SOBAT_ID || ''; $('userEmail').value = me.email || ''; }
         function clearForm() { $('topik').value = 'Fasih'; $('pertanyaan').value = ''; if ($('lampiran')) $('lampiran').value = ''; if ($('lampiranPreview')) $('lampiranPreview').style.display = 'none'; msg('createMsg', ''); }
         function toBase64(file) { return new Promise((resolve, reject) => { const r = new FileReader(); r.onload = () => resolve(String(r.result || '').split(',')[1] || ''); r.onerror = reject; r.readAsDataURL(file); }); }
         $('lampiran')?.addEventListener('change', () => { const f = $('lampiran')?.files?.[0]; if (!f) { $('lampiranPreview').style.display = 'none'; return; } $('lampiranPreview').style.display = 'flex'; $('lampiranName').textContent = f.name; const reader = new FileReader(); reader.onload = () => $('lampiranImg').src = reader.result; reader.readAsDataURL(f); });
-        async function submitTicket() { if (isBusy) return; const pert = $('pertanyaan').value.trim(); const file = $('lampiran')?.files?.[0] || null; if (!pert) { msg('createMsg', 'Pertanyaan wajib diisi'); return; } await withLoading(async () => { let lampiranData = '', lampiranName = '', lampiranMime = ''; if (file) { lampiranData = await toBase64(file); lampiranName = file.name; lampiranMime = file.type || 'image/jpeg'; } const r = await apiPost('createTicket', { email: me.email, topik: $('topik').value, pertanyaan: pert, lampiranData, lampiranName, lampiranMime }); msg('createMsg', r.success ? `${r.message} (${r.ticketId})` : (r.message || 'Gagal')); if (r.success) { clearForm(); await loadAll(); } }, 'Mengirim tiket...'); }
+        async function submitTicket() { if (isBusy) return; const pert = $('pertanyaan').value.trim(); const file = $('lampiran')?.files?.[0] || null; if (!pert) { toast('Pertanyaan wajib diisi', 'warn'); return; } await withLoading(async () => { let lampiranData = '', lampiranName = '', lampiranMime = ''; if (file) { lampiranData = await toBase64(file); lampiranName = file.name; lampiranMime = file.type || 'image/jpeg'; } const r = await apiPost('createTicket', { email: me.email, topik: $('topik').value, pertanyaan: pert, lampiranData, lampiranName, lampiranMime }); if (r.success) { toast(`${r.message} (${r.ticketId})`, 'success'); clearForm(); await loadAll(); } else { toast(r.message || 'Gagal', 'error'); } }, 'Mengirim tiket...'); }
         function escapeHtml(s) { return String(s || '').replace(/[&<>"]+/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m])); }
         function itemTicket(t, admin = false) { const checked = adminCache.some(x => x.id === t.id); const img = t.lampiranUrl ? `<div style="margin-top:8px"><a href="${t.lampiranUrl}" target="_blank" rel="noopener">Lihat lampiran gambar</a></div>` : ''; return `<div class="item"><div><span class="badge ${badgeClass(t.badge)}">${escapeHtml(t.badge || 'Terkirim')}</span><span class="badge ${badgeClass(t.topik)}">${escapeHtml(t.topik || '-')}</span></div><div class="muted" style="margin-top:6px">${escapeHtml(t.nama || '')} | ${escapeHtml(t.email || '')} | ${escapeHtml(t.hp || '')} | ${escapeHtml(t.SOBAT_ID || '')}</div><div style="margin-top:8px"><b>Pertanyaan:</b> ${escapeHtml(t.pertanyaan || '')}</div>${img}<div style="margin-top:8px"><b>Jawaban:</b> ${t.jawaban ? escapeHtml(t.jawaban) : 'Belum dijawab'}</div>${admin ? `<div class="checkline"><input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleSelect('${t.id}', this.checked)"><div style="flex:1"><input id="jawab-${t.id}" placeholder="Tulis jawaban untuk tiket ini"></div><button class="btn3" onclick="answerOne('${t.id}')">Jawab 1</button><button class="btn4" onclick="finishOne('${t.id}')">Selesai</button></div>` : ''}</div>`; }
         async function loadMyTickets() { const r = await apiGet('tickets', { email: me.email }); $('myTickets').innerHTML = (r.data || []).length ? `<div class="scroll-x"><div class="table-like">${r.data.map(x => itemTicket(x)).join('')}</div></div>` : '<div class="muted">Belum ada tiket.</div>'; }
@@ -617,11 +663,13 @@
         function renderAdminForum(grouped) { $('adminForumList').innerHTML = Object.keys(grouped || {}).length ? Object.keys(grouped).map(k => `<div class="item"><h4>${escapeHtml(k)}</h4>${grouped[k].map(x => itemTicket(x)).join('')}</div>`).join('') : '<div class="muted">Belum ada data forum.</div>'; }
         function toggleSelect(id, checked) { if (checked) { if (!adminCache.find(x => x.id === id)) adminCache.push({ id }); } else { adminCache = adminCache.filter(x => x.id !== id); } }
         function selectAllAdmin(state) { document.querySelectorAll('#admin-list input[type="checkbox"]').forEach(cb => cb.checked = state); adminCache = state ? adminData.map(x => ({ id: x.id })) : []; }
-        async function answerOne(id) { if (isBusy) return; const el = $('jawab-' + id); const j = el ? el.value.trim() : ''; if (!j) { alert('Jawaban wajib diisi'); return; } await withLoading(async () => { const r = await apiPost('answerTicket', { ticketId: id, jawaban: j, answeredByEmail: me.email }); alert(r.message || (r.success ? 'OK' : 'Gagal')); await loadAll(); }, 'Mengirim jawaban...'); }
-        async function finishOne(id) { if (isBusy) return; await withLoading(async () => { const r = await apiPost('markComplete', { ticketId: id }); alert(r.message || (r.success ? 'OK' : 'Gagal')); await loadAll(); }, 'Menandai selesai...'); }
-        async function bulkAnswerSelected() { if (isBusy) return; const items = []; document.querySelectorAll('#admin-list .item').forEach(card => { const chk = card.querySelector('input[type="checkbox"]'); const input = card.querySelector('input[id^="jawab-"]'); if (chk && chk.checked && input && input.value.trim()) { items.push({ ticketId: input.id.replace('jawab-', ''), jawaban: input.value.trim() }); } }); if (!items.length) { msg('bulkMsg', 'Pilih tiket dan isi jawaban dulu'); return; } await withLoading(async () => { const r = await apiPost('answerTicketsBulk', { items, answeredByEmail: me.email }); msg('bulkMsg', r.success ? 'Jawaban bulk terkirim' : (r.message || 'Gagal')); await loadAll(); }, 'Mengirim jawaban bulk...'); }
+        async function answerOne(id) { if (isBusy) return; const el = $('jawab-' + id); const j = el ? el.value.trim() : ''; if (!j) { toast('Jawaban wajib diisi', 'warn'); return; } await withLoading(async () => { const r = await apiPost('answerTicket', { ticketId: id, jawaban: j, answeredByEmail: me.email }); toast(r.message || (r.success ? 'OK' : 'Gagal'), r.success ? 'success' : 'error'); await loadAll(); }, 'Mengirim jawaban...'); }
+        async function finishOne(id) { if (isBusy) return; await withLoading(async () => { const r = await apiPost('markComplete', { ticketId: id }); toast(r.message || (r.success ? 'OK' : 'Gagal'), r.success ? 'success' : 'error'); await loadAll(); }, 'Menandai selesai...'); }
+        async function bulkAnswerSelected() { if (isBusy) return; const items = []; document.querySelectorAll('#admin-list .item').forEach(card => { const chk = card.querySelector('input[type="checkbox"]'); const input = card.querySelector('input[id^="jawab-"]'); if (chk && chk.checked && input && input.value.trim()) { items.push({ ticketId: input.id.replace('jawab-', ''), jawaban: input.value.trim() }); } }); if (!items.length) { toast('Pilih tiket dan isi jawaban dulu', 'warn'); return; } await withLoading(async () => { const r = await apiPost('answerTicketsBulk', { items, answeredByEmail: me.email }); toast(r.success ? 'Jawaban bulk terkirim' : (r.message || 'Gagal'), r.success ? 'success' : 'error'); await loadAll(); }, 'Mengirim jawaban bulk...'); }
         async function loadAll() { await loadMyTickets(); await loadForum(); await loadNotif(); if (role === 'ADMIN') await loadAdmin(); }
         function msg(id, text) { $(id).textContent = text; }
+        function toast(text, type = 'info') { const wrap = $('toastWrap'); if (!wrap) return; const el = document.createElement('div'); el.className = 'toast ' + type; el.textContent = text; wrap.appendChild(el); setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(4px)'; el.style.transition = 'all .25s ease'; }, 2500); setTimeout(() => el.remove(), 2900); }
+        function notify(res) { if (!res) return false; const ok = !!res.success; toast(String(res.message || (ok ? 'Berhasil' : 'Gagal')), ok ? 'success' : 'error'); return ok; }
         (async function init() { if (!(await restoreSession())) { document.getElementById('app').classList.add('hidden'); } })();
     </script>
 </body>
