@@ -629,6 +629,14 @@
             box-shadow: 0 3px 10px rgba(194, 107, 42, .2)
         }
 
+        .faq-group-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap
+        }
+
         /* ── SKELETON / LOADING ──────────────────── */
         .skeleton {
             border-radius: 8px;
@@ -1178,7 +1186,7 @@
         <div class="card top sticky-top" style="padding:14px 18px">
             <div>
                 <h2 style="font-size:18px;font-weight:800">RUANG KITA</h2>
-                <div class="muted">Ruang informasi dan konsultasi Mitra Sensus Ekonomi 2026 – BPS Kota Denpasar</div>
+                <div class="muted">Ruang Konsultasi dan Informasi Mitra Sensus Ekonomi 2026 – BPS Kota Denpasar</div>
             </div>
             <div id="profileBox" class="muted" style="font-size:12px;text-align:right"></div>
         </div>
@@ -1645,6 +1653,15 @@
                 $('faqCountBadge').textContent = 'Error';
             }
         }
+        function renderFaqItem(x, idx) {
+            return `<div class="faq-item" id="faq-${idx}">
+      <div class="faq-q" onclick="toggleFaq(${idx})">
+        <span style="flex:1;font-size:14px;font-weight:700;line-height:1.4">${escapeHtml(x.q || x.question || '')}</span>
+        <span class="faq-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+      <div class="faq-a">${escapeHtml(x.a || x.answer || 'Jawaban belum tersedia.')}</div>
+    </div>`;
+        }
         function renderFaq() {
             const q = ($('faqSearch')?.value || '').toLowerCase().trim();
             let list = faqData;
@@ -1655,18 +1672,44 @@
                 $('faqList').innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><p>Tidak ada FAQ sesuai pencarian.<br><a href="#" onclick="openModal();return false">Ajukan pertanyaan baru →</a></p></div>`;
                 return;
             }
-            $('faqList').innerHTML = list.map((x, i) => `
+            // Jika filter = semua dan tidak ada pencarian: tampilkan per kelompok topik
+            if (faqFilter === 'semua' && !q) {
+                const topikOrder = ['Fasih', 'Konsep Lapangan', 'Lainnya'];
+                const grouped = {};
+                list.forEach(x => {
+                    const t = x.topik || x.kategori || 'Lainnya';
+                    if (!grouped[t]) grouped[t] = [];
+                    grouped[t].push(x);
+                });
+                // Sort groups by topikOrder, sisa di akhir
+                const keys = [...new Set([...topikOrder.filter(k => grouped[k]), ...Object.keys(grouped).filter(k => !topikOrder.includes(k))])];
+                let globalIdx = 0;
+                $('faqList').innerHTML = keys.map(k => {
+                    const items = grouped[k];
+                    const bc = badgeClass(k);
+                    const html = items.map(x => renderFaqItem(x, globalIdx++)).join('');
+                    return `<div class="faq-group" style="margin-bottom:18px">
+                        <div class="faq-group-header">
+                            <span class="badge ${bc}" style="font-size:12px;padding:5px 11px">${escapeHtml(k)}</span>
+                            <span class="muted" style="font-size:12px">${items.length} pertanyaan</span>
+                        </div>
+                        ${html}
+                    </div>`;
+                }).join('');
+            } else {
+                // Filter aktif atau ada search: daftar flat dengan badge topik
+                $('faqList').innerHTML = list.map((x, i) => `
     <div class="faq-item" id="faq-${i}">
       <div class="faq-q" onclick="toggleFaq(${i})">
         <div style="display:flex;align-items:flex-start;gap:8px;flex:1">
           ${x.topik || x.kategori ? `<span class="badge ${badgeClass(x.topik || x.kategori)}" style="flex-shrink:0;margin-bottom:0">${escapeHtml(x.topik || x.kategori)}</span>` : ''}
-          <span>${escapeHtml(x.q || x.question || '')}</span>
+          <span style="font-size:14px;font-weight:700;line-height:1.4">${escapeHtml(x.q || x.question || '')}</span>
         </div>
         <span class="faq-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
       <div class="faq-a">${escapeHtml(x.a || x.answer || 'Jawaban belum tersedia.')}</div>
-    </div>
-  `).join('');
+    </div>`).join('');
+            }
         }
         function toggleFaq(i) {
             const el = document.getElementById('faq-' + i);
