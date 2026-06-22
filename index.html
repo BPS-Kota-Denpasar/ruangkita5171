@@ -1212,7 +1212,7 @@
     <div id="toastWrap" class="toast-wrap"></div>
 
     <!-- FAB fixed (mobile) -->
-    <button class="fab fab-fixed" id="fabFixed" onclick="openModal()" aria-label="Buat Pertanyaan Baru">
+    <button class="fab fab-fixed hidden" id="fabFixed" onclick="openModal()" aria-label="Buat Pertanyaan Baru">
         <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             <line x1="12" y1="8" x2="12" y2="14" />
@@ -1402,8 +1402,8 @@
                     </div>
                 </div>
                 <!-- FAB inline (tablet/desktop) -->
-                <button class="fab fab-inline" id="fabInline" onclick="openModal()" aria-label="Buat Pertanyaan Baru"
-                    style="display:inline-flex;align-items:center;gap:6px">
+                <button class="fab fab-inline hidden" id="fabInline" onclick="openModal()"
+                    aria-label="Buat Pertanyaan Baru" style="display:inline-flex;align-items:center;gap:6px">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2.5">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -1641,6 +1641,11 @@
         let me = null, role = null, adminCache = [], adminData = [], isBusy = false, faqData = [], faqFilter = 'semua';
         const apiBase = 'https://script.google.com/macros/s/AKfycbw1rgfl_4WG0FCnfGI1uOprwvWx0b_ed8aw5P7OQCSjNFlVXdVh7eX45fBwIxSA-N1A/exec';
         const $ = id => document.getElementById(id);
+        function setFabVisibility(show) {
+            if (fabFixed) fabFixed.classList.toggle('hidden', !show)
+            if (fabInline) fabInline.classList.toggle('hidden', !show)
+        }
+        setFabVisibility(false)
 
         /* ── Loading ── */
         function setLoading(show, text = 'Memproses...') {
@@ -1750,7 +1755,11 @@
                 me = s.me; role = s.role; return true;
             } catch (e) { return false; }
         }
-        function logout() { try { localStorage.removeItem('rk_session'); } catch (e) { } location.reload(); }
+        function logout() {
+            try { localStorage.removeItem('rksession') } catch (e) { }
+            setFabVisibility(false)
+            location.reload()
+        }
 
         /* ── Utils ── */
         function escapeHtml(s) {
@@ -1895,37 +1904,54 @@
             const reader = new FileReader(); reader.onload = () => $('lampiranImg').src = reader.result; reader.readAsDataURL(f);
         });
 
-        /* ── Init after login ── */
-        function initApp() {
-            const isAdmin = role === 'ADMIN';
-            $('profileBox').textContent = `${me.nama || ''} • ${role}`;
-            if (isAdmin) { $('roleBar').classList.add('show'); }
-            else { $('roleBar').classList.remove('show'); }
-            openTab('faq');
+        function setFabVisibility(show) {
+            if (fabFixed) fabFixed.classList.toggle('hidden', !show)
+            if (fabInline) fabInline.classList.toggle('hidden', !show)
         }
 
-        /* ── Restore / Login ── */
-        async function restoreSession() {
-            if (!loadSession()) return false;
-            $('loginCard').classList.add('hidden'); $('app').classList.remove('hidden');
-            fillProfile(); initApp();
-            await loadFaq(); await loadAll();
-            return true;
+        function initApp() {
+            const isAdmin = role === 'ADMIN'
+            profileBox.textContent = `${me.nama} • ${role}`
+            if (isAdmin) roleBar.classList.add('show')
+            else roleBar.classList.remove('show')
+            setFabVisibility(true)
+            openTab('faq')
         }
+
+        async function restoreSession() {
+            if (!loadSession()) return false
+            loginCard.classList.add('hidden')
+            app.classList.remove('hidden')
+            setFabVisibility(true)
+            fillProfile()
+            initApp()
+            await loadFaq()
+            await loadAll()
+            return true
+        }
+
         async function login() {
             await withLoading(async () => {
-                const email = $('email').value.trim();
-                if (!email) { toast('Email wajib diisi.', 'warn'); return; }
-                const r = await apiGet('login', { email });
-                if (!r.success) { toast(r.message || 'Login gagal.', 'error'); return; }
-                me = r.data; role = r.role; saveSession();
-                await apiPost('logLogin', { email: me.email, role, name: me.nama || '' });
-                $('loginCard').classList.add('hidden'); $('app').classList.remove('hidden');
-                fillProfile(); initApp();
-                await loadFaq(); await loadAll();
-                toast('Login berhasil. Selamat datang, ' + (me.nama || me.email) + '!', 'success');
-            }, 'Sedang login...');
+                const emailVal = email.value.trim()
+                if (!emailVal) { toast('Email wajib diisi.', 'warn'); return }
+                const r = await apiGet('login', { email: emailVal })
+                if (!r.success) { toast(r.message || 'Login gagal.', 'error'); return }
+                me = r.data
+                role = r.role
+                saveSession()
+                await apiPost('logLogin', { email: me.email, role, name: me.nama })
+                loginCard.classList.add('hidden')
+                app.classList.remove('hidden')
+                setFabVisibility(true)
+                fillProfile()
+                initApp()
+                await loadFaq()
+                await loadAll()
+                toast(`Login berhasil. Selamat datang, ${me.nama}`, 'success')
+            }, 'Sedang login...')
         }
+
+
 
         /* ── Submit ── */
         async function submitTicket() {
