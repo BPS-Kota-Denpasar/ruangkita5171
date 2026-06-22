@@ -187,11 +187,20 @@
             background: #444
         }
 
+        /* Tab bar + FAB row */
+        .tabs-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 0 0 16px
+        }
+
         .tabs {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin: 0 0 16px
+            flex: 1
         }
 
         .tab {
@@ -209,6 +218,42 @@
             background: linear-gradient(180deg, var(--pri), var(--pri2));
             color: #fff;
             border-color: transparent
+        }
+
+        /* FAB Buat Pertanyaan */
+        .fab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, var(--pri), var(--pri2));
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(194, 107, 42, .22);
+            white-space: nowrap;
+            width: auto;
+            flex-shrink: 0
+        }
+
+        .fab-btn:hover {
+            background: linear-gradient(180deg, var(--pri2), #7a3e12)
+        }
+
+        .fab-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.28);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 900;
+            line-height: 1
         }
 
         .hidden {
@@ -381,18 +426,6 @@
             min-width: 140px
         }
 
-        .view-switch {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 16px
-        }
-
-        .view-switch button {
-            flex: 1;
-            min-width: 160px
-        }
-
         .dense {
             max-width: 1140px;
             margin: 0 auto
@@ -423,12 +456,65 @@
                 grid-template-columns: 1fr
             }
 
-            .view-switch button,
             .toolbar>* {
                 min-width: 0
             }
         }
 
+        /* Modal Buat Pertanyaan */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(47, 36, 29, 0.45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 8000;
+            backdrop-filter: blur(4px);
+            padding: 16px
+        }
+
+        .modal-overlay.show {
+            display: flex
+        }
+
+        .modal-box {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 22px 24px;
+            box-shadow: 0 20px 60px rgba(156, 84, 32, .18);
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px
+        }
+
+        .modal-close {
+            width: auto;
+            padding: 6px 10px;
+            background: #f1e3d6;
+            color: #5a3d2d;
+            border-radius: 999px;
+            font-size: 18px;
+            font-weight: 900;
+            line-height: 1;
+            box-shadow: none;
+            border: 1px solid #ead8c7
+        }
+
+        .modal-close:hover {
+            background: #ead8c7
+        }
+
+        /* Loading overlay */
         .overlay {
             position: fixed;
             inset: 0;
@@ -622,15 +708,6 @@
                 text-align: left
             }
 
-            .view-switch {
-                flex-direction: column
-            }
-
-            .view-switch button {
-                width: 100%;
-                min-width: 0
-            }
-
             .tabs {
                 overflow-x: auto;
                 flex-wrap: nowrap;
@@ -775,6 +852,44 @@
             justify-content: center;
             font-weight: 900
         }
+
+        /* Role filter (admin only) */
+        .role-filter-bar {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            background: #fff7ed;
+            border: 1px solid #ead8c7;
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-bottom: 12px;
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .role-filter-bar.show {
+            display: flex
+        }
+
+        .role-filter-bar select {
+            width: auto;
+            padding: 7px 10px;
+            font-size: 13px
+        }
+
+        /* Logout bar */
+        .logout-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 0 10px
+        }
+
+        .logout-bar button {
+            width: auto;
+            padding: 8px 20px
+        }
     </style>
 </head>
 
@@ -787,6 +902,49 @@
     </div>
 
     <div id="toastWrap" class="toast-wrap"></div>
+
+    <!-- Modal Buat Pertanyaan -->
+    <div id="modalBuatPertanyaan" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div>
+                    <h3 id="modalTitle">Buat Pertanyaan</h3>
+                    <div class="muted">Data diri otomatis dari Data Mitra. Lampiran gambar bersifat opsional.</div>
+                </div>
+                <button class="modal-close" onclick="closeModal()" aria-label="Tutup">✕</button>
+            </div>
+            <div class="row">
+                <div><label>Nama</label><input id="nama" readonly></div>
+                <div><label>HP</label><input id="hp" readonly></div>
+                <div><label>SOBAT_ID</label><input id="sobat" readonly></div>
+                <div><label>Email</label><input id="userEmail" readonly></div>
+            </div>
+            <div class="row" style="margin-top:12px">
+                <div><label>Topik</label>
+                    <select id="topik">
+                        <option>Fasih</option>
+                        <option>Konsep Lapangan</option>
+                        <option>Lainnya</option>
+                    </select>
+                </div>
+            </div>
+            <div style="margin-top:12px">
+                <label>Lampiran Gambar (opsional)</label>
+                <input id="lampiran" type="file" accept="image/*" capture="environment">
+                <div id="lampiranPreview" class="preview"><img id="lampiranImg" alt="Lampiran">
+                    <div class="muted" id="lampiranName"></div>
+                </div>
+            </div>
+            <div style="margin-top:12px"><label>Pertanyaan</label><textarea id="pertanyaan"
+                    placeholder="Tulis pertanyaan..." maxlength="2000"></textarea></div>
+            <div class="grid-actions">
+                <button id="submitBtn" onclick="submitTicket()">Kirim Pertanyaan</button>
+                <button class="btn2" onclick="clearForm()">Reset</button>
+            </div>
+            <div class="muted" style="margin-top:10px">Pertanyaan akan tersimpan bersama status awal <b>baru masuk</b>.
+                Jika ada lampiran, file akan ikut disimpan ke dalam database.</div>
+        </div>
+    </div>
 
     <div class="wrap dense">
         <div class="card top sticky-top">
@@ -813,189 +971,165 @@
         </div>
 
         <div id="app" class="hidden">
-            <div class="view-switch sticky-top" style="padding-top:8px;margin-top:-8px">
-                <button id="btnUserView" onclick="switchView('user')">Tampilan User</button>
-                <button id="btnAdminView" class="btn4 hidden" onclick="switchView('admin')">Tampilan Admin</button>
+            <!-- Logout bar -->
+            <div class="logout-bar sticky-top" style="padding-top:4px;margin-top:-4px">
                 <button id="btnLogout" class="btn5" onclick="logout()">Logout</button>
             </div>
 
-            <div id="userSection">
-                <div class="tabs sticky-top" style="padding-top:8px;margin-top:-8px">
-                    <div class="tab active" id="tab-user-create" onclick="openTab('user-create')">Buat Tiket</div>
-                    <div class="tab" id="tab-user-list" onclick="openTab('user-list')">Riwayat Tiket</div>
+            <!-- Role filter bar (hanya muncul untuk ADMIN) -->
+            <div id="roleFilterBar" class="role-filter-bar">
+                <span>🔧 Mode:</span>
+                <select id="roleFilter" onchange="applyRoleFilter()">
+                    <option value="user">Tampilan Pengguna</option>
+                    <option value="admin">Tampilan Admin</option>
+                </select>
+            </div>
+
+            <!-- Tab bar tunggal -->
+            <div class="tabs-row sticky-top" style="padding-top:8px;margin-top:-8px">
+                <div class="tabs" id="mainTabs">
+                    <!-- Tab FAQ (default aktif) -->
+                    <div class="tab active" id="tab-faq" onclick="openTab('faq')">FAQ</div>
+                    <div class="tab" id="tab-user-list" onclick="openTab('user-list')">Riwayat Pertanyaan</div>
                     <div class="tab" id="tab-forum" onclick="openTab('forum')">Forum Diskusi</div>
                     <div class="tab" id="tab-notif" onclick="openTab('notif')">Pemberitahuan</div>
+                    <!-- Tab admin (disembunyikan default, muncul jika admin memilih mode admin) -->
+                    <div class="tab hidden" id="tab-admin-list" onclick="openTab('admin-list')">Kelola Pertanyaan</div>
+                    <div class="tab hidden" id="tab-admin-forum" onclick="openTab('admin-forum')">Forum Admin</div>
                 </div>
+                <!-- FAB Buat Pertanyaan -->
+                <button class="fab-btn" id="fabBuatPertanyaan" onclick="openModal()" aria-label="Buat Pertanyaan Baru">
+                    <span class="fab-icon">+</span> Buat Pertanyaan
+                </button>
+            </div>
 
-                <div id="faqCard" class="card faq-card">
-                    <div class="section-title">
-                        <div>
-                            <h3>Frequently Questions</h3>
-                            <div class="muted">Daftar pertanyaan yang sering ditanyakan..
-                            </div>
-                        </div>
-                        <span class="chip">FAQ</span>
+            <!-- FAQ (halaman awal) -->
+            <div id="faq" class="card faq-card">
+                <div class="section-title">
+                    <div>
+                        <h3>Frequently Asked Questions</h3>
+                        <div class="muted">Daftar pertanyaan yang sering ditanyakan.</div>
                     </div>
-                    <input id="faqSearch" class="faq-search" type="search" placeholder="Cari pertanyaan atau jawaban..."
-                        oninput="filterFaq()">
-                    <div id="faqList">
-                        <div class="empty">Memuat FAQ...</div>
-                    </div>
+                    <span class="chip">FAQ</span>
                 </div>
-
-                <div id="user-create" class="card">
-                    <div class="section-title">
-                        <div>
-                            <h3>Buat Tiket</h3>
-                            <div class="muted">Data diri otomatis dari Data Mitra. Lampiran gambar bersifat opsional.
-                            </div>
-                        </div>
-                        <span class="chip">Isi pertanyaan lalu kirim</span>
-                    </div>
-                    <div class="row">
-                        <div><label>Nama</label><input id="nama" readonly></div>
-                        <div><label>HP</label><input id="hp" readonly></div>
-                        <div><label>SOBAT_ID</label><input id="sobat" readonly></div>
-                        <div><label>Email</label><input id="userEmail" readonly></div>
-                    </div>
-                    <div class="row" style="margin-top:12px">
-                        <div><label>Topik</label>
-                            <select id="topik">
-                                <option>Fasih</option>
-                                <option>Konsep Lapangan</option>
-                                <option>Lainnya</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div style="margin-top:12px">
-                        <label>Lampiran Gambar (opsional)</label>
-                        <input id="lampiran" type="file" accept="image/*" capture="environment">
-                        <div id="lampiranPreview" class="preview"><img id="lampiranImg">
-                            <div class="muted" id="lampiranName"></div>
-                        </div>
-                    </div>
-                    <div style="margin-top:12px"><label>Pertanyaan</label><textarea id="pertanyaan"
-                            placeholder="Tulis pertanyaan..." maxlength="2000"></textarea></div>
-                    <div class="grid-actions"><button id="submitBtn" onclick="submitTicket()">Kirim
-                            Tiket</button><button class="btn2" onclick="clearForm()">Reset</button></div>
-                    <div class="muted" style="margin-top:10px">Tiket akan tersimpan bersama status awal <b>baru
-                            masuk</b>. Jika ada lampiran, file akan ikut disimpan ke dalam database.</div>
-                </div>
-
-                <div id="user-list" class="card hidden">
-                    <div class="section-title">
-                        <div>
-                            <h3>Riwayat Tiket Saya</h3>
-                            <div class="muted">Lihat status terbaru: baru masuk, sedang diproses, sudah dibalas, atau
-                                selesai.</div>
-                        </div>
-                        <span class="chip">Status tiket ditampilkan jelas</span>
-                    </div>
-                    <div id="myTickets"></div>
-                </div>
-
-                <div id="forum" class="card hidden">
-                    <div class="section-title">
-                        <div>
-                            <h3>Forum Diskusi</h3>
-                            <div class="muted">Pertanyaan dikelompokkan otomatis berdasarkan tema yang mirip.</div>
-                        </div>
-                        <span class="chip">Dikelompokkan otomatis</span>
-                    </div>
-                    <div id="forumList"></div>
-                </div>
-
-                <div id="notif" class="card hidden">
-                    <div class="section-title">
-                        <div>
-                            <h3>Pemberitahuan</h3>
-                            <div class="muted">Ringkasan singkat status tiket Anda.</div>
-                        </div>
-                    </div>
-                    <div id="notifList"></div>
+                <input id="faqSearch" class="faq-search" type="search" placeholder="Cari pertanyaan atau jawaban..."
+                    oninput="filterFaq()">
+                <div id="faqList">
+                    <div class="empty">Memuat FAQ...</div>
                 </div>
             </div>
 
-            <div id="adminSection" class="hidden">
-                <div class="tabs sticky-top" style="padding-top:8px;margin-top:-8px">
-                    <div class="tab active" id="tab-admin-list" onclick="openTab('admin-list')">Kelola Tiket</div>
-                    <div class="tab" id="tab-admin-forum" onclick="openTab('admin-forum')">Forum Admin</div>
+            <!-- Riwayat Pertanyaan -->
+            <div id="user-list" class="card hidden">
+                <div class="section-title">
+                    <div>
+                        <h3>Riwayat Pertanyaan Saya</h3>
+                        <div class="muted">Lihat status terbaru: baru masuk, sedang diproses, sudah dibalas, atau
+                            selesai.</div>
+                    </div>
+                    <span class="chip">Status pertanyaan ditampilkan jelas</span>
+                </div>
+                <div id="myTickets"></div>
+            </div>
+
+            <!-- Forum Diskusi -->
+            <div id="forum" class="card hidden">
+                <div class="section-title">
+                    <div>
+                        <h3>Forum Diskusi</h3>
+                        <div class="muted">Pertanyaan dikelompokkan otomatis berdasarkan tema yang mirip.</div>
+                    </div>
+                    <span class="chip">Dikelompokkan otomatis</span>
+                </div>
+                <div id="forumList"></div>
+            </div>
+
+            <!-- Pemberitahuan -->
+            <div id="notif" class="card hidden">
+                <div class="section-title">
+                    <div>
+                        <h3>Pemberitahuan</h3>
+                        <div class="muted">Ringkasan singkat status pertanyaan Anda.</div>
+                    </div>
+                </div>
+                <div id="notifList"></div>
+            </div>
+
+            <!-- Admin: Kelola Pertanyaan -->
+            <div id="admin-list" class="card hidden">
+                <div class="section-title">
+                    <div>
+                        <h3>Kelola Pertanyaan</h3>
+                        <div class="muted">Cari, filter, balas satu pertanyaan, atau balas banyak pertanyaan sekaligus.
+                        </div>
+                    </div>
+                    <span class="chip">Admin workspace</span>
                 </div>
 
-                <div id="admin-list" class="card">
-                    <div class="section-title">
-                        <div>
-                            <h3>Kelola Tiket</h3>
-                            <div class="muted">Cari, filter, balas satu tiket, atau balas banyak tiket sekaligus.</div>
-                        </div>
-                        <span class="chip">Admin workspace</span>
-                    </div>
+                <div class="summary-grid" id="adminSummaryGrid"></div>
 
-                    <div class="summary-grid" id="adminSummaryGrid"></div>
-
-                    <div class="admin-layout" style="margin-top:14px">
-                        <div>
-                            <div class="panel-box">
-                                <div class="searchbar">
-                                    <div><label>Cari tiket</label><input id="searchAdmin"
-                                            placeholder="Nama, email, pertanyaan, topik" oninput="renderAdminList()">
-                                    </div>
-                                    <div><label>Filter status</label><select id="filterStatus"
-                                            onchange="renderAdminList()">
-                                            <option value="">Semua</option>
-                                            <option value="baru">Baru masuk</option>
-                                            <option value="terjawab">Sudah dibalas</option>
-                                            <option value="selesai">Selesai</option>
-                                        </select></div>
+                <div class="admin-layout" style="margin-top:14px">
+                    <div>
+                        <div class="panel-box">
+                            <div class="searchbar">
+                                <div><label>Cari pertanyaan</label><input id="searchAdmin"
+                                        placeholder="Nama, email, pertanyaan, topik" oninput="renderAdminList()">
                                 </div>
-                                <div class="searchbar" style="margin-top:10px">
-                                    <div><label>Filter topik</label><select id="filterTopik"
-                                            onchange="renderAdminList()">
-                                            <option value="">Semua</option>
-                                            <option value="Fasih">Fasih</option>
-                                            <option value="Konsep Lapangan">Konsep Lapangan</option>
-                                            <option value="Lainnya">Lainnya</option>
-                                        </select></div>
-                                    <div><label>Urutkan</label><select id="sortAdmin" onchange="renderAdminList()">
-                                            <option value="newest">Terbaru</option>
-                                            <option value="oldest">Terlama</option>
-                                        </select></div>
-                                </div>
-                                <div class="toolbar" style="margin-top:10px">
-                                    <button class="btn3" onclick="selectAllAdmin(true)">Pilih Semua</button>
-                                    <button class="btn4" onclick="selectAllAdmin(false)">Batal Pilih</button>
-                                    <button id="bulkBtn" onclick="bulkAnswerSelected()">Kirim Jawaban Terpilih</button>
-                                </div>
-                                <div id="adminSummary" class="muted" style="margin-top:10px"></div>
-                                <div id="adminList" class="list-grid" style="margin-top:10px"></div>
+                                <div><label>Filter status</label><select id="filterStatus" onchange="renderAdminList()">
+                                        <option value="">Semua</option>
+                                        <option value="baru">Baru masuk</option>
+                                        <option value="terjawab">Sudah dibalas</option>
+                                        <option value="selesai">Selesai</option>
+                                    </select></div>
                             </div>
-                        </div>
-                        <div>
-                            <div class="panel-box">
-                                <h4>Panel Tindakan</h4>
-                                <div class="muted" style="margin-top:8px">Pilih tiket di kiri untuk dibalas satu per
-                                    satu atau gunakan tombol kirim massal.</div>
-                                <div style="margin-top:12px">
-                                    <div class="item-label">Arti status</div>
-                                    <div class="muted" style="margin-top:8px">• Baru masuk: tiket baru diterima.<br>•
-                                        Sudah dibalas: sudah ada jawaban admin.<br>• Selesai: tiket sudah ditutup.</div>
-                                </div>
-                                <div id="bulkMsg" class="muted" style="margin-top:14px"></div>
+                            <div class="searchbar" style="margin-top:10px">
+                                <div><label>Filter topik</label><select id="filterTopik" onchange="renderAdminList()">
+                                        <option value="">Semua</option>
+                                        <option value="Fasih">Fasih</option>
+                                        <option value="Konsep Lapangan">Konsep Lapangan</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select></div>
+                                <div><label>Urutkan</label><select id="sortAdmin" onchange="renderAdminList()">
+                                        <option value="newest">Terbaru</option>
+                                        <option value="oldest">Terlama</option>
+                                    </select></div>
                             </div>
+                            <div class="toolbar" style="margin-top:10px">
+                                <button class="btn3" onclick="selectAllAdmin(true)">Pilih Semua</button>
+                                <button class="btn4" onclick="selectAllAdmin(false)">Batal Pilih</button>
+                                <button id="bulkBtn" onclick="bulkAnswerSelected()">Kirim Jawaban Terpilih</button>
+                            </div>
+                            <div id="adminSummary" class="muted" style="margin-top:10px"></div>
+                            <div id="adminList" class="list-grid" style="margin-top:10px"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="panel-box">
+                            <h4>Panel Tindakan</h4>
+                            <div class="muted" style="margin-top:8px">Pilih pertanyaan di kiri untuk dibalas satu per
+                                satu atau gunakan tombol kirim massal.</div>
+                            <div style="margin-top:12px">
+                                <div class="item-label">Arti status</div>
+                                <div class="muted" style="margin-top:8px">• Baru masuk: pertanyaan baru diterima.<br>•
+                                    Sudah dibalas: sudah ada jawaban admin.<br>• Selesai: pertanyaan sudah ditutup.
+                                </div>
+                            </div>
+                            <div id="bulkMsg" class="muted" style="margin-top:14px"></div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div id="admin-forum" class="card hidden">
-                    <div class="section-title">
-                        <div>
-                            <h3>Forum Admin</h3>
-                            <div class="muted">Kumpulan pertanyaan berdasarkan tema yang mirip.</div>
-                        </div>
-                        <span class="chip">Untuk memantau pola pertanyaan</span>
+            <!-- Admin: Forum Admin -->
+            <div id="admin-forum" class="card hidden">
+                <div class="section-title">
+                    <div>
+                        <h3>Forum Admin</h3>
+                        <div class="muted">Kumpulan pertanyaan berdasarkan tema yang mirip.</div>
                     </div>
-                    <div id="adminForumList"></div>
+                    <span class="chip">Untuk memantau pola pertanyaan</span>
                 </div>
+                <div id="adminForumList"></div>
             </div>
         </div>
     </div>
@@ -1012,12 +1146,12 @@
         }
 
         function setDisabled(disabled) {
-            ['loginBtn', 'submitBtn', 'bulkBtn', 'topik', 'pertanyaan', 'email', 'searchAdmin', 'filterTopik', 'sortAdmin', 'filterStatus', 'btnUserView', 'btnAdminView'].forEach(id => {
+            ['loginBtn', 'submitBtn', 'bulkBtn', 'topik', 'pertanyaan', 'email', 'searchAdmin', 'filterTopik', 'sortAdmin', 'filterStatus'].forEach(id => {
                 const el = $(id);
                 if (el) el.disabled = disabled;
             });
             document.querySelectorAll('button').forEach(b => {
-                if (!['btnUserView', 'btnAdminView', 'btnLogout'].includes(b.id)) b.disabled = disabled || b.disabled;
+                if (!['btnLogout', 'fabBuatPertanyaan'].includes(b.id)) b.disabled = disabled || b.disabled;
             });
         }
 
@@ -1051,46 +1185,74 @@
             }).then(r => r.json());
         }
 
-        function setActiveTab(id) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            const m = {
-                'user-create': 'tab-user-create',
-                'user-list': 'tab-user-list',
-                'forum': 'tab-forum',
-                'notif': 'tab-notif',
-                'admin-list': 'tab-admin-list',
-                'admin-forum': 'tab-admin-forum'
-            };
-            const el = $(m[id]);
-            if (el) el.classList.add('active');
-        }
+        // ── Tab & modal ──────────────────────────────────────────────
+        const TAB_MAP = {
+            'faq': 'tab-faq',
+            'user-list': 'tab-user-list',
+            'forum': 'tab-forum',
+            'notif': 'tab-notif',
+            'admin-list': 'tab-admin-list',
+            'admin-forum': 'tab-admin-forum'
+        };
 
         function openTab(id) {
-            ['user-create', 'user-list', 'forum', 'notif', 'admin-list', 'admin-forum'].forEach(x => {
+            Object.keys(TAB_MAP).forEach(x => {
                 const el = $(x);
                 if (el) el.classList.add('hidden');
             });
-            $(id).classList.remove('hidden');
-            setActiveTab(id);
+            const el = $(id);
+            if (el) el.classList.remove('hidden');
+
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            const tabEl = $(TAB_MAP[id]);
+            if (tabEl) tabEl.classList.add('active');
         }
 
-        function switchView(view) {
-            const userSection = $('userSection');
-            const adminSection = $('adminSection');
-            if (view === 'admin') {
-                userSection.classList.remove('hidden');
-                adminSection.classList.remove('hidden');
+        function openModal() {
+            $('modalBuatPertanyaan').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            $('modalBuatPertanyaan').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        // Tutup modal jika klik di luar box
+        $('modalBuatPertanyaan').addEventListener('click', function (e) {
+            if (e.target === this) closeModal();
+        });
+
+        // ── Role filter (admin toggle) ───────────────────────────────
+        function applyRoleFilter() {
+            const val = $('roleFilter').value;
+            const adminTabs = ['tab-admin-list', 'tab-admin-forum'];
+            const adminSections = ['admin-list', 'admin-forum'];
+            if (val === 'admin') {
+                adminTabs.forEach(id => $(id).classList.remove('hidden'));
                 openTab('admin-list');
             } else {
-                adminSection.classList.add('hidden');
-                userSection.classList.remove('hidden');
-                openTab('user-create');
+                adminTabs.forEach(id => $(id).classList.add('hidden'));
+                adminSections.forEach(id => $(id)?.classList.add('hidden'));
+                openTab('faq');
             }
         }
 
+        function initAfterLogin() {
+            // Tampilkan role filter hanya untuk admin
+            if (role === 'ADMIN') {
+                $('roleFilterBar').classList.add('show');
+            } else {
+                $('roleFilterBar').classList.remove('show');
+            }
+            // Semua mulai dari FAQ
+            openTab('faq');
+        }
+
+        // ── Session ──────────────────────────────────────────────────
         function saveSession() {
             if (!me || !role) return;
-            localStorage.setItem('rk_session', JSON.stringify({ me, role, ts: Date.now() }));
+            try { localStorage.setItem('rk_session', JSON.stringify({ me, role, ts: Date.now() })); } catch (e) { }
         }
 
         function loadSession() {
@@ -1099,26 +1261,18 @@
                 if (!raw) return false;
                 const s = JSON.parse(raw);
                 if (!s || !s.me || !s.role) return false;
-                me = s.me;
-                role = s.role;
+                me = s.me; role = s.role;
                 return true;
-            } catch (e) {
-                return false;
-            }
+            } catch (e) { return false; }
         }
 
         function logout() {
-            localStorage.removeItem('rk_session');
+            try { localStorage.removeItem('rk_session'); } catch (e) { }
             location.reload();
         }
 
         function escapeHtml(s) {
-            return String(s || '').replace(/[&<>"]/g, m => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;'
-            }[m]));
+            return String(s || '').replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
         }
 
         function toast(text, type = 'info') {
@@ -1136,11 +1290,7 @@
             setTimeout(() => el.remove(), 3600);
         }
 
-        function msg(id, text) {
-            const el = $(id);
-            if (el) el.textContent = text;
-        }
-
+        // ── FAQ ──────────────────────────────────────────────────────
         async function loadFaq() {
             try {
                 const r = await apiGet('faq');
@@ -1181,6 +1331,7 @@
             ));
         }
 
+        // ── Profile ──────────────────────────────────────────────────
         function fillProfile() {
             if (!me) return;
             $('nama').value = me.nama || '';
@@ -1208,10 +1359,7 @@
 
         $('lampiran')?.addEventListener('change', () => {
             const f = $('lampiran')?.files?.[0];
-            if (!f) {
-                $('lampiranPreview').style.display = 'none';
-                return;
-            }
+            if (!f) { $('lampiranPreview').style.display = 'none'; return; }
             $('lampiranPreview').style.display = 'flex';
             $('lampiranName').textContent = f.name;
             const reader = new FileReader();
@@ -1219,14 +1367,14 @@
             reader.readAsDataURL(f);
         });
 
+        // ── Login & session restore ───────────────────────────────────
         async function restoreSession() {
             if (!loadSession()) return false;
             $('loginCard').classList.add('hidden');
             $('app').classList.remove('hidden');
             $('profileBox').textContent = `${me.nama || ''} | ${role}`;
             fillProfile();
-            $('btnAdminView').classList.toggle('hidden', role !== 'ADMIN');
-            switchView(role === 'ADMIN' ? 'admin' : 'user');
+            initAfterLogin();
             await loadFaq();
             await loadAll();
             return true;
@@ -1235,15 +1383,9 @@
         async function login() {
             await withLoading(async () => {
                 const email = $('email').value.trim();
-                if (!email) {
-                    toast('Email wajib diisi.', 'warn');
-                    return;
-                }
+                if (!email) { toast('Email wajib diisi.', 'warn'); return; }
                 const r = await apiGet('login', { email });
-                if (!r.success) {
-                    toast(r.message || 'Login gagal.', 'error');
-                    return;
-                }
+                if (!r.success) { toast(r.message || 'Login gagal.', 'error'); return; }
                 me = r.data;
                 role = r.role;
                 saveSession();
@@ -1252,26 +1394,20 @@
                 $('app').classList.remove('hidden');
                 $('profileBox').textContent = `${me.nama || ''} | ${role}`;
                 fillProfile();
-                $('btnAdminView').classList.toggle('hidden', role !== 'ADMIN');
-                switchView(role === 'ADMIN' ? 'admin' : 'user');
+                initAfterLogin();
                 await loadFaq();
                 await loadAll();
                 toast('Login berhasil.', 'success');
             }, 'Sedang login...');
         }
 
+        // ── Submit pertanyaan ────────────────────────────────────────
         async function submitTicket() {
             if (isBusy) return;
             const pert = $('pertanyaan').value.trim();
             const file = $('lampiran')?.files?.[0] || null;
-            if (!pert) {
-                toast('Pertanyaan wajib diisi.', 'warn');
-                return;
-            }
-            if (file && !/^image\//.test(file.type || '')) {
-                toast('Lampiran harus berupa gambar.', 'warn');
-                return;
-            }
+            if (!pert) { toast('Pertanyaan wajib diisi.', 'warn'); return; }
+            if (file && !/^image\//.test(file.type || '')) { toast('Lampiran harus berupa gambar.', 'warn'); return; }
 
             await withLoading(async () => {
                 let lampiranData = '', lampiranName = '', lampiranMime = '';
@@ -1284,21 +1420,21 @@
                     email: me.email,
                     topik: $('topik').value,
                     pertanyaan: pert,
-                    lampiranData,
-                    lampiranName,
-                    lampiranMime
+                    lampiranData, lampiranName, lampiranMime
                 });
                 if (r.success) {
                     const note = file ? (r.lampiranStatus === 'tersimpan' ? 'Lampiran tersimpan.' : 'Lampiran belum tersimpan.') : 'Tanpa lampiran.';
-                    toast(`Tiket berhasil dikirim. ${note}`, r.lampiranStatus === 'gagal_simpan' ? 'warn' : 'success');
+                    toast(`Pertanyaan berhasil dikirim. ${note}`, r.lampiranStatus === 'gagal_simpan' ? 'warn' : 'success');
                     clearForm();
+                    closeModal();
                     await loadAll();
                 } else {
-                    toast(r.message || 'Tiket gagal dikirim.', 'error');
+                    toast(r.message || 'Pertanyaan gagal dikirim.', 'error');
                 }
-            }, 'Mengirim tiket...');
+            }, 'Mengirim pertanyaan...');
         }
 
+        // ── Badge helpers ────────────────────────────────────────────
         function badgeClass(v) {
             const s = String(v || '').toLowerCase();
             if (s.includes('fasih')) return 'b-fasih';
@@ -1316,17 +1452,19 @@
             return { cls: 'b-new', txt: 'Baru masuk' };
         }
 
+        // ── Item render ──────────────────────────────────────────────
         function itemTicket(t, admin = false) {
             const checked = adminCache.some(x => x.id === t.id);
             const img = t.lampiranUrl ? `<div style="margin-top:10px"><a href="${t.lampiranUrl}" target="_blank" rel="noopener">Buka lampiran gambar</a></div>` : '';
             const st = badgeStatus(t.status || 'open');
             const lp = t.lampiranStatus ? `<span class="badge ${t.lampiranStatus === 'tersimpan' ? 'b-replied' : 'b-new'}">${t.lampiranStatus === 'tersimpan' ? 'Lampiran tersimpan' : 'Lampiran belum tersimpan'}</span>` : '';
-            return `<div class="item"><div class="item-head"><div><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(t.topik)}">${escapeHtml(t.topik || '-')}</span>${lp}</div><div class="item-title">${escapeHtml(t.nama || '')}</div><div class="item-meta">${escapeHtml(t.email || '')} • ${escapeHtml(t.hp || '')} • ${escapeHtml(t.SOBAT_ID || '')}</div></div><div class="item-label">${escapeHtml(new Date(t.timestamp || Date.now()).toLocaleString('id-ID'))}</div></div><div class="item-body"><b>Pertanyaan:</b> ${escapeHtml(t.pertanyaan || '')}</div>${img}<div class="item-body"><b>Jawaban:</b> ${t.jawaban ? escapeHtml(t.jawaban) : 'Belum ada jawaban'}</div>${admin ? `<div class="admin-action-box"><div class="admin-check-row"><input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleSelect('${t.id}', this.checked)"><span class="muted" style="font-size:12px">Pilih tiket ini untuk balas massal</span></div><textarea id="jawab-${t.id}" placeholder="Tulis jawaban untuk tiket ini..." style="width:100%;min-height:90px;resize:vertical;border-radius:10px;border:1px solid #ead8c7;padding:10px;font-size:14px;font-family:inherit;box-sizing:border-box"></textarea><div class="admin-btn-row"><button class="btn3" onclick="answerOne('${t.id}')">✉️ Balas</button><button class="btn4" onclick="finishOne('${t.id}')">✅ Tutup</button></div></div>` : ''}</div>`;
+            return `<div class="item"><div class="item-head"><div><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(t.topik)}">${escapeHtml(t.topik || '-')}</span>${lp}</div><div class="item-title">${escapeHtml(t.nama || '')}</div><div class="item-meta">${escapeHtml(t.email || '')} • ${escapeHtml(t.hp || '')} • ${escapeHtml(t.SOBAT_ID || '')}</div></div><div class="item-label">${escapeHtml(new Date(t.timestamp || Date.now()).toLocaleString('id-ID'))}</div></div><div class="item-body"><b>Pertanyaan:</b> ${escapeHtml(t.pertanyaan || '')}</div>${img}<div class="item-body"><b>Jawaban:</b> ${t.jawaban ? escapeHtml(t.jawaban) : 'Belum ada jawaban'}</div>${admin ? `<div class="admin-action-box"><div class="admin-check-row"><input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleSelect('${t.id}', this.checked)"><span class="muted" style="font-size:12px">Pilih pertanyaan ini untuk balas massal</span></div><textarea id="jawab-${t.id}" placeholder="Tulis jawaban untuk pertanyaan ini..." style="width:100%;min-height:90px;resize:vertical;border-radius:10px;border:1px solid #ead8c7;padding:10px;font-size:14px;font-family:inherit;box-sizing:border-box"></textarea><div class="admin-btn-row"><button class="btn3" onclick="answerOne('${t.id}')">✉️ Balas</button><button class="btn4" onclick="finishOne('${t.id}')">✅ Tutup</button></div></div>` : ''}</div>`;
         }
 
+        // ── Load helpers ─────────────────────────────────────────────
         async function loadMyTickets() {
             const r = await apiGet('tickets', { email: me.email });
-            $('myTickets').innerHTML = (r.data || []).length ? `<div class="scroll-x"><div class="table-like">${r.data.map(x => itemTicket(x)).join('')}</div></div>` : '<div class="empty">Belum ada tiket yang dikirim.</div>';
+            $('myTickets').innerHTML = (r.data || []).length ? `<div class="scroll-x"><div class="table-like">${r.data.map(x => itemTicket(x)).join('')}</div></div>` : '<div class="empty">Belum ada pertanyaan yang dikirim.</div>';
         }
 
         async function loadForum() {
@@ -1341,7 +1479,7 @@
             const arr = r.data || [];
             $('notifList').innerHTML = arr.length ? arr.map(x => {
                 const st = badgeStatus(x.status || 'open');
-                return `<div class="item"><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(x.topik)}">${escapeHtml(x.topik || '-')}</span></div><div class="item-body">Tiket Anda untuk topik <b>${escapeHtml(x.topik || '-')}</b> ${st.txt.toLowerCase()}.</div>${x.lampiranUrl ? `<div style="margin-top:8px"><a href="${x.lampiranUrl}" target="_blank" rel="noopener">Buka lampiran gambar</a></div>` : ''}</div>`;
+                return `<div class="item"><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(x.topik)}">${escapeHtml(x.topik || '-')}</span></div><div class="item-body">Pertanyaan Anda untuk topik <b>${escapeHtml(x.topik || '-')}</b> ${st.txt.toLowerCase()}.</div>${x.lampiranUrl ? `<div style="margin-top:8px"><a href="${x.lampiranUrl}" target="_blank" rel="noopener">Buka lampiran gambar</a></div>` : ''}</div>`;
             }).join('') : '<div class="empty">Belum ada pemberitahuan.</div>';
         }
 
@@ -1367,7 +1505,7 @@
             const jawab = adminData.filter(x => badgeStatus(x.status).txt === 'Sudah dibalas').length;
             const done = adminData.filter(x => badgeStatus(x.status).txt === 'Selesai').length;
             $('adminSummaryGrid').innerHTML = [
-                `<div class="summary"><div class="l">Total tiket</div><div class="v">${total}</div></div>`,
+                `<div class="summary"><div class="l">Total pertanyaan</div><div class="v">${total}</div></div>`,
                 `<div class="summary"><div class="l">Baru masuk</div><div class="v">${baru}</div></div>`,
                 `<div class="summary"><div class="l">Sedang diproses</div><div class="v">${proses}</div></div>`,
                 `<div class="summary"><div class="l">Sudah dibalas / selesai</div><div class="v">${jawab + done}</div></div>`
@@ -1389,8 +1527,8 @@
             });
 
             filtered.sort((a, b) => sort === 'oldest' ? new Date(a.timestamp) - new Date(b.timestamp) : new Date(b.timestamp) - new Date(a.timestamp));
-            $('adminSummary').textContent = `Tiket tampil: ${filtered.length}`;
-            $('adminList').innerHTML = filtered.length ? filtered.map(t => itemTicket(t, true)).join('') : '<div class="empty">Tidak ada tiket sesuai filter.</div>';
+            $('adminSummary').textContent = `Pertanyaan tampil: ${filtered.length}`;
+            $('adminList').innerHTML = filtered.length ? filtered.map(t => itemTicket(t, true)).join('') : '<div class="empty">Tidak ada pertanyaan sesuai filter.</div>';
         }
 
         function renderAdminForum(grouped) {
@@ -1398,11 +1536,8 @@
         }
 
         function toggleSelect(id, checked) {
-            if (checked) {
-                if (!adminCache.find(x => x.id === id)) adminCache.push({ id });
-            } else {
-                adminCache = adminCache.filter(x => x.id !== id);
-            }
+            if (checked) { if (!adminCache.find(x => x.id === id)) adminCache.push({ id }); }
+            else { adminCache = adminCache.filter(x => x.id !== id); }
         }
 
         function selectAllAdmin(state) {
@@ -1422,13 +1557,10 @@
             if (isBusy) return;
             const el = document.getElementById('jawab-' + id);
             const j = el ? el.value.trim() : '';
-            if (!j) {
-                toast('Isi jawaban terlebih dahulu.', 'warn');
-                return;
-            }
+            if (!j) { toast('Isi jawaban terlebih dahulu.', 'warn'); return; }
             await withLoading(async () => {
                 const r = await apiPost('answerTicket', { ticketId: id, jawaban: j, answeredByEmail: me.email });
-                toast(r.success ? `Jawaban tersimpan untuk tiket ${id}.` : (r.message || 'Gagal menyimpan jawaban.'), r.success ? 'success' : 'error');
+                toast(r.success ? `Jawaban tersimpan untuk pertanyaan ${id}.` : (r.message || 'Gagal menyimpan jawaban.'), r.success ? 'success' : 'error');
                 await loadAll();
             }, 'Mengirim jawaban...');
         }
@@ -1437,7 +1569,7 @@
             if (isBusy) return;
             await withLoading(async () => {
                 const r = await apiPost('markComplete', { ticketId: id });
-                toast(r.success ? `Tiket ${id} ditandai selesai.` : (r.message || 'Gagal menutup tiket.'), r.success ? 'success' : 'error');
+                toast(r.success ? `Pertanyaan ${id} ditandai selesai.` : (r.message || 'Gagal menutup pertanyaan.'), r.success ? 'success' : 'error');
                 await loadAll();
             }, 'Menandai selesai...');
         }
@@ -1452,114 +1584,33 @@
                     items.push({ ticketId: ta.id.replace('jawab-', ''), jawaban: ta.value.trim() });
                 }
             });
-            if (!items.length) {
-                toast('Pilih tiket dan isi jawaban dulu.', 'warn');
-                return;
-            }
+            if (!items.length) { toast('Pilih pertanyaan dan isi jawaban dulu.', 'warn'); return; }
             await withLoading(async () => {
-                const r = await apiPost('answerTicketsBulk', { items, answeredByEmail: me.email });
-                const okCount = (r.results || []).filter(x => x.success).length;
-                toast(r.success ? `${okCount} jawaban terkirim.` : (r.message || 'Gagal mengirim jawaban massal.'), r.success ? 'success' : 'error');
+                const r = await apiPost('bulkAnswer', { items, answeredByEmail: me.email });
+                $('bulkMsg').textContent = r.message || '';
+                toast(r.success ? `${items.length} jawaban terkirim.` : (r.message || 'Gagal kirim massal.'), r.success ? 'success' : 'error');
+                adminCache = [];
                 await loadAll();
             }, 'Mengirim jawaban massal...');
         }
 
         async function loadAll() {
-            await loadMyTickets();
-            await loadForum();
-            await loadNotif();
-            if (role === 'ADMIN') await loadAdmin();
+            await Promise.all([
+                loadMyTickets(),
+                loadForum(),
+                loadNotif(),
+                ...(role === 'ADMIN' ? [loadAdmin()] : [])
+            ]);
         }
 
-        async function restoreSession() {
-            if (!loadSession()) return false;
-            $('loginCard').classList.add('hidden');
-            $('app').classList.remove('hidden');
-            $('profileBox').textContent = `${me.nama || ''} | ${role}`;
-            fillProfile();
-            $('btnAdminView').classList.toggle('hidden', role !== 'ADMIN');
-            switchView(role === 'ADMIN' ? 'admin' : 'user');
-            await loadFaq();
-            await loadAll();
-            return true;
-        }
-
-        async function login() {
-            await withLoading(async () => {
-                const email = $('email').value.trim();
-                if (!email) {
-                    toast('Email wajib diisi.', 'warn');
-                    return;
-                }
-                const r = await apiGet('login', { email });
-                if (!r.success) {
-                    toast(r.message || 'Login gagal.', 'error');
-                    return;
-                }
-                me = r.data;
-                role = r.role;
-                saveSession();
-                await apiPost('logLogin', { email: me.email, role, name: me.nama || '' });
-                $('loginCard').classList.add('hidden');
-                $('app').classList.remove('hidden');
-                $('profileBox').textContent = `${me.nama || ''} | ${role}`;
-                fillProfile();
-                $('btnAdminView').classList.toggle('hidden', role !== 'ADMIN');
-                switchView(role === 'ADMIN' ? 'admin' : 'user');
-                await loadFaq();
-                await loadAll();
-                toast('Login berhasil.', 'success');
-            }, 'Sedang login...');
-        }
-
-        function fillProfile() {
-            if (!me) return;
-            $('nama').value = me.nama || '';
-            $('hp').value = me.hp || '';
-            $('sobat').value = me.SOBAT_ID || '';
-            $('userEmail').value = me.email || '';
-        }
-
-        (async function init() {
-            if (!(await restoreSession())) document.getElementById('app').classList.add('hidden');
-        })();
-
-        function clearForm() {
-            $('topik').value = 'Fasih';
-            $('pertanyaan').value = '';
-            if ($('lampiran')) $('lampiran').value = '';
-            if ($('lampiranPreview')) $('lampiranPreview').style.display = 'none';
-            if ($('lampiranName')) $('lampiranName').textContent = '';
-        }
-
-        function toBase64(file) {
-            return new Promise((resolve, reject) => {
-                const r = new FileReader();
-                r.onload = () => resolve(String(r.result || '').split(',')[1] || '');
-                r.onerror = reject;
-                r.readAsDataURL(file);
-            });
-        }
-
-        $('lampiran')?.addEventListener('change', () => {
-            const f = $('lampiran')?.files?.[0];
-            if (!f) {
-                $('lampiranPreview').style.display = 'none';
-                return;
+        // ── Boot ─────────────────────────────────────────────────────
+        (async () => {
+            const restored = await restoreSession();
+            if (!restored) {
+                $('loginCard').classList.remove('hidden');
             }
-            $('lampiranPreview').style.display = 'flex';
-            $('lampiranName').textContent = f.name;
-            const reader = new FileReader();
-            reader.onload = () => $('lampiranImg').src = reader.result;
-            reader.readAsDataURL(f);
-        });
+        })();
     </script>
-
-    <footer
-        style="margin-top:24px;padding:14px 0;text-align:center;color:#7a6456;font-size:12px;border-top:1px solid #ead8c7;">
-        &copy; <span id="footerYear"></span> BPS Kota Denpasar &mdash; Ruang Kita &middot; Sensus Ekonomi 2026
-    </footer>
-    <script>document.getElementById('footerYear').textContent = new Date().getFullYear();</script>
 </body>
 
 </html>
