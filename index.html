@@ -590,19 +590,17 @@
 
         .faq-chevron {
             flex-shrink: 0;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--pri);
-            color: #fff;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform .2s
+            color: var(--pri);
+            transition: transform .25s ease
         }
 
         .faq-item.open .faq-chevron {
-            transform: rotate(45deg)
+            transform: rotate(180deg)
         }
 
         .faq-cta {
@@ -791,13 +789,13 @@
 
         .summary-grid {
             display: grid;
-            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 10px
         }
 
         @media(max-width:900px) {
             .summary-grid {
-                grid-template-columns: repeat(2, 1fr)
+                grid-template-columns: repeat(3, 1fr)
             }
         }
 
@@ -1664,7 +1662,7 @@
           ${x.topik || x.kategori ? `<span class="badge ${badgeClass(x.topik || x.kategori)}" style="flex-shrink:0;margin-bottom:0">${escapeHtml(x.topik || x.kategori)}</span>` : ''}
           <span>${escapeHtml(x.q || x.question || '')}</span>
         </div>
-        <span class="faq-chevron">+</span>
+        <span class="faq-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
       <div class="faq-a">${escapeHtml(x.a || x.answer || 'Jawaban belum tersedia.')}</div>
     </div>
@@ -1674,8 +1672,6 @@
             const el = document.getElementById('faq-' + i);
             if (!el) return;
             el.classList.toggle('open');
-            const icon = el.querySelector('.faq-chevron');
-            if (icon) icon.textContent = el.classList.contains('open') ? '×' : '+';
         }
         function setFaqFilter(val, el) {
             faqFilter = val;
@@ -1827,13 +1823,11 @@
         function renderAdminSummary() {
             const total = adminData.length;
             const baru = adminData.filter(x => badgeStatus(x.status).txt === 'Baru Masuk').length;
-            const proses = adminData.filter(x => badgeStatus(x.status).txt === 'Sedang Diproses').length;
             const jawab = adminData.filter(x => badgeStatus(x.status).txt === 'Sudah Dibalas').length;
             const done = adminData.filter(x => badgeStatus(x.status).txt === 'Selesai').length;
             $('adminSummaryGrid').innerHTML = [
                 `<div class="summary"><div class="l">Total Pertanyaan</div><div class="v">${total}</div></div>`,
                 `<div class="summary"><div class="l">Baru Masuk</div><div class="v" style="color:#a04f12">${baru}</div></div>`,
-                `<div class="summary"><div class="l">Sedang Diproses</div><div class="v" style="color:#0369a1">${proses}</div></div>`,
                 `<div class="summary"><div class="l">Dibalas & Selesai</div><div class="v" style="color:#1f7a46">${jawab + done}</div></div>`
             ].join('');
         }
@@ -1844,7 +1838,7 @@
             const sort = $('sortAdmin')?.value || 'newest';
             let filtered = adminData.filter(t => {
                 const s = [t.nama, t.email, t.hp, t.SOBAT_ID, t.topik, t.pertanyaan, t.kategori_gemini].join(' ').toLowerCase();
-                const stKey = badgeStatus(t.status).txt === 'Baru Masuk' ? 'baru' : badgeStatus(t.status).txt === 'Sedang Diproses' ? 'proses' : badgeStatus(t.status).txt === 'Sudah Dibalas' ? 'terjawab' : 'selesai';
+                const stKey = badgeStatus(t.status).txt === 'Baru Masuk' ? 'baru' : badgeStatus(t.status).txt === 'Sudah Dibalas' ? 'terjawab' : 'selesai';
                 return (!q || s.includes(q)) && (!topik || String(t.topik || '') === topik) && (!status || stKey === status);
             });
             filtered.sort((a, b) => sort === 'oldest' ? new Date(a.timestamp) - new Date(b.timestamp) : new Date(b.timestamp) - new Date(a.timestamp));
