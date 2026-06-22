@@ -577,11 +577,13 @@
         .faq-a {
             display: none;
             padding: 12px 15px;
-            line-height: 1.65;
+            line-height: 1.7;
             border-top: 1px solid var(--line);
             font-size: 14px;
             color: var(--text);
-            background: #fff
+            background: #fff;
+            white-space: pre-wrap;
+            word-break: break-word
         }
 
         .faq-item.open .faq-a {
@@ -635,6 +637,28 @@
             gap: 8px;
             margin-bottom: 8px;
             flex-wrap: wrap
+        }
+
+        /* ── FORMATTED ANSWER ────────────────────── */
+        .fmt-answer {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text);
+            word-break: break-word
+        }
+
+        .fmt-answer .fmt-sep {
+            border: none;
+            border-top: 1px solid var(--line);
+            margin: 8px 0
+        }
+
+        .fmt-answer .fmt-bold {
+            font-weight: 700
+        }
+
+        .fmt-answer p {
+            margin: 0 0 4px
         }
 
         /* ── SKELETON / LOADING ──────────────────── */
@@ -1577,7 +1601,6 @@
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             const tab = $(TAB_MAP[id]); if (tab) tab.classList.add('active');
             if (id === 'notif') { $('notifBadge').classList.add('hidden'); $('notifBadge').textContent = '0'; }
-            // Scroll tab into view on mobile
             if (tab) tab.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
         }
 
@@ -1638,6 +1661,21 @@
             setTimeout(() => el.remove(), 3600);
         }
 
+        /* ── formatJawaban: render teks jawaban jadi HTML rapi ── */
+        function formatJawaban(raw) {
+            if (!raw) return '<span style="color:var(--muted)">Belum ada jawaban</span>';
+            // Escape HTML terlebih dahulu agar aman
+            let s = escapeHtml(raw);
+            // Garis pemisah: baris yang hanya berisi = atau - (minimal 3)
+            s = s.replace(/^([=\-]{3,})\s*$/gm, '<hr class="fmt-sep">');
+            // Bold: *teks* atau **teks**
+            s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            s = s.replace(/\*([^*\n]+?)\*/g, '<strong>$1</strong>');
+            // Baris baru jadi <br>
+            s = s.replace(/\n/g, '<br>');
+            return `<div class="fmt-answer">${s}</div>`;
+        }
+
         /* ── FAQ ── */
         async function loadFaq() {
             $('faqList').innerHTML = '<div class="skeleton skeleton-faq"></div><div class="skeleton skeleton-faq"></div><div class="skeleton skeleton-faq"></div>';
@@ -1657,7 +1695,7 @@
         <span style="flex:1;font-size:14px;font-weight:700;line-height:1.4">${escapeHtml(x.q || x.question || '')}</span>
         <span class="faq-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
-      <div class="faq-a">${escapeHtml(x.a || x.answer || 'Jawaban belum tersedia.')}</div>
+      <div class="faq-a">${formatJawaban(x.a || x.answer || '')}</div>
     </div>`;
         }
         function renderFaq() {
@@ -1670,7 +1708,6 @@
                 $('faqList').innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><p>Tidak ada FAQ sesuai pencarian.<br><a href="#" onclick="openModal();return false">Ajukan pertanyaan baru →</a></p></div>`;
                 return;
             }
-            // Jika filter = semua dan tidak ada pencarian: tampilkan per kelompok topik
             if (faqFilter === 'semua' && !q) {
                 const topikOrder = ['Fasih', 'Konsep Lapangan', 'Lainnya'];
                 const grouped = {};
@@ -1679,7 +1716,6 @@
                     if (!grouped[t]) grouped[t] = [];
                     grouped[t].push(x);
                 });
-                // Sort groups by topikOrder, sisa di akhir
                 const keys = [...new Set([...topikOrder.filter(k => grouped[k]), ...Object.keys(grouped).filter(k => !topikOrder.includes(k))])];
                 let globalIdx = 0;
                 $('faqList').innerHTML = keys.map(k => {
@@ -1695,7 +1731,6 @@
                     </div>`;
                 }).join('');
             } else {
-                // Filter aktif atau ada search: daftar flat dengan badge topik
                 $('faqList').innerHTML = list.map((x, i) => `
     <div class="faq-item" id="faq-${i}">
       <div class="faq-q" onclick="toggleFaq(${i})">
@@ -1705,7 +1740,7 @@
         </div>
         <span class="faq-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
       </div>
-      <div class="faq-a">${escapeHtml(x.a || x.answer || 'Jawaban belum tersedia.')}</div>
+      <div class="faq-a">${formatJawaban(x.a || x.answer || '')}</div>
     </div>`).join('');
             }
         }
@@ -1828,15 +1863,14 @@
     <div class="admin-btn-row">
       <button class="btn-ok" onclick="answerOne('${t.id}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Balas</button>
       <button class="btn-neutral" onclick="finishOne('${t.id}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Tutup</button>
-    </div></div>`: '';
-            return `<div class="item"><div class="item-head"><div><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(t.topik)}">${escapeHtml(t.topik || '-')}</span>${lp}</div><div class="item-title" style="margin-top:4px">${escapeHtml(t.nama || '')}</div><div class="item-meta">${escapeHtml(t.email || '')} • ${escapeHtml(t.hp || '')} • SOBAT: ${escapeHtml(t.SOBAT_ID || '-')}</div></div><div class="item-label">${escapeHtml(new Date(t.timestamp || Date.now()).toLocaleString('id-ID'))}</div></div><div class="item-body"><b>Pertanyaan:</b> ${escapeHtml(t.pertanyaan || '')}</div>${img}<div class="item-body" style="margin-top:6px"><b>Jawaban:</b> ${t.jawaban ? escapeHtml(t.jawaban) : '<span style="color:var(--muted)">Belum ada jawaban</span>'}</div>${adminBlock}</div>`;
+    </div></div>` : '';
+            return `<div class="item"><div class="item-head"><div><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(t.topik)}">${escapeHtml(t.topik || '-')}</span>${lp}</div><div class="item-title" style="margin-top:4px">${escapeHtml(t.nama || '')}</div><div class="item-meta">${escapeHtml(t.email || '')} • ${escapeHtml(t.hp || '')} • SOBAT: ${escapeHtml(t.SOBAT_ID || '-')}</div></div><div class="item-label">${escapeHtml(new Date(t.timestamp || Date.now()).toLocaleString('id-ID'))}</div></div><div class="item-body"><b>Pertanyaan:</b> ${escapeHtml(t.pertanyaan || '')}</div>${img}<div class="item-body" style="margin-top:6px"><b>Jawaban:</b> ${formatJawaban(t.jawaban)}</div>${adminBlock}</div>`;
         }
 
         /* ── Load data ── */
         async function loadMyTickets() {
             const r = await apiGet('tickets', { email: me.email });
             const data = r.data || [];
-            // Update notif badge
             const unread = data.filter(x => badgeStatus(x.status).txt === 'Sudah Dibalas').length;
             if (unread > 0) { $('notifBadge').textContent = unread; $('notifBadge').classList.remove('hidden'); }
             $('myTickets').innerHTML = data.length ? data.map(x => itemTicket(x)).join('') : `<div class="empty"><div class="empty-icon">📝</div><p>Belum ada pertanyaan yang dikirim.<br><a href="#" onclick="openModal();return false">Buat pertanyaan pertama Anda →</a></p></div>`;
