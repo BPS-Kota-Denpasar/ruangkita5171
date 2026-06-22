@@ -1022,11 +1022,18 @@
             margin-top: 10px;
             color: var(--pri);
             font-size: 13px;
-            text-decoration: none
+            font-weight: 600;
+            text-decoration: none;
+            padding: 8px 14px;
+            background: #fff7ed;
+            border: 1px solid #ead8c7;
+            border-radius: 10px;
+            width: fit-content
         }
 
         .lb-fallback:hover {
-            text-decoration: underline
+            background: #f7e8da;
+            text-decoration: none
         }
 
         /* ── LIGHTBOX ────────────────────────────── */
@@ -1712,7 +1719,7 @@
             document.body.style.overflow = 'hidden';
         }
         function closeLb(e) {
-            if (e && e.target && e.target.id === 'lbImg') return; // klik pada gambar tidak menutup
+            if (e && e.target && e.target.id === 'lbImg') return;
             const lb = $('lbOverlay');
             if (!lb) return;
             lb.classList.remove('show');
@@ -1764,7 +1771,7 @@
             setTimeout(() => el.remove(), 3600);
         }
 
-        /* ── formatJawaban: render teks jawaban jadi HTML rapi ── */
+        /* ── formatJawaban ── */
         function formatJawaban(raw) {
             if (!raw) return '<span style="color:var(--muted)">Belum ada jawaban</span>';
             let s = escapeHtml(raw);
@@ -1775,16 +1782,35 @@
             return `<div class="fmt-answer">${s}</div>`;
         }
 
+        /* ── Konversi URL Google Drive ke URL gambar langsung ── */
+        function driveImgUrl(url) {
+            if (!url) return '';
+            // Format: https://drive.google.com/file/d/FILE_ID/view?...
+            let m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (m) return 'https://drive.google.com/uc?export=view&id=' + m[1];
+            // Format: https://drive.google.com/open?id=FILE_ID
+            m = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            if (m) return 'https://drive.google.com/uc?export=view&id=' + m[1];
+            // Format: https://lh3.googleusercontent.com/... atau sudah uc?export
+            if (url.includes('googleusercontent.com') || url.includes('export=view')) return url;
+            // Fallback: kembalikan aslinya
+            return url;
+        }
+
         /* ── Lampiran HTML: thumbnail + lightbox ── */
         function lampiranHtml(url) {
             if (!url) return '';
-            const safe = escapeHtml(url);
+            const imgSrc = driveImgUrl(url);
+            const safeImg = escapeHtml(imgSrc);
+            const safeOrig = escapeHtml(url);
             return `<div style="margin-top:10px">
-                <img class="lb-thumb" src="${safe}" alt="Lampiran"
-                    onclick="openLb('${safe}')"
-                    onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
-                <a class="lb-fallback" href="${safe}" target="_blank" rel="noopener" style="display:none">📎 Buka lampiran gambar</a>
-                <div style="margin-top:4px"><a href="${safe}" target="_blank" rel="noopener" style="color:var(--muted);font-size:11px">↗ buka di tab baru</a></div>
+                <img class="lb-thumb" src="${safeImg}" alt="Lampiran"
+                    onclick="openLb('${safeImg}')"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <a class="lb-fallback" href="${safeOrig}" target="_blank" rel="noopener" style="display:none">
+                    📎 Buka Lampiran Gambar
+                </a>
+                <div style="margin-top:4px"><a href="${safeOrig}" target="_blank" rel="noopener" style="color:var(--muted);font-size:11px">↗ buka di tab baru</a></div>
             </div>`;
         }
 
@@ -1984,114 +2010,4 @@
             const r = await apiGet('tickets', { email: me.email });
             const data = r.data || [];
             const unread = data.filter(x => badgeStatus(x.status).txt === 'Sudah Dibalas').length;
-            if (unread > 0) { $('notifBadge').textContent = unread; $('notifBadge').classList.remove('hidden'); }
-            $('myTickets').innerHTML = data.length ? data.map(x => itemTicket(x)).join('') : `<div class="empty"><div class="empty-icon">📝</div><p>Belum ada pertanyaan yang dikirim.<br><a href="#" onclick="openModal();return false">Buat pertanyaan pertama Anda →</a></p></div>`;
-        }
-        async function loadForum() {
-            const r = await apiGet('forum'); const g = r.data || {}; const keys = Object.keys(g);
-            $('forumList').innerHTML = keys.length ? keys.map(k => `<div class="item"><div class="item-head"><div><div class="item-title">${escapeHtml(k)}</div><div class="muted" style="margin-top:3px">Kumpulan pertanyaan dengan tema serupa.</div></div></div>${g[k].map(x => itemTicket(x)).join('')}</div>`).join('') : `<div class="empty"><div class="empty-icon">💬</div><p>Belum ada data forum.</p></div>`;
-        }
-        async function loadNotif() {
-            const r = await apiGet('notif', { email: me.email }); const arr = r.data || [];
-            $('notifList').innerHTML = arr.length ? arr.map(x => {
-                const st = badgeStatus(x.status || 'open');
-                return `<div class="item"><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(x.topik)}">${escapeHtml(x.topik || '-')}</span></div><div class="item-body">Pertanyaan Anda tentang topik <b>${escapeHtml(x.topik || '-')}</b> — status: ${st.txt.toLowerCase()}.</div>${x.lampiranUrl ? lampiranHtml(x.lampiranUrl) : ''}</div>`;
-            }).join('') : `<div class="empty"><div class="empty-icon">🔔</div><p>Belum ada pemberitahuan.</p></div>`;
-        }
-        function flattenForum(grouped) {
-            const arr = []; Object.keys(grouped || {}).forEach(k => (grouped[k] || []).forEach(t => arr.push(t))); return arr;
-        }
-        async function loadAdmin() {
-            const r = await apiGet('adminTickets');
-            adminData = flattenForum(r.data || {}); adminCache = [];
-            renderAdminSummary(); renderAdminList(); renderAdminForum(r.data || {});
-        }
-        function renderAdminSummary() {
-            const total = adminData.length;
-            const baru = adminData.filter(x => badgeStatus(x.status).txt === 'Baru Masuk').length;
-            const jawab = adminData.filter(x => badgeStatus(x.status).txt === 'Sudah Dibalas').length;
-            const done = adminData.filter(x => badgeStatus(x.status).txt === 'Selesai').length;
-            $('adminSummaryGrid').innerHTML = [
-                `<div class="summary"><div class="l">Total Pertanyaan</div><div class="v">${total}</div></div>`,
-                `<div class="summary"><div class="l">Baru Masuk</div><div class="v" style="color:#a04f12">${baru}</div></div>`,
-                `<div class="summary"><div class="l">Dibalas & Selesai</div><div class="v" style="color:#1f7a46">${jawab + done}</div></div>`
-            ].join('');
-        }
-        function renderAdminList() {
-            const q = ($('searchAdmin')?.value || '').toLowerCase().trim();
-            const topik = $('filterTopik')?.value || '';
-            const status = $('filterStatus')?.value || '';
-            const sort = $('sortAdmin')?.value || 'newest';
-            let filtered = adminData.filter(t => {
-                const s = [t.nama, t.email, t.hp, t.SOBAT_ID, t.topik, t.pertanyaan, t.kategori_gemini].join(' ').toLowerCase();
-                const stKey = badgeStatus(t.status).txt === 'Baru Masuk' ? 'baru' : badgeStatus(t.status).txt === 'Sudah Dibalas' ? 'terjawab' : 'selesai';
-                return (!q || s.includes(q)) && (!topik || String(t.topik || '') === topik) && (!status || stKey === status);
-            });
-            filtered.sort((a, b) => sort === 'oldest' ? new Date(a.timestamp) - new Date(b.timestamp) : new Date(b.timestamp) - new Date(a.timestamp));
-            $('adminSummary').textContent = `Menampilkan ${filtered.length} dari ${adminData.length} pertanyaan`;
-            $('adminList').innerHTML = filtered.length ? filtered.map(t => itemTicket(t, true)).join('') : `<div class="empty"><div class="empty-icon">🔍</div><p>Tidak ada pertanyaan sesuai filter.</p></div>`;
-        }
-        function renderAdminForum(grouped) {
-            $('adminForumList').innerHTML = Object.keys(grouped || {}).length ? Object.keys(grouped).map(k => `<div class="item"><div class="item-head"><div><div class="item-title">${escapeHtml(k)}</div><div class="muted">Pertanyaan dengan tema serupa.</div></div></div>${grouped[k].map(x => itemTicket(x)).join('')}</div>`).join('') : `<div class="empty"><div class="empty-icon">📊</div><p>Belum ada data forum admin.</p></div>`;
-        }
-        function toggleSelect(id, checked) {
-            if (checked) { if (!adminCache.find(x => x.id === id)) adminCache.push({ id }); }
-            else { adminCache = adminCache.filter(x => x.id !== id); }
-        }
-        function selectAllAdmin(state) {
-            document.querySelectorAll('#adminList input[type="checkbox"]').forEach(cb => {
-                cb.checked = state; const card = cb.closest('.item'); if (!card) return;
-                const ta = card.querySelector('textarea[id^="jawab-"]'); const ticketId = ta ? ta.id.replace('jawab-', '') : null;
-                if (!ticketId) return;
-                if (state && !adminCache.find(x => x.id === ticketId)) adminCache.push({ id: ticketId });
-                else if (!state) adminCache = adminCache.filter(x => x.id !== ticketId);
-            });
-        }
-        async function answerOne(id) {
-            if (isBusy) return; const el = document.getElementById('jawab-' + id); const j = el ? el.value.trim() : '';
-            if (!j) { toast('Isi jawaban terlebih dahulu.', 'warn'); return; }
-            await withLoading(async () => {
-                const r = await apiPost('answerTicket', { ticketId: id, jawaban: j, answeredByEmail: me.email });
-                toast(r.success ? `Jawaban terkirim untuk pertanyaan ${id}.` : (r.message || 'Gagal menyimpan jawaban.'), r.success ? 'success' : 'error');
-                await loadAll();
-            }, 'Mengirim jawaban...');
-        }
-        async function finishOne(id) {
-            if (isBusy) return;
-            await withLoading(async () => {
-                const r = await apiPost('markComplete', { ticketId: id });
-                toast(r.success ? `Pertanyaan ${id} ditandai selesai.` : (r.message || 'Gagal menutup pertanyaan.'), r.success ? 'success' : 'error');
-                await loadAll();
-            }, 'Menandai selesai...');
-        }
-        async function bulkAnswerSelected() {
-            if (isBusy) return;
-            const items = [];
-            document.querySelectorAll('#adminList .item').forEach(card => {
-                const chk = card.querySelector('input[type="checkbox"]');
-                const ta = card.querySelector('textarea[id^="jawab-"]');
-                if (chk && chk.checked && ta && ta.value.trim()) items.push({ ticketId: ta.id.replace('jawab-', ''), jawaban: ta.value.trim() });
-            });
-            if (!items.length) { toast('Pilih pertanyaan dan isi jawaban dulu.', 'warn'); return; }
-            await withLoading(async () => {
-                const r = await apiPost('bulkAnswer', { items, answeredByEmail: me.email });
-                $('bulkMsg').textContent = r.message || '';
-                toast(r.success ? `${items.length} jawaban berhasil terkirim.` : (r.message || 'Gagal kirim massal.'), r.success ? 'success' : 'error');
-                adminCache = []; await loadAll();
-            }, 'Mengirim jawaban massal...');
-        }
-        async function loadAll() {
-            const tasks = [loadMyTickets(), loadForum(), loadNotif()];
-            if (role === 'ADMIN') tasks.push(loadAdmin());
-            await Promise.all(tasks);
-        }
-
-        /* ── Boot ── */
-        (async () => {
-            const restored = await restoreSession();
-            if (!restored) $('loginCard').classList.remove('hidden');
-        })();
-    </script>
-</body>
-
-</html>
+            if (unread > 0) { $('notifBadge')
