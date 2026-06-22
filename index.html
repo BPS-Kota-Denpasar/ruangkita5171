@@ -999,6 +999,87 @@
             object-fit: cover
         }
 
+        /* ── THUMBNAIL LAMPIRAN ──────────────────── */
+        .lb-thumb {
+            display: block;
+            margin-top: 10px;
+            cursor: zoom-in;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            max-width: 280px;
+            max-height: 200px;
+            object-fit: cover;
+            transition: opacity .15s, box-shadow .15s
+        }
+
+        .lb-thumb:hover {
+            opacity: .88;
+            box-shadow: 0 4px 16px rgba(156,84,32,.2)
+        }
+
+        .lb-fallback {
+            display: block;
+            margin-top: 10px;
+            color: var(--pri);
+            font-size: 13px;
+            text-decoration: none
+        }
+
+        .lb-fallback:hover {
+            text-decoration: underline
+        }
+
+        /* ── LIGHTBOX ────────────────────────────── */
+        #lbOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.82);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            cursor: zoom-out;
+            padding: 16px
+        }
+
+        #lbOverlay.show {
+            display: flex
+        }
+
+        #lbOverlay img {
+            max-width: min(94vw, 900px);
+            max-height: 90vh;
+            border-radius: 10px;
+            object-fit: contain;
+            box-shadow: 0 8px 40px rgba(0,0,0,.5);
+            cursor: default
+        }
+
+        #lbClose {
+            position: fixed;
+            top: 16px;
+            right: 18px;
+            background: rgba(255,255,255,.18);
+            border: none;
+            color: #fff;
+            font-size: 22px;
+            font-weight: 900;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            transition: background .15s
+        }
+
+        #lbClose:hover {
+            background: rgba(255,255,255,.32)
+        }
+
         /* ── TOAST ───────────────────────────────── */
         .toast-wrap {
             position: fixed;
@@ -1112,6 +1193,12 @@
 </head>
 
 <body>
+
+    <!-- Lightbox overlay -->
+    <div id="lbOverlay" onclick="closeLb(event)" role="dialog" aria-modal="true" aria-label="Pratinjau gambar">
+        <button id="lbClose" onclick="closeLb()" aria-label="Tutup">✕</button>
+        <img id="lbImg" src="" alt="Lampiran penuh">
+    </div>
 
     <!-- Loading overlay -->
     <div id="loadingOverlay" class="overlay" aria-live="polite" aria-busy="true">
@@ -1614,7 +1701,23 @@
             document.body.style.overflow = '';
         }
         $('modalPertanyaan').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeLb(); } });
+
+        /* ── Lightbox ── */
+        function openLb(url) {
+            const lb = $('lbOverlay'); const img = $('lbImg');
+            if (!lb || !img || !url) return;
+            img.src = url;
+            lb.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeLb(e) {
+            if (e && e.target && e.target.id === 'lbImg') return; // klik pada gambar tidak menutup
+            const lb = $('lbOverlay');
+            if (!lb) return;
+            lb.classList.remove('show');
+            document.body.style.overflow = '';
+        }
 
         /* ── Role filter ── */
         function applyRoleFilter() {
@@ -1664,16 +1767,25 @@
         /* ── formatJawaban: render teks jawaban jadi HTML rapi ── */
         function formatJawaban(raw) {
             if (!raw) return '<span style="color:var(--muted)">Belum ada jawaban</span>';
-            // Escape HTML terlebih dahulu agar aman
             let s = escapeHtml(raw);
-            // Garis pemisah: baris yang hanya berisi = atau - (minimal 3)
             s = s.replace(/^([=\-]{3,})\s*$/gm, '<hr class="fmt-sep">');
-            // Bold: *teks* atau **teks**
             s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
             s = s.replace(/\*([^*\n]+?)\*/g, '<strong>$1</strong>');
-            // Baris baru jadi <br>
             s = s.replace(/\n/g, '<br>');
             return `<div class="fmt-answer">${s}</div>`;
+        }
+
+        /* ── Lampiran HTML: thumbnail + lightbox ── */
+        function lampiranHtml(url) {
+            if (!url) return '';
+            const safe = escapeHtml(url);
+            return `<div style="margin-top:10px">
+                <img class="lb-thumb" src="${safe}" alt="Lampiran"
+                    onclick="openLb('${safe}')"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+                <a class="lb-fallback" href="${safe}" target="_blank" rel="noopener" style="display:none">📎 Buka lampiran gambar</a>
+                <div style="margin-top:4px"><a href="${safe}" target="_blank" rel="noopener" style="color:var(--muted);font-size:11px">↗ buka di tab baru</a></div>
+            </div>`;
         }
 
         /* ── FAQ ── */
@@ -1853,7 +1965,7 @@
         /* ── Item render ── */
         function itemTicket(t, admin = false) {
             const checked = adminCache.some(x => x.id === t.id);
-            const img = t.lampiranUrl ? `<div style="margin-top:10px"><a href="${t.lampiranUrl}" target="_blank" rel="noopener" style="color:var(--pri);font-size:13px">📎 Buka lampiran gambar</a></div>` : '';
+            const img = lampiranHtml(t.lampiranUrl);
             const st = badgeStatus(t.status || 'open');
             const lp = t.lampiranStatus ? `<span class="badge ${t.lampiranStatus === 'tersimpan' ? 'b-replied' : 'b-new'}">${t.lampiranStatus === 'tersimpan' ? '📎 Lampiran' : 'Tanpa lampiran'}</span>` : '';
             const adminBlock = admin ? `<div class="admin-action-box">
@@ -1883,7 +1995,7 @@
             const r = await apiGet('notif', { email: me.email }); const arr = r.data || [];
             $('notifList').innerHTML = arr.length ? arr.map(x => {
                 const st = badgeStatus(x.status || 'open');
-                return `<div class="item"><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(x.topik)}">${escapeHtml(x.topik || '-')}</span></div><div class="item-body">Pertanyaan Anda tentang topik <b>${escapeHtml(x.topik || '-')}</b> — status: ${st.txt.toLowerCase()}.</div>${x.lampiranUrl ? `<div style="margin-top:6px"><a href="${x.lampiranUrl}" target="_blank" rel="noopener" style="color:var(--pri);font-size:13px">📎 Buka lampiran</a></div>` : ''}</div>`;
+                return `<div class="item"><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(x.topik)}">${escapeHtml(x.topik || '-')}</span></div><div class="item-body">Pertanyaan Anda tentang topik <b>${escapeHtml(x.topik || '-')}</b> — status: ${st.txt.toLowerCase()}.</div>${x.lampiranUrl ? lampiranHtml(x.lampiranUrl) : ''}</div>`;
             }).join('') : `<div class="empty"><div class="empty-icon">🔔</div><p>Belum ada pemberitahuan.</p></div>`;
         }
         function flattenForum(grouped) {
