@@ -8,15 +8,15 @@
 
 ## 📖 Tentang Aplikasi
 
-**Ruang Kita** adalah aplikasi berbasis web yang menjadi sarana komunikasi antara **Mitra Petugas Sensus Ekonomi 2026** dengan **Tim Admin BPS Kota Denpasar**. Aplikasi ini memungkinkan petugas lapangan mengirimkan pertanyaan atau kendala secara terstruktur dalam bentuk **tiket**, yang kemudian dapat dijawab oleh admin secara individual maupun massal.
+**Ruang Kita** adalah aplikasi berbasis web yang menjadi sarana komunikasi antara **Mitra Petugas Sensus Ekonomi 2026** dengan **Tim Admin BPS Kota Denpasar**. Aplikasi ini memungkinkan petugas lapangan mengirimkan pertanyaan atau kendala secara terstruktur, yang kemudian dapat dijawab oleh admin secara individual maupun massal.
 
 ### Fitur Utama
 - 📚 **FAQ** — Pertanyaan umum yang dikelompokkan per topik, lengkap dengan pencarian dan filter; tampil sebagai tab utama saat login
 - 📩 **Buat Pertanyaan** — Kirim pertanyaan baru via tombol **Buat Pertanyaan** (FAB) di tab bar atau pojok kanan bawah layar (mobile); dilengkapi lampiran gambar opsional
-- 🕐 **Riwayat** — Pantau semua tiket yang pernah dikirim beserta status terkininya
+- 🕐 **Riwayat** — Pantau semua pertanyaan yang pernah dikirim beserta status terkininya
 - 💬 **Forum Diskusi** — Lihat kumpulan pertanyaan dari seluruh mitra yang dikelompokkan otomatis berdasarkan tema (AI-powered)
-- 🔔 **Pemberitahuan** — Ringkasan status terbaru tiket Anda; badge merah muncul jika ada jawaban baru
-- 🛠️ **Panel Admin** — Kelola, filter, balas, dan tutup tiket secara individual maupun massal; dapat diakses via **Role Filter** setelah login sebagai admin
+- 🔔 **Pemberitahuan** — Ringkasan status terbaru pertanyaan Anda; badge merah muncul jika ada jawaban baru
+- 🛠️ **Panel Admin** — Kelola, filter, balas, dan tutup pertanyaan secara individual maupun massal; dapat diakses via **Role Filter** setelah login sebagai admin
 
 ---
 
@@ -61,21 +61,21 @@
 5. Tulis **pertanyaan** Anda (maks. 2.000 karakter).
 6. Klik **Kirim Pertanyaan** — atau klik **Batal** untuk menutup formulir tanpa mengirim.
 
-> ✅ Setelah terkirim, tiket langsung berstatus **Baru Masuk** dan muncul di tab Riwayat.
+> ✅ Setelah terkirim, pertanyaan langsung berstatus **Baru Masuk** dan muncul di tab Riwayat.
 
 ---
 
 ### 4. Riwayat
 1. Klik tab **Riwayat** di bar navigasi.
-2. Semua tiket yang pernah Anda kirim ditampilkan lengkap dengan status terkini dan jawaban admin.
+2. Semua pertanyaan yang pernah Anda kirim ditampilkan lengkap dengan status terkini dan jawaban admin.
 
-**Arti Status Tiket:**
+**Arti Status Pertanyaan:**
 
 | Status | Arti |
 |---|---|
-| 🟠 Baru Masuk | Tiket sudah diterima, belum diproses |
+| 🟠 Baru Masuk | Pertanyaan sudah diterima, belum diproses |
 | 🟢 Sudah Dibalas | Admin sudah memberikan jawaban |
-| ⚪ Selesai | Tiket telah ditutup |
+| ⚪ Selesai | Pertanyaan telah ditutup |
 
 ---
 
@@ -88,7 +88,7 @@
 
 ### 6. Pemberitahuan
 1. Klik tab **Pemberitahuan** di bar navigasi.
-2. Ringkasan status tiket Anda ditampilkan di sini.
+2. Ringkasan status pertanyaan Anda ditampilkan di sini.
 3. Jika ada jawaban baru dari admin, badge merah 🔴 muncul di ikon tab Pemberitahuan.
 
 ---
@@ -112,25 +112,25 @@
 
 #### Ringkasan (Summary)
 Di bagian atas panel, tersedia **3 kartu ringkasan**:
-- **Total Pertanyaan** — jumlah seluruh tiket yang masuk
-- **Baru Masuk** — tiket yang belum diproses
-- **Dibalas & Selesai** — tiket yang sudah ditangani
+- **Total Pertanyaan** — jumlah seluruh pertanyaan yang masuk
+- **Baru Masuk** — pertanyaan yang belum diproses
+- **Dibalas & Selesai** — pertanyaan yang sudah ditangani
 
 #### Filter dan Pencarian
 - **Cari pertanyaan** — cari berdasarkan nama, email, SOBAT ID, atau isi pertanyaan.
 - **Filter Status** — saring berdasarkan: Semua / Baru Masuk / Sudah Dibalas / Selesai.
 - **Filter Topik** — saring berdasarkan: Semua / Fasih / Konsep Lapangan / Lainnya.
-- **Urutkan** — tampilkan tiket terbaru atau terlama terlebih dahulu.
+- **Urutkan** — tampilkan pertanyaan terbaru atau terlama terlebih dahulu.
 
-#### Balas Satu Tiket
-1. Temukan tiket yang ingin dijawab.
-2. Isi kolom jawaban di bagian bawah kartu tiket.
+#### Balas Satu Pertanyaan
+1. Temukan pertanyaan yang ingin dijawab.
+2. Isi kolom jawaban di bagian bawah kartu pertanyaan.
 3. Klik **Balas** untuk mengirim jawaban (status → Sudah Dibalas).
-4. Klik **Tutup** jika tiket sudah selesai ditangani (status → Selesai).
+4. Klik **Tutup** jika pertanyaan sudah selesai ditangani (status → Selesai).
 
-#### Balas Banyak Tiket Sekaligus (Bulk)
-1. Centang tiket yang ingin dijawab (atau gunakan **Pilih Semua**).
-2. Isi jawaban di masing-masing kolom tiket yang sudah dicentang.
+#### Balas Banyak Pertanyaan Sekaligus (Bulk)
+1. Centang pertanyaan yang ingin dijawab (atau gunakan **Pilih Semua**).
+2. Isi jawaban di masing-masing kolom pertanyaan yang sudah dicentang.
 3. Klik **Kirim Jawaban Terpilih** untuk mengirim semua jawaban sekaligus.
 4. Gunakan **Batal Pilih** untuk membatalkan semua centang.
 
@@ -203,14 +203,14 @@ ruangkita5171/
 
 - Login menggunakan **email saja** tanpa password — akses terbatas untuk email yang terdaftar di Data Mitra atau Admin.
 - Sesi login disimpan di `localStorage` browser.
-- Data tiket tersimpan di **Google Sheets** yang hanya dapat diakses via Apps Script.
+- Data pertanyaan tersimpan di **Google Sheets** yang hanya dapat diakses via Apps Script.
 - Lampiran gambar disimpan di **Google Drive** dengan izin akses terbatas.
 
 ---
 
 ## 📞 Kontak & Dukungan
 
-Jika mengalami kendala teknis, hubungi Tim IT BPS Kota Denpasar melalui jalur koordinasi resmi atau kirim tiket melalui topik **Lainnya** di aplikasi ini.
+Jika mengalami kendala teknis, hubungi Tim IT BPS Kota Denpasar melalui jalur koordinasi resmi atau kirim pertanyaan melalui topik **Lainnya** di aplikasi ini.
 
 ---
 
