@@ -7,7 +7,6 @@
     <title>Ruang Kita</title>
     <link rel="icon" href="data:,">
     <style>
-        /* ── ROOT ────────────────────────────────── */
         :root {
             --bg: #fffaf4;
             --card: #fff;
@@ -37,7 +36,6 @@
             -webkit-font-smoothing: antialiased
         }
 
-        /* ── LAYOUT ──────────────────────────────── */
         .wrap {
             max-width: 1180px;
             margin: 0 auto;
@@ -65,12 +63,7 @@
             gap: 14px
         }
 
-        .split {
-            display: grid;
-            grid-template-columns: 1.5fr .9fr;
-            gap: 16px
-        }
-
+        .split,
         .admin-layout {
             display: grid;
             grid-template-columns: 1.5fr .95fr;
@@ -115,7 +108,6 @@
             }
         }
 
-        /* ── TYPOGRAPHY ──────────────────────────── */
         h1,
         h2,
         h3,
@@ -139,7 +131,6 @@
             margin-bottom: 12px
         }
 
-        /* ── INPUTS ──────────────────────────────── */
         input,
         select,
         textarea,
@@ -186,7 +177,6 @@
             color: #4a3020
         }
 
-        /* ── BUTTONS ──────────────────────────────── */
         button {
             cursor: pointer;
             border: none;
@@ -248,7 +238,6 @@
             cursor: not-allowed
         }
 
-        /* ── HEADER ──────────────────────────────── */
         .top {
             display: flex;
             justify-content: space-between;
@@ -267,7 +256,6 @@
             backdrop-filter: blur(10px)
         }
 
-        /* ── ROLE FILTER BAR (admin) ─────────────── */
         .role-bar {
             display: none;
             align-items: center;
@@ -295,7 +283,6 @@
             border-radius: 10px
         }
 
-        /* ── LOGOUT BAR ──────────────────────────── */
         .logout-bar {
             display: flex;
             justify-content: flex-end;
@@ -311,7 +298,6 @@
             font-size: 13px
         }
 
-        /* ── TABS ────────────────────────────────── */
         .tabs-row {
             display: flex;
             align-items: center;
@@ -381,7 +367,6 @@
             line-height: 1.4
         }
 
-        /* ── FAB ─────────────────────────────────── */
         .fab {
             display: inline-flex;
             align-items: center;
@@ -405,7 +390,6 @@
             transform: translateY(-1px)
         }
 
-        /* Mobile: fixed FAB */
         .fab-fixed {
             display: none;
             position: fixed;
@@ -428,7 +412,6 @@
             }
         }
 
-        /* ── BADGE ───────────────────────────────── */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -484,7 +467,6 @@
             border-color: #c6e8ff
         }
 
-        /* ── FAQ ─────────────────────────────────── */
         .faq-filters {
             display: flex;
             gap: 6px;
@@ -639,7 +621,6 @@
             flex-wrap: wrap
         }
 
-        /* ── FORMATTED ANSWER ────────────────────── */
         .fmt-answer {
             font-size: 14px;
             line-height: 1.7;
@@ -661,7 +642,6 @@
             margin: 0 0 4px
         }
 
-        /* ── SKELETON / LOADING ──────────────────── */
         .skeleton {
             border-radius: 8px;
             background: linear-gradient(90deg, #f0e4d7 25%, #f7ede4 50%, #f0e4d7 75%);
@@ -683,7 +663,6 @@
             margin-bottom: 9px
         }
 
-        /* ── EMPTY STATE ──────────────────────────── */
         .empty {
             padding: 24px 18px;
             border: 1px dashed #e4d3bf;
@@ -713,7 +692,6 @@
             text-decoration: underline
         }
 
-        /* ── ITEM (pertanyaan card) ───────────────── */
         .item {
             border: 1px solid var(--line);
             border-radius: 14px;
@@ -775,7 +753,6 @@
             min-width: 130px
         }
 
-        /* ── ADMIN PANEL ──────────────────────────── */
         .panel-box {
             background: linear-gradient(180deg, #fff 0%, #fffdf9 100%);
             border: 1px solid var(--line);
@@ -825,12 +802,6 @@
             gap: 10px
         }
 
-        @media(max-width:900px) {
-            .summary-grid {
-                grid-template-columns: repeat(3, 1fr)
-            }
-        }
-
         @media(max-width:480px) {
             .summary-grid {
                 grid-template-columns: 1fr 1fr
@@ -877,16 +848,11 @@
             gap: 6px
         }
 
-        .scroll-x {
-            overflow-x: auto
-        }
-
         .list-grid {
             display: grid;
             gap: 10px
         }
 
-        /* ── MODAL ───────────────────────────────── */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -939,7 +905,6 @@
             background: #ead8c7
         }
 
-        /* ── LOADING OVERLAY ──────────────────────── */
         .overlay {
             position: fixed;
             inset: 0;
@@ -982,7 +947,6 @@
             }
         }
 
-        /* ── PREVIEW ──────────────────────────────── */
         .preview {
             margin-top: 10px;
             display: none;
@@ -999,7 +963,6 @@
             object-fit: cover
         }
 
-        /* ── THUMBNAIL LAMPIRAN ──────────────────── */
         .lb-thumb {
             display: block;
             margin-top: 10px;
@@ -1029,7 +992,6 @@
             text-decoration: underline
         }
 
-        /* ── LIGHTBOX ────────────────────────────── */
         #lbOverlay {
             position: fixed;
             inset: 0;
@@ -1080,7 +1042,6 @@
             background: rgba(255, 255, 255, .32)
         }
 
-        /* ── TOAST ───────────────────────────────── */
         .toast-wrap {
             position: fixed;
             right: 14px;
@@ -1132,7 +1093,6 @@
             color: #b45309
         }
 
-        /* ── MOBILE OVERRIDES ────────────────────── */
         @media(max-width:768px) {
             .searchbar {
                 grid-template-columns: 1fr
@@ -1177,10 +1137,6 @@
                 height: 13px
             }
 
-            .summary-grid {
-                grid-template-columns: 1fr 1fr
-            }
-
             .grid-actions>* {
                 min-width: 0
             }
@@ -1189,29 +1145,125 @@
         .hidden {
             display: none !important
         }
+
+        .thread {
+            display: grid;
+            gap: 10px;
+            margin-top: 10px
+        }
+
+        .msg {
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 12px 13px;
+            background: #fff
+        }
+
+        .msg.user {
+            background: #fffaf4
+        }
+
+        .msg.admin {
+            background: #f7fcff
+        }
+
+        .msg.closed {
+            background: #f4efe9
+        }
+
+        .msg-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 6px
+        }
+
+        .msg-role {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .04em
+        }
+
+        .msg-time {
+            font-size: 11px;
+            color: var(--muted)
+        }
+
+        .msg-text {
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word
+        }
+
+        .reply-box {
+            margin-top: 10px;
+            border: 1px solid #ead8c7;
+            border-radius: 12px;
+            padding: 10px;
+            background: #fffdf9
+        }
+
+        .reply-box textarea {
+            min-height: 90px
+        }
+
+        .ticket-locked {
+            opacity: .88
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        @media(max-width:680px) {
+            .two-col {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .seg-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px
+        }
+
+        .seg {
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid #ead8c7;
+            background: #f1e3d6;
+            color: #5a3d2d;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .seg.active {
+            background: linear-gradient(180deg, var(--pri), var(--pri2));
+            color: #fff;
+            border-color: transparent
+        }
     </style>
 </head>
 
 <body>
-
-    <!-- Lightbox overlay -->
     <div id="lbOverlay" onclick="closeLb(event)" role="dialog" aria-modal="true" aria-label="Pratinjau gambar">
         <button id="lbClose" onclick="closeLb()" aria-label="Tutup">✕</button>
         <img id="lbImg" src="" alt="Lampiran penuh">
     </div>
-
-    <!-- Loading overlay -->
     <div id="loadingOverlay" class="overlay" aria-live="polite" aria-busy="true">
         <div class="overlay-card">
             <div class="spinner"></div>
             <div id="loadingText" class="muted">Memproses...</div>
         </div>
     </div>
-
-    <!-- Toast -->
     <div id="toastWrap" class="toast-wrap"></div>
-
-    <!-- FAB fixed (mobile) -->
     <button class="fab fab-fixed hidden" id="fabFixed" onclick="openModal()" aria-label="Buat Pertanyaan Baru">
         <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -1220,8 +1272,6 @@
         </svg>
         Buat Pertanyaan
     </button>
-
-    <!-- Modal Buat Pertanyaan -->
     <div id="modalPertanyaan" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-box">
             <div class="modal-header">
@@ -1289,11 +1339,7 @@
                     Masuk</b>. Lampiran gambar ikut disimpan ke database.</div>
         </div>
     </div>
-
-    <!-- ════════════ MAIN ════════════ -->
     <div class="wrap">
-
-        <!-- Header -->
         <div class="card top sticky-top" style="padding:14px 18px">
             <div>
                 <h2 style="font-size:18px;font-weight:800">RUANG KITA</h2>
@@ -1302,7 +1348,6 @@
             <div id="profileBox" class="muted" style="font-size:12px;text-align:right"></div>
         </div>
 
-        <!-- Login -->
         <div id="loginCard" class="card">
             <div class="section-title">
                 <div>
@@ -1320,10 +1365,7 @@
             <div id="loginMsg" class="muted" style="margin-top:8px"></div>
         </div>
 
-        <!-- App -->
         <div id="app" class="hidden">
-
-            <!-- Logout bar -->
             <div class="logout-bar sticky-top" style="padding-top:6px;margin-top:-6px">
                 <button id="btnLogout" class="btn-dark" onclick="logout()"
                     style="display:flex;align-items:center;gap:6px">
@@ -1337,7 +1379,6 @@
                 </button>
             </div>
 
-            <!-- Role filter (admin only) -->
             <div id="roleBar" class="role-bar sticky-top" style="padding-top:4px;margin-top:-4px">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2">
                     <circle cx="12" cy="8" r="4" />
@@ -1351,57 +1392,40 @@
                 <span id="roleHint" class="muted" style="font-size:12px"></span>
             </div>
 
-            <!-- Tab bar -->
             <div class="tabs-row sticky-top" style="padding-top:8px;margin-top:-8px">
                 <div class="tabs-scroll" id="mainTabsScroll">
-                    <!-- User tabs -->
-                    <div class="tab active" id="tab-faq" onclick="openTab('faq')">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <div class="tab active" id="tab-faq" onclick="openTab('faq')"><svg class="tab-icon"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
                             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-                        </svg>
-                        FAQ
-                    </div>
-                    <div class="tab" id="tab-user-list" onclick="openTab('user-list')">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        </svg>FAQ</div>
+                    <div class="tab" id="tab-user-list" onclick="openTab('user-list')"><svg class="tab-icon"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <circle cx="12" cy="12" r="10" />
                             <polyline points="12 6 12 12 16 14" />
-                        </svg>
-                        Riwayat
-                    </div>
-                    <div class="tab" id="tab-forum" onclick="openTab('forum')">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        </svg>Riwayat</div>
+                    <div class="tab" id="tab-forum" onclick="openTab('forum')"><svg class="tab-icon" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2.5">
                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                        </svg>
-                        Forum
-                    </div>
-                    <div class="tab" id="tab-notif" onclick="openTab('notif')">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        </svg>Forum</div>
+                    <div class="tab" id="tab-notif" onclick="openTab('notif')"><svg class="tab-icon" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2.5">
                             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                             <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                        </svg>
-                        Pemberitahuan
-                        <span id="notifBadge" class="notif-dot hidden">0</span>
-                    </div>
-                    <!-- Admin tabs (hidden by default) -->
-                    <div class="tab hidden" id="tab-admin-list" onclick="openTab('admin-list')">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        </svg>Pemberitahuan <span id="notifBadge" class="notif-dot hidden">0</span></div>
+                    <div class="tab hidden" id="tab-admin-list" onclick="openTab('admin-list')"><svg class="tab-icon"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <rect x="3" y="3" width="7" height="7" rx="1" />
                             <rect x="14" y="3" width="7" height="7" rx="1" />
                             <rect x="3" y="14" width="7" height="7" rx="1" />
                             <rect x="14" y="14" width="7" height="7" rx="1" />
-                        </svg>
-                        Kelola Pertanyaan
-                    </div>
-                    <div class="tab hidden" id="tab-admin-forum" onclick="openTab('admin-forum')">
-                        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        </svg>Kelola Pertanyaan</div>
+                    <div class="tab hidden" id="tab-admin-forum" onclick="openTab('admin-forum')"><svg class="tab-icon"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <circle cx="12" cy="12" r="3" />
                             <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
-                        </svg>
-                        Forum Admin
-                    </div>
+                        </svg>Forum Admin</div>
                 </div>
-                <!-- FAB inline (tablet/desktop) -->
                 <button class="fab fab-inline hidden" id="fabInline" onclick="openModal()"
                     aria-label="Buat Pertanyaan Baru" style="display:inline-flex;align-items:center;gap:6px">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1414,31 +1438,25 @@
                 </button>
             </div>
 
-            <!-- ── FAQ ── -->
             <div id="faq" class="card">
                 <div class="section-title">
                     <div>
-                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--pri)"
-                                stroke-width="2.5">
+                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px"><svg width="17" height="17"
+                                viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="2.5">
                                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
                                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-                            </svg>
-                            Pertanyaan Umum (FAQ)
-                        </h3>
+                            </svg>Pertanyaan Umum (FAQ)</h3>
                         <div class="muted" style="margin-top:3px">Temukan jawaban sebelum mengajukan pertanyaan baru.
                         </div>
                     </div>
                     <span id="faqCountBadge" class="faq-count">Memuat...</span>
                 </div>
-                <!-- Filter topik -->
                 <div class="faq-filters" id="faqFilters">
                     <div class="faq-pill active" onclick="setFaqFilter('semua',this)">Semua</div>
                     <div class="faq-pill" onclick="setFaqFilter('Fasih',this)">Fasih</div>
                     <div class="faq-pill" onclick="setFaqFilter('Konsep Lapangan',this)">Konsep Lapangan</div>
                     <div class="faq-pill" onclick="setFaqFilter('Lainnya',this)">Lainnya</div>
                 </div>
-                <!-- Search -->
                 <div class="faq-search-wrap">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2.5">
@@ -1448,51 +1466,39 @@
                     <input id="faqSearch" type="search" placeholder="Ketik kata kunci, contoh: cara input, jadwal..."
                         oninput="filterFaq()">
                 </div>
-                <!-- List -->
                 <div id="faqList">
                     <div class="skeleton skeleton-faq"></div>
                     <div class="skeleton skeleton-faq"></div>
                     <div class="skeleton skeleton-faq"></div>
                 </div>
-                <!-- CTA -->
                 <div class="faq-cta">
                     <div class="muted" style="font-size:13px">Tidak menemukan jawaban yang Anda cari?</div>
-                    <button class="faq-cta-btn" onclick="openModal()">
-                        + Buat Pertanyaan Baru
-                    </button>
+                    <button class="faq-cta-btn" onclick="openModal()">+ Buat Pertanyaan Baru</button>
                 </div>
             </div>
 
-            <!-- ── RIWAYAT ── -->
             <div id="user-list" class="card hidden">
                 <div class="section-title">
                     <div>
-                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--pri)"
-                                stroke-width="2.5">
+                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px"><svg width="17" height="17"
+                                viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="2.5">
                                 <circle cx="12" cy="12" r="10" />
                                 <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                            Riwayat Pertanyaan Saya
-                        </h3>
-                        <div class="muted" style="margin-top:3px">Status terbaru: Baru Masuk, Sudah Dibalas, atau
-                            Selesai.</div>
+                            </svg>Riwayat Pertanyaan Saya</h3>
+                        <div class="muted" style="margin-top:3px">Status terbaru: Baru Masuk, Dibalas, atau Selesai.
+                        </div>
                     </div>
                 </div>
                 <div id="myTickets"></div>
             </div>
 
-            <!-- ── FORUM ── -->
             <div id="forum" class="card hidden">
                 <div class="section-title">
                     <div>
-                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--pri)"
-                                stroke-width="2.5">
+                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px"><svg width="17" height="17"
+                                viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="2.5">
                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                            </svg>
-                            Forum Diskusi
-                        </h3>
+                            </svg>Forum Diskusi</h3>
                         <div class="muted" style="margin-top:3px">Pertanyaan dikelompokkan otomatis berdasarkan tema
                             yang mirip.</div>
                     </div>
@@ -1500,43 +1506,37 @@
                 <div id="forumList"></div>
             </div>
 
-            <!-- ── NOTIF ── -->
             <div id="notif" class="card hidden">
                 <div class="section-title">
                     <div>
-                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--pri)"
-                                stroke-width="2.5">
+                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px"><svg width="17" height="17"
+                                viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="2.5">
                                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                                 <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                            </svg>
-                            Pemberitahuan
-                        </h3>
+                            </svg>Pemberitahuan</h3>
                         <div class="muted" style="margin-top:3px">Pembaruan status pertanyaan Anda.</div>
                     </div>
                 </div>
                 <div id="notifList"></div>
             </div>
 
-            <!-- ── ADMIN: KELOLA ── -->
             <div id="admin-list" class="card hidden">
                 <div class="section-title">
                     <div>
-                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--pri)"
-                                stroke-width="2.5">
+                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px"><svg width="17" height="17"
+                                viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="2.5">
                                 <rect x="3" y="3" width="7" height="7" rx="1" />
                                 <rect x="14" y="3" width="7" height="7" rx="1" />
                                 <rect x="3" y="14" width="7" height="7" rx="1" />
                                 <rect x="14" y="14" width="7" height="7" rx="1" />
-                            </svg>
-                            Kelola Pertanyaan
-                        </h3>
+                            </svg>Kelola Pertanyaan</h3>
                         <div class="muted" style="margin-top:3px">Cari, filter, balas satu atau banyak pertanyaan
                             sekaligus.</div>
                     </div>
                 </div>
+
                 <div class="summary-grid" id="adminSummaryGrid"></div>
+
                 <div class="admin-layout" style="margin-top:14px">
                     <div>
                         <div class="panel-box">
@@ -1564,26 +1564,21 @@
                                     </select></div>
                             </div>
                             <div class="toolbar" style="margin-top:10px">
-                                <button class="btn-ok" onclick="selectAllAdmin(true)">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2.5">
+                                <button class="btn-ok" onclick="selectAllAdmin(true)"><svg width="13" height="13"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                         <polyline points="20 6 9 17 4 12" />
-                                    </svg>Pilih Semua
-                                </button>
-                                <button class="btn-neutral" onclick="selectAllAdmin(false)">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2.5">
+                                    </svg>Pilih Semua</button>
+                                <button class="btn-neutral" onclick="selectAllAdmin(false)"><svg width="13" height="13"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                                         <line x1="18" y1="6" x2="6" y2="18" />
                                         <line x1="6" y1="6" x2="18" y2="18" />
-                                    </svg>Batal Pilih
-                                </button>
-                                <button id="bulkBtn" class="btn-primary" onclick="bulkAnswerSelected()">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    </svg>Batal Pilih</button>
+                                <button id="bulkBtn" class="btn-primary" onclick="bulkAnswerSelected()"><svg width="13"
+                                        height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2.5">
                                         <line x1="22" y1="2" x2="11" y2="13" />
                                         <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                                    </svg>Kirim Jawaban Terpilih
-                                </button>
+                                    </svg>Kirim Jawaban Terpilih</button>
                             </div>
                             <div id="adminSummary" class="muted" style="margin-top:10px;font-size:12px"></div>
                             <div id="adminList" class="list-grid" style="margin-top:10px"></div>
@@ -1591,24 +1586,22 @@
                     </div>
                     <div>
                         <div class="panel-box">
-                            <h4 style="display:flex;align-items:center;gap:7px">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--pri)"
-                                    stroke-width="2.5">
+                            <h4 style="display:flex;align-items:center;gap:7px"><svg width="14" height="14"
+                                    viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="2.5">
                                     <circle cx="12" cy="12" r="10" />
                                     <line x1="12" y1="8" x2="12" y2="12" />
                                     <line x1="12" y1="16" x2="12.01" y2="16" />
-                                </svg>
-                                Panduan Status
-                            </h4>
+                                </svg>Panduan Status</h4>
                             <div class="muted" style="margin-top:8px;font-size:13px">Pilih pertanyaan di kiri untuk
                                 dibalas atau gunakan tombol kirim massal.</div>
                             <div style="margin-top:12px;display:grid;gap:7px">
                                 <div style="font-size:13px;display:flex;align-items:center;gap:8px"><span
                                         class="badge b-new">Baru Masuk</span>Pertanyaan baru diterima</div>
                                 <div style="font-size:13px;display:flex;align-items:center;gap:8px"><span
-                                        class="badge b-replied">Sudah Dibalas</span>Jawaban telah terkirim</div>
+                                        class="badge b-replied">Sudah Dibalas</span>Thread aktif, user masih bisa balas
+                                </div>
                                 <div style="font-size:13px;display:flex;align-items:center;gap:8px"><span
-                                        class="badge b-done">Selesai</span>Pertanyaan ditutup</div>
+                                        class="badge b-done">Selesai</span>Pertanyaan ditutup dan dikunci</div>
                             </div>
                             <div id="bulkMsg" class="muted" style="margin-top:12px;font-size:13px"></div>
                         </div>
@@ -1616,115 +1609,143 @@
                 </div>
             </div>
 
-            <!-- ── ADMIN: FORUM ── -->
             <div id="admin-forum" class="card hidden">
                 <div class="section-title">
                     <div>
-                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px">
-                            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--pri)"
-                                stroke-width="2.5">
+                        <h3 style="font-size:16px;display:flex;align-items:center;gap:7px"><svg width="17" height="17"
+                                viewBox="0 0 24 24" fill="none" stroke="var(--pri)" stroke-width="2.5">
                                 <circle cx="12" cy="12" r="3" />
                                 <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
-                            </svg>
-                            Forum Admin
-                        </h3>
+                            </svg>Forum Admin</h3>
                         <div class="muted" style="margin-top:3px">Pola pertanyaan yang sering muncul dari mitra.</div>
                     </div>
                 </div>
                 <div id="adminForumList"></div>
             </div>
-
-        </div><!-- end #app -->
-    </div><!-- end .wrap -->
+        </div>
+    </div>
 
     <script>
         let me = null, role = null, adminCache = [], adminData = [], isBusy = false, faqData = [], faqFilter = 'semua';
         const apiBase = 'https://script.google.com/macros/s/AKfycbw1rgfl_4WG0FCnfGI1uOprwvWx0b_ed8aw5P7OQCSjNFlVXdVh7eX45fBwIxSA-N1A/exec';
         const $ = id => document.getElementById(id);
-        function setFabVisibility(show) {
-            if (fabFixed) fabFixed.classList.toggle('hidden', !show)
-            if (fabInline) fabInline.classList.toggle('hidden', !show)
-        }
-        setFabVisibility(false)
 
-        /* ── Loading ── */
+        function setFabVisibility(show) {
+            if ($('fabFixed')) $('fabFixed').classList.toggle('hidden', !show);
+            if ($('fabInline')) $('fabInline').classList.toggle('hidden', !show);
+        }
+        setFabVisibility(false);
+
         function setLoading(show, text = 'Memproses...') {
             $('loadingText').textContent = text;
             $('loadingOverlay').classList.toggle('show', !!show);
             document.body.style.overflow = show ? 'hidden' : '';
         }
+
         function setDisabled(disabled) {
             ['loginBtn', 'submitBtn', 'bulkBtn', 'topik', 'pertanyaan', 'email', 'searchAdmin', 'filterTopik', 'sortAdmin', 'filterStatus'].forEach(id => {
-                const el = $(id); if (el) el.disabled = disabled;
+                const el = $(id);
+                if (el) el.disabled = disabled;
             });
             document.querySelectorAll('button').forEach(b => {
                 if (!['btnLogout', 'fabInline', 'fabFixed'].includes(b.id)) b.disabled = disabled || b.disabled;
             });
         }
+
         async function withLoading(fn, text = 'Memproses...') {
             if (isBusy) return { success: false, message: 'Masih memproses, tunggu sebentar.' };
-            isBusy = true; setLoading(true, text); setDisabled(true);
-            try { return await fn(); } finally { setDisabled(false); setLoading(false); isBusy = false; }
+            isBusy = true;
+            setLoading(true, text);
+            setDisabled(true);
+            try {
+                return await fn();
+            } finally {
+                setDisabled(false);
+                setLoading(false);
+                isBusy = false;
+            }
         }
 
-        /* ── API ── */
         function apiGet(action, params = {}) {
-            const u = new URL(apiBase); u.searchParams.set('action', action);
+            const u = new URL(apiBase);
+            u.searchParams.set('action', action);
             Object.keys(params).forEach(k => u.searchParams.set(k, params[k]));
             return fetch(u.toString(), { method: 'GET', redirect: 'follow' }).then(r => r.json());
         }
+
         function apiPost(action, body = {}) {
             return fetch(apiBase, {
-                method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify({ action, ...body }), redirect: 'follow'
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action, ...body }),
+                redirect: 'follow'
             }).then(r => r.json());
         }
 
-        /* ── Tabs ── */
         const ALL_TABS = ['faq', 'user-list', 'forum', 'notif', 'admin-list', 'admin-forum'];
         const TAB_MAP = {
-            'faq': 'tab-faq', 'user-list': 'tab-user-list', 'forum': 'tab-forum',
-            'notif': 'tab-notif', 'admin-list': 'tab-admin-list', 'admin-forum': 'tab-admin-forum'
+            faq: 'tab-faq',
+            'user-list': 'tab-user-list',
+            forum: 'tab-forum',
+            notif: 'tab-notif',
+            'admin-list': 'tab-admin-list',
+            'admin-forum': 'tab-admin-forum'
         };
 
         function openTab(id) {
-            ALL_TABS.forEach(x => { const el = $(x); if (el) el.classList.add('hidden'); });
-            const el = $(id); if (el) el.classList.remove('hidden');
+            ALL_TABS.forEach(x => {
+                const el = $(x);
+                if (el) el.classList.add('hidden');
+            });
+            const el = $(id);
+            if (el) el.classList.remove('hidden');
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            const tab = $(TAB_MAP[id]); if (tab) tab.classList.add('active');
-            if (id === 'notif') { $('notifBadge').classList.add('hidden'); $('notifBadge').textContent = '0'; }
+            const tab = $(TAB_MAP[id]);
+            if (tab) tab.classList.add('active');
+            if (id === 'notif') {
+                $('notifBadge').classList.add('hidden');
+                $('notifBadge').textContent = '0';
+            }
             if (tab) tab.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
         }
 
-        /* ── Modal ── */
         function openModal() {
             $('modalPertanyaan').classList.add('show');
             document.body.style.overflow = 'hidden';
         }
+
         function closeModal() {
             $('modalPertanyaan').classList.remove('show');
             document.body.style.overflow = '';
         }
-        $('modalPertanyaan').addEventListener('click', function (e) { if (e.target === this) closeModal(); });
-        document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeLb(); } });
 
-        /* ── Lightbox ── */
+        $('modalPertanyaan').addEventListener('click', e => {
+            if (e.target === $('modalPertanyaan')) closeModal();
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeLb();
+            }
+        });
+
         function openLb(url) {
-            const lb = $('lbOverlay'); const img = $('lbImg');
+            const lb = $('lbOverlay'), img = $('lbImg');
             if (!lb || !img || !url) return;
             img.src = url;
             lb.classList.add('show');
             document.body.style.overflow = 'hidden';
         }
+
         function closeLb(e) {
-            if (e && e.target && e.target.id === 'lbImg') return; // klik pada gambar tidak menutup
+            if (e && e.target && e.target.id === 'lbImg') return;
             const lb = $('lbOverlay');
             if (!lb) return;
             lb.classList.remove('show');
             document.body.style.overflow = '';
         }
 
-        /* ── Role filter ── */
         function applyRoleFilter() {
             const val = $('roleFilter').value;
             const adminTabs = ['tab-admin-list', 'tab-admin-forum'];
@@ -1741,63 +1762,77 @@
             }
         }
 
-        /* ── Session ── */
         function saveSession() {
             if (!me || !role) return;
-            try { localStorage.setItem('rk_session', JSON.stringify({ me, role, ts: Date.now() })); } catch (e) { }
+            try {
+                localStorage.setItem('rk_session', JSON.stringify({ me, role, ts: Date.now() }));
+            } catch (e) { }
         }
+
         function loadSession() {
             try {
                 const raw = localStorage.getItem('rk_session');
                 if (!raw) return false;
                 const s = JSON.parse(raw);
                 if (!s || !s.me || !s.role) return false;
-                me = s.me; role = s.role; return true;
-            } catch (e) { return false; }
-        }
-        function logout() {
-            try { localStorage.removeItem('rksession') } catch (e) { }
-            setFabVisibility(false)
-            location.reload()
+                me = s.me;
+                role = s.role;
+                return true;
+            } catch (e) {
+                return false;
+            }
         }
 
-        /* ── Utils ── */
+        function logout() {
+            try {
+                localStorage.removeItem('rk_session');
+            } catch (e) { }
+            setFabVisibility(false);
+            location.reload();
+        }
+
         function escapeHtml(s) {
             return String(s || '').replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
         }
+
         function toast(text, type = 'info') {
-            const wrap = $('toastWrap'); if (!wrap) return;
-            const el = document.createElement('div'); el.className = 'toast ' + type; el.textContent = text;
+            const wrap = $('toastWrap');
+            if (!wrap) return;
+            const el = document.createElement('div');
+            el.className = 'toast ' + type;
+            el.textContent = text;
             wrap.appendChild(el);
-            setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(4px)'; el.style.transition = 'all .25s ease'; }, 3200);
+            setTimeout(() => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(4px)';
+                el.style.transition = 'all .25s ease';
+            }, 3200);
             setTimeout(() => el.remove(), 3600);
         }
 
-        /* ── formatJawaban: render teks jawaban jadi HTML rapi ── */
         function formatJawaban(raw) {
             if (!raw) return '<span style="color:var(--muted)">Belum ada jawaban</span>';
             let s = escapeHtml(raw);
             s = s.replace(/^([=\-]{3,})\s*$/gm, '<hr class="fmt-sep">');
             s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-            s = s.replace(/\*([^*\n]+?)\*/g, '<strong>$1</strong>');
+            s = s.replace(/\*([^\*\n]+?)\*/g, '<strong>$1</strong>');
             s = s.replace(/\n/g, '<br>');
             return `<div class="fmt-answer">${s}</div>`;
         }
 
-        /* ── Lampiran HTML: thumbnail + lightbox ── */
         function lampiranHtml(url) {
             if (!url) return '';
             const safe = escapeHtml(url);
             return `<div style="margin-top:10px">
-                <img class="lb-thumb" src="${safe}" alt="Lampiran"
-                    onclick="openLb('${safe}')"
-                    onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
-                <a class="lb-fallback" href="${safe}" target="_blank" rel="noopener" style="display:none">📎 Buka lampiran gambar</a>
-                <div style="margin-top:4px"><a href="${safe}" target="_blank" rel="noopener" style="color:var(--muted);font-size:11px">↗ buka di tab baru</a></div>
-            </div>`;
+    <img class="lb-thumb" src="${safe}" alt="Lampiran" onclick="openLb('${safe}')"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+    <a class="lb-fallback" href="${safe}" target="_blank" rel="noopener" style="display:none">📎 Buka lampiran gambar</a>
+    <div style="margin-top:4px">
+      <a href="${safe}" target="_blank" rel="noopener" style="color:var(--muted);font-size:11px">↗ buka di tab baru</a>
+    </div>
+  </div>`;
         }
 
-        /* ── FAQ ── */
         async function loadFaq() {
             $('faqList').innerHTML = '<div class="skeleton skeleton-faq"></div><div class="skeleton skeleton-faq"></div><div class="skeleton skeleton-faq"></div>';
             $('faqCountBadge').textContent = 'Memuat...';
@@ -1810,15 +1845,21 @@
                 $('faqCountBadge').textContent = 'Error';
             }
         }
+
         function renderFaqItem(x, idx) {
             return `<div class="faq-item" id="faq-${idx}">
-      <div class="faq-q" onclick="toggleFaq(${idx})">
-        <span style="flex:1;font-size:14px;font-weight:700;line-height:1.4">${escapeHtml(x.q || x.question || '')}</span>
-        <span class="faq-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
-      </div>
-      <div class="faq-a">${formatJawaban(x.a || x.answer || '')}</div>
-    </div>`;
+    <div class="faq-q" onclick="toggleFaq(${idx})">
+      <span style="flex:1;font-size:14px;font-weight:700;line-height:1.4">${escapeHtml(x.q || x.question || '')}</span>
+      <span class="faq-chevron">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </span>
+    </div>
+    <div class="faq-a">${formatJawaban(x.a || x.answer || '')}</div>
+  </div>`;
         }
+
         function renderFaq() {
             const q = ($('faqSearch')?.value || '').toLowerCase().trim();
             let list = faqData;
@@ -1826,7 +1867,7 @@
             if (q) list = list.filter(x => String(x.q || x.question || '').toLowerCase().includes(q) || String(x.a || x.answer || '').toLowerCase().includes(q));
             $('faqCountBadge').textContent = list.length + ' pertanyaan';
             if (!list.length) {
-                $('faqList').innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><p>Tidak ada FAQ sesuai pencarian.<br><a href="#" onclick="openModal();return false">Ajukan pertanyaan baru →</a></p></div>`;
+                $('faqList').innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><p>Tidak ada FAQ sesuai pencarian.<br><a href="#" onclick="openModal();return false">Ajukan pertanyaan baru →</a></p></div>';
                 return;
             }
             if (faqFilter === 'semua' && !q) {
@@ -1844,135 +1885,171 @@
                     const bc = badgeClass(k);
                     const html = items.map(x => renderFaqItem(x, globalIdx++)).join('');
                     return `<div class="faq-group" style="margin-bottom:18px">
-                        <div class="faq-group-header">
-                            <span class="badge ${bc}" style="font-size:12px;padding:5px 11px">${escapeHtml(k)}</span>
-                            <span class="muted" style="font-size:12px">${items.length} pertanyaan</span>
-                        </div>
-                        ${html}
-                    </div>`;
+        <div class="faq-group-header">
+          <span class="badge ${bc}" style="font-size:12px;padding:5px 11px">${escapeHtml(k)}</span>
+          <span class="muted" style="font-size:12px">${items.length} pertanyaan</span>
+        </div>
+        ${html}
+      </div>`;
                 }).join('');
             } else {
-                $('faqList').innerHTML = list.map((x, i) => `
-    <div class="faq-item" id="faq-${i}">
+                $('faqList').innerHTML = list.map((x, i) => `<div class="faq-item" id="faq-${i}">
       <div class="faq-q" onclick="toggleFaq(${i})">
         <div style="display:flex;align-items:flex-start;gap:8px;flex:1">
           ${x.topik || x.kategori ? `<span class="badge ${badgeClass(x.topik || x.kategori)}" style="flex-shrink:0;margin-bottom:0">${escapeHtml(x.topik || x.kategori)}</span>` : ''}
           <span style="font-size:14px;font-weight:700;line-height:1.4">${escapeHtml(x.q || x.question || '')}</span>
         </div>
-        <span class="faq-chevron"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        <span class="faq-chevron">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </span>
       </div>
       <div class="faq-a">${formatJawaban(x.a || x.answer || '')}</div>
     </div>`).join('');
             }
         }
+
         function toggleFaq(i) {
             const el = document.getElementById('faq-' + i);
             if (!el) return;
             el.classList.toggle('open');
         }
+
         function setFaqFilter(val, el) {
             faqFilter = val;
             document.querySelectorAll('.faq-pill').forEach(p => p.classList.remove('active'));
             el.classList.add('active');
             renderFaq();
         }
-        function filterFaq() { renderFaq(); }
 
-        /* ── Profile ── */
+        function filterFaq() {
+            renderFaq();
+        }
+
         function fillProfile() {
             if (!me) return;
-            $('nama').value = me.nama || ''; $('hp').value = me.hp || '';
-            $('sobat').value = me.SOBAT_ID || ''; $('userEmail').value = me.email || '';
+            $('nama').value = me.nama || '';
+            $('hp').value = me.hp || '';
+            $('sobat').value = me.SOBAT_ID || '';
+            $('userEmail').value = me.email || '';
         }
+
         function clearForm() {
-            $('topik').value = 'Fasih'; $('pertanyaan').value = '';
+            $('topik').value = 'Fasih';
+            $('pertanyaan').value = '';
             if ($('lampiran')) $('lampiran').value = '';
             if ($('lampiranPreview')) $('lampiranPreview').style.display = 'none';
             if ($('lampiranName')) $('lampiranName').textContent = '';
         }
+
         function toBase64(file) {
             return new Promise((resolve, reject) => {
                 const r = new FileReader();
                 r.onload = () => resolve(String(r.result || '').split(',')[1] || '');
-                r.onerror = reject; r.readAsDataURL(file);
+                r.onerror = reject;
+                r.readAsDataURL(file);
             });
         }
+
         $('lampiran')?.addEventListener('change', () => {
             const f = $('lampiran')?.files?.[0];
-            if (!f) { $('lampiranPreview').style.display = 'none'; return; }
-            $('lampiranPreview').style.display = 'flex'; $('lampiranName').textContent = f.name;
-            const reader = new FileReader(); reader.onload = () => $('lampiranImg').src = reader.result; reader.readAsDataURL(f);
+            if (!f) {
+                $('lampiranPreview').style.display = 'none';
+                return;
+            }
+            $('lampiranPreview').style.display = 'flex';
+            $('lampiranName').textContent = f.name;
+            const reader = new FileReader();
+            reader.onload = () => $('lampiranImg').src = reader.result;
+            reader.readAsDataURL(f);
         });
 
-        function setFabVisibility(show) {
-            if (fabFixed) fabFixed.classList.toggle('hidden', !show)
-            if (fabInline) fabInline.classList.toggle('hidden', !show)
-        }
-
         function initApp() {
-            const isAdmin = role === 'ADMIN'
-            profileBox.textContent = `${me.nama} • ${role}`
-            if (isAdmin) roleBar.classList.add('show')
-            else roleBar.classList.remove('show')
-            setFabVisibility(true)
-            openTab('faq')
+            const isAdmin = role === 'ADMIN';
+            $('profileBox').textContent = `${me.nama} • ${role}`;
+            if (isAdmin) $('roleBar').classList.add('show'); else $('roleBar').classList.remove('show');
+            setFabVisibility(true);
+            openTab('faq');
         }
 
         async function restoreSession() {
-            if (!loadSession()) return false
-            loginCard.classList.add('hidden')
-            app.classList.remove('hidden')
-            setFabVisibility(true)
-            fillProfile()
-            initApp()
-            await loadFaq()
-            await loadAll()
-            return true
+            if (!loadSession()) return false;
+            $('loginCard').classList.add('hidden');
+            $('app').classList.remove('hidden');
+            setFabVisibility(true);
+            fillProfile();
+            initApp();
+            await loadFaq();
+            await loadAll();
+            return true;
         }
 
         async function login() {
             await withLoading(async () => {
-                const emailVal = email.value.trim()
-                if (!emailVal) { toast('Email wajib diisi.', 'warn'); return }
-                const r = await apiGet('login', { email: emailVal })
-                if (!r.success) { toast(r.message || 'Login gagal.', 'error'); return }
-                me = r.data
-                role = r.role
-                saveSession()
-                await apiPost('logLogin', { email: me.email, role, name: me.nama })
-                loginCard.classList.add('hidden')
-                app.classList.remove('hidden')
-                setFabVisibility(true)
-                fillProfile()
-                initApp()
-                await loadFaq()
-                await loadAll()
-                toast(`Login berhasil. Selamat datang, ${me.nama}`, 'success')
-            }, 'Sedang login...')
+                const emailVal = $('email').value.trim();
+                if (!emailVal) {
+                    toast('Email wajib diisi.', 'warn');
+                    return;
+                }
+                const r = await apiGet('login', { email: emailVal });
+                if (!r.success) {
+                    toast(r.message || 'Login gagal.', 'error');
+                    return;
+                }
+                me = r.data;
+                role = r.role;
+                saveSession();
+                await apiPost('logLogin', { email: me.email, role, name: me.nama });
+                $('loginCard').classList.add('hidden');
+                $('app').classList.remove('hidden');
+                setFabVisibility(true);
+                fillProfile();
+                initApp();
+                await loadFaq();
+                await loadAll();
+                toast(`Login berhasil. Selamat datang, ${me.nama}`, 'success');
+            }, 'Sedang login...');
         }
 
-
-
-        /* ── Submit ── */
         async function submitTicket() {
             if (isBusy) return;
             const pert = $('pertanyaan').value.trim();
             const file = $('lampiran')?.files?.[0] || null;
-            if (!pert) { toast('Pertanyaan wajib diisi.', 'warn'); return; }
-            if (file && !/^image\//.test(file.type || '')) { toast('Lampiran harus berupa gambar.', 'warn'); return; }
+            if (!pert) {
+                toast('Pertanyaan wajib diisi.', 'warn');
+                return;
+            }
+            if (file && !/^image\//.test(file.type || '')) {
+                toast('Lampiran harus berupa gambar.', 'warn');
+                return;
+            }
             await withLoading(async () => {
                 let lampiranData = '', lampiranName = '', lampiranMime = '';
-                if (file) { lampiranData = await toBase64(file); lampiranName = file.name; lampiranMime = file.type || 'image/jpeg'; }
-                const r = await apiPost('createTicket', { email: me.email, topik: $('topik').value, pertanyaan: pert, lampiranData, lampiranName, lampiranMime });
+                if (file) {
+                    lampiranData = await toBase64(file);
+                    lampiranName = file.name;
+                    lampiranMime = file.type || 'image/jpeg';
+                }
+                const r = await apiPost('createTicket', {
+                    email: me.email,
+                    topik: $('topik').value,
+                    pertanyaan: pert,
+                    lampiranData,
+                    lampiranName,
+                    lampiranMime
+                });
                 if (r.success) {
-                    const note = file ? (r.lampiranStatus === 'tersimpan' ? 'Lampiran tersimpan.' : 'Lampiran belum tersimpan.') : 'Tanpa lampiran.';
-                    toast(`Pertanyaan berhasil dikirim. ${note}`, r.lampiranStatus === 'gagal_simpan' ? 'warn' : 'success');
-                    clearForm(); closeModal(); await loadAll();
-                } else { toast(r.message || 'Pertanyaan gagal dikirim.', 'error'); }
+                    toast('Pertanyaan berhasil dikirim.', 'success');
+                    clearForm();
+                    closeModal();
+                    await loadAll();
+                } else {
+                    toast(r.message || 'Pertanyaan gagal dikirim.', 'error');
+                }
             }, 'Mengirim pertanyaan...');
         }
 
-        /* ── Badge helpers ── */
         function badgeClass(v) {
             const s = String(v || '').toLowerCase();
             if (s.includes('fasih')) return 'b-fasih';
@@ -1980,58 +2057,141 @@
             if (s.includes('lain')) return 'b-lainnya';
             return 'b-lainnya';
         }
+
         function badgeStatus(v) {
             const s = String(v || '').toLowerCase();
             if (['open', 'baru', 'terkirim'].includes(s)) return { cls: 'b-new', txt: 'Baru Masuk' };
-            if (['answered', 'terjawab'].includes(s)) return { cls: 'b-replied', txt: 'Sudah Dibalas' };
+            if (['answered', 'terjawab', 'dibalas'].includes(s)) return { cls: 'b-replied', txt: 'Sudah Dibalas' };
             if (['closed', 'selesai'].includes(s)) return { cls: 'b-done', txt: 'Selesai' };
             return { cls: 'b-new', txt: 'Baru Masuk' };
         }
 
-        /* ── Item render ── */
-        function itemTicket(t, admin = false) {
-            const checked = adminCache.some(x => x.id === t.id);
-            const img = lampiranHtml(t.lampiranUrl);
-            const st = badgeStatus(t.status || 'open');
-            const lp = t.lampiranStatus ? `<span class="badge ${t.lampiranStatus === 'tersimpan' ? 'b-replied' : 'b-new'}">${t.lampiranStatus === 'tersimpan' ? '📎 Lampiran' : 'Tanpa lampiran'}</span>` : '';
-            const adminBlock = admin ? `<div class="admin-action-box">
-    <div class="admin-check-row"><input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleSelect('${t.id}',this.checked)" id="chk-${t.id}">
-    <label for="chk-${t.id}" class="muted" style="font-size:12px;cursor:pointer">Pilih untuk balas massal</label></div>
-    <textarea id="jawab-${t.id}" placeholder="Tulis jawaban untuk pertanyaan ini..." style="width:100%;min-height:90px;resize:vertical;border-radius:10px;border:1px solid #ead8c7;padding:10px;font-size:14px;font-family:inherit;box-sizing:border-box;margin-top:6px"></textarea>
-    <div class="admin-btn-row">
-      <button class="btn-ok" onclick="answerOne('${t.id}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Balas</button>
-      <button class="btn-neutral" onclick="finishOne('${t.id}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Tutup</button>
-    </div></div>` : '';
-            return `<div class="item"><div class="item-head"><div><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(t.topik)}">${escapeHtml(t.topik || '-')}</span>${lp}</div><div class="item-title" style="margin-top:4px">${escapeHtml(t.nama || '')}</div><div class="item-meta">${escapeHtml(t.email || '')} • ${escapeHtml(t.hp || '')} • SOBAT: ${escapeHtml(t.SOBAT_ID || '-')}</div></div><div class="item-label">${escapeHtml(new Date(t.timestamp || Date.now()).toLocaleString('id-ID'))}</div></div><div class="item-body"><b>Pertanyaan:</b> ${escapeHtml(t.pertanyaan || '')}</div>${img}<div class="item-body" style="margin-top:6px"><b>Jawaban:</b> ${formatJawaban(t.jawaban)}</div>${adminBlock}</div>`;
+        function ticketMessagesHtml(t) {
+            const msgs = Array.isArray(t.messages) ? t.messages : [];
+            const fallback = [];
+            if (t.pertanyaan) fallback.push({ sender: 'user', text: t.pertanyaan, timestamp: t.timestamp });
+            if (t.jawaban) fallback.push({ sender: 'admin', text: t.jawaban, timestamp: t.answered_at || t.updatedAt || t.timestamp });
+            const list = msgs.length ? msgs : fallback;
+            if (!list.length) return '<div class="empty" style="margin-top:10px"><div class="empty-icon">💬</div><p>Belum ada percakapan.</p></div>';
+            return `<div class="thread">${list.map(m => {
+                const sender = String(m.sender || 'user').toLowerCase();
+                const roleTxt = sender === 'admin' ? 'ADMIN' : sender === 'system' ? 'SISTEM' : 'USER';
+                const cls = sender === 'admin' ? 'admin' : sender === 'system' ? 'closed' : 'user';
+                const time = m.timestamp ? new Date(m.timestamp).toLocaleString('id-ID') : '';
+                return `<div class="msg ${cls}">
+      <div class="msg-head">
+        <div class="msg-role">${roleTxt}</div>
+        <div class="msg-time">${escapeHtml(time)}</div>
+      </div>
+      <div class="msg-text">${escapeHtml(m.text || '').replace(/\n/g, '<br>')}</div>
+    </div>`;
+            }).join('')}</div>`;
         }
 
-        /* ── Load data ── */
+        function ticketReplyBox(t, admin = false) {
+            const st = badgeStatus(t.status || 'baru');
+            if (st.txt === 'Selesai') return '';
+            if (admin) {
+                return `<div class="admin-action-box">
+      <div class="admin-check-row">
+        <input type="checkbox" ${adminCache.some(x => x.id === t.id) ? 'checked' : ''} onchange="toggleSelect('${t.id}',this.checked)" id="chk-${t.id}">
+        <label for="chk-${t.id}" class="muted" style="font-size:12px;cursor:pointer">Pilih untuk balas massal</label>
+      </div>
+      <textarea id="jawab-${t.id}" placeholder="Tulis jawaban untuk pertanyaan ini..." style="width:100%;min-height:90px;resize:vertical;border-radius:10px;border:1px solid #ead8c7;padding:10px;font-size:14px;font-family:inherit;box-sizing:border-box;margin-top:6px"></textarea>
+      <div class="admin-btn-row">
+        <button class="btn-ok" onclick="answerOne('${t.id}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          Balas
+        </button>
+        <button class="btn-neutral" onclick="finishOne('${t.id}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Tutup
+        </button>
+      </div>
+    </div>`;
+            }
+            return `<div class="reply-box">
+    <label>Balas pertanyaan ini</label>
+    <textarea id="reply-${t.id}" placeholder="Tulis balasan Anda..." maxlength="2000"></textarea>
+    <div class="grid-actions" style="margin-top:10px">
+      <button class="btn-primary" onclick="replyThread('${t.id}')">Kirim Balasan</button>
+    </div>
+  </div>`;
+        }
+
+        function itemTicket(t, admin = false) {
+            const st = badgeStatus(t.status || 'baru');
+            const img = lampiranHtml(t.lampiranUrl);
+            const lp = t.lampiranStatus ? `<span class="badge ${t.lampiranStatus === 'tersimpan' ? 'b-replied' : 'b-new'}">${t.lampiranStatus === 'tersimpan' ? '📎 Lampiran' : 'Tanpa lampiran'}</span>` : '';
+            const lock = st.txt === 'Selesai' ? 'ticket-locked' : '';
+            return `<div class="item ${lock}">
+    <div class="item-head">
+      <div>
+        <div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(t.topik)}">${escapeHtml(t.topik || '-')}</span>${lp}</div>
+        <div class="item-title" style="margin-top:4px">${escapeHtml(t.nama || '')}</div>
+        <div class="item-meta">${escapeHtml(t.email || '')} • ${escapeHtml(t.hp || '')} • SOBAT: ${escapeHtml(t.SOBAT_ID || '-')}</div>
+      </div>
+      <div class="item-label">${escapeHtml(new Date(t.timestamp || Date.now()).toLocaleString('id-ID'))}</div>
+    </div>
+    <div class="item-body"><b>Thread Pertanyaan</b></div>
+    ${ticketMessagesHtml(t)}
+    ${img}
+    ${admin ? ticketReplyBox(t, true) : ticketReplyBox(t, false)}
+  </div>`;
+        }
+
         async function loadMyTickets() {
             const r = await apiGet('tickets', { email: me.email });
-            const data = r.data || [];
+            const data = Array.isArray(r.data) ? r.data : [];
             const unread = data.filter(x => badgeStatus(x.status).txt === 'Sudah Dibalas').length;
-            if (unread > 0) { $('notifBadge').textContent = unread; $('notifBadge').classList.remove('hidden'); }
-            $('myTickets').innerHTML = data.length ? data.map(x => itemTicket(x)).join('') : `<div class="empty"><div class="empty-icon">📝</div><p>Belum ada pertanyaan yang dikirim.<br><a href="#" onclick="openModal();return false">Buat pertanyaan pertama Anda →</a></p></div>`;
+            if (unread > 0) {
+                $('notifBadge').textContent = unread;
+                $('notifBadge').classList.remove('hidden');
+            }
+            $('myTickets').innerHTML = data.length
+                ? data.map(x => itemTicket(x)).join('')
+                : `<div class="empty"><div class="empty-icon">📝</div><p>Belum ada pertanyaan yang dikirim.<br><a href="#" onclick="openModal();return false">Buat pertanyaan pertama Anda →</a></p></div>`;
         }
+
         async function loadForum() {
-            const r = await apiGet('forum'); const g = r.data || {}; const keys = Object.keys(g);
-            $('forumList').innerHTML = keys.length ? keys.map(k => `<div class="item"><div class="item-head"><div><div class="item-title">${escapeHtml(k)}</div><div class="muted" style="margin-top:3px">Kumpulan pertanyaan dengan tema serupa.</div></div></div>${g[k].map(x => itemTicket(x)).join('')}</div>`).join('') : `<div class="empty"><div class="empty-icon">💬</div><p>Belum ada data forum.</p></div>`;
+            const r = await apiGet('forum');
+            const g = r.data || {};
+            $('forumList').innerHTML = Object.keys(g).length
+                ? Object.keys(g).map(k => `<div class="item"><div class="item-head"><div><div class="item-title">${escapeHtml(k)}</div><div class="muted" style="margin-top:3px">Kumpulan pertanyaan dengan tema serupa.</div></div></div>${g[k].map(x => itemTicket(x)).join('')}</div>`).join('')
+                : `<div class="empty"><div class="empty-icon">💬</div><p>Belum ada data forum.</p></div>`;
         }
+
         async function loadNotif() {
-            const r = await apiGet('notif', { email: me.email }); const arr = r.data || [];
-            $('notifList').innerHTML = arr.length ? arr.map(x => {
-                const st = badgeStatus(x.status || 'open');
-                return `<div class="item"><div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(x.topik)}">${escapeHtml(x.topik || '-')}</span></div><div class="item-body">Pertanyaan Anda tentang topik <b>${escapeHtml(x.topik || '-')}</b> — status: ${st.txt.toLowerCase()}.</div>${x.lampiranUrl ? lampiranHtml(x.lampiranUrl) : ''}</div>`;
-            }).join('') : `<div class="empty"><div class="empty-icon">🔔</div><p>Belum ada pemberitahuan.</p></div>`;
+            const r = await apiGet('notif', { email: me.email });
+            const arr = r.data || [];
+            $('notifList').innerHTML = arr.length
+                ? arr.map(x => {
+                    const st = badgeStatus(x.status || 'baru');
+                    return `<div class="item">
+          <div><span class="badge ${st.cls}">${st.txt}</span><span class="badge ${badgeClass(x.topik)}">${escapeHtml(x.topik || '-')}</span></div>
+          <div class="item-body">Pertanyaan Anda tentang topik <b>${escapeHtml(x.topik || '-')}</b> — status: ${st.txt.toLowerCase()}.</div>
+          ${x.lampiranUrl ? lampiranHtml(x.lampiranUrl) : ''}
+        </div>`;
+                }).join('')
+                : `<div class="empty"><div class="empty-icon">🔔</div><p>Belum ada pemberitahuan.</p></div>`;
         }
+
         function flattenForum(grouped) {
-            const arr = []; Object.keys(grouped || {}).forEach(k => (grouped[k] || []).forEach(t => arr.push(t))); return arr;
+            const arr = [];
+            Object.keys(grouped || {}).forEach(k => (grouped[k] || []).forEach(t => arr.push(t)));
+            return arr;
         }
+
         async function loadAdmin() {
             const r = await apiGet('adminTickets');
-            adminData = flattenForum(r.data || {}); adminCache = [];
-            renderAdminSummary(); renderAdminList(); renderAdminForum(r.data || {});
+            const raw = r.data || {};
+            adminData = flattenForum(raw);
+            adminCache = [];
+            renderAdminSummary();
+            renderAdminList();
+            renderAdminForum(raw);
         }
+
         function renderAdminSummary() {
             const total = adminData.length;
             const baru = adminData.filter(x => badgeStatus(x.status).txt === 'Baru Masuk').length;
@@ -2043,76 +2203,139 @@
                 `<div class="summary"><div class="l">Dibalas & Selesai</div><div class="v" style="color:#1f7a46">${jawab + done}</div></div>`
             ].join('');
         }
+
         function renderAdminList() {
             const q = ($('searchAdmin')?.value || '').toLowerCase().trim();
             const topik = $('filterTopik')?.value || '';
             const status = $('filterStatus')?.value || '';
             const sort = $('sortAdmin')?.value || 'newest';
             let filtered = adminData.filter(t => {
-                const s = [t.nama, t.email, t.hp, t.SOBAT_ID, t.topik, t.pertanyaan, t.kategori_gemini].join(' ').toLowerCase();
-                const stKey = badgeStatus(t.status).txt === 'Baru Masuk' ? 'baru' : badgeStatus(t.status).txt === 'Sudah Dibalas' ? 'terjawab' : 'selesai';
-                return (!q || s.includes(q)) && (!topik || String(t.topik || '') === topik) && (!status || stKey === status);
+                const s = [t.nama, t.email, t.hp, t.SOBAT_ID, t.topik, t.pertanyaan].join(' ').toLowerCase();
+                const st = badgeStatus(t.status).txt === 'Baru Masuk' ? 'baru' : badgeStatus(t.status).txt === 'Sudah Dibalas' ? 'terjawab' : 'selesai';
+                return (!q || s.includes(q)) && (!topik || String(t.topik || '') === topik) && (!status || st === status);
             });
             filtered.sort((a, b) => sort === 'oldest' ? new Date(a.timestamp) - new Date(b.timestamp) : new Date(b.timestamp) - new Date(a.timestamp));
             $('adminSummary').textContent = `Menampilkan ${filtered.length} dari ${adminData.length} pertanyaan`;
-            $('adminList').innerHTML = filtered.length ? filtered.map(t => itemTicket(t, true)).join('') : `<div class="empty"><div class="empty-icon">🔍</div><p>Tidak ada pertanyaan sesuai filter.</p></div>`;
+            $('adminList').innerHTML = filtered.length
+                ? filtered.map(t => itemTicket(t, true)).join('')
+                : `<div class="empty"><div class="empty-icon">🔍</div><p>Tidak ada pertanyaan sesuai filter.</p></div>`;
         }
+
         function renderAdminForum(grouped) {
-            $('adminForumList').innerHTML = Object.keys(grouped || {}).length ? Object.keys(grouped).map(k => `<div class="item"><div class="item-head"><div><div class="item-title">${escapeHtml(k)}</div><div class="muted">Pertanyaan dengan tema serupa.</div></div></div>${grouped[k].map(x => itemTicket(x)).join('')}</div>`).join('') : `<div class="empty"><div class="empty-icon">📊</div><p>Belum ada data forum admin.</p></div>`;
+            $('adminForumList').innerHTML = Object.keys(grouped || {}).length
+                ? Object.keys(grouped).map(k => `<div class="item"><div class="item-head"><div><div class="item-title">${escapeHtml(k)}</div><div class="muted">Pertanyaan dengan tema serupa.</div></div></div>${grouped[k].map(x => itemTicket(x)).join('')}</div>`).join('')
+                : `<div class="empty"><div class="empty-icon">📊</div><p>Belum ada data forum admin.</p></div>`;
         }
+
         function toggleSelect(id, checked) {
-            if (checked) { if (!adminCache.find(x => x.id === id)) adminCache.push({ id }); }
-            else { adminCache = adminCache.filter(x => x.id !== id); }
+            if (checked) {
+                if (!adminCache.find(x => x.id === id)) adminCache.push({ id });
+            } else {
+                adminCache = adminCache.filter(x => x.id !== id);
+            }
         }
+
         function selectAllAdmin(state) {
             document.querySelectorAll('#adminList input[type="checkbox"]').forEach(cb => {
-                cb.checked = state; const card = cb.closest('.item'); if (!card) return;
-                const ta = card.querySelector('textarea[id^="jawab-"]'); const ticketId = ta ? ta.id.replace('jawab-', '') : null;
+                cb.checked = state;
+                const card = cb.closest('.item');
+                if (!card) return;
+                const ta = card.querySelector('textarea[id^="jawab-"]');
+                const ticketId = ta ? ta.id.replace('jawab-', '') : null;
                 if (!ticketId) return;
                 if (state && !adminCache.find(x => x.id === ticketId)) adminCache.push({ id: ticketId });
                 else if (!state) adminCache = adminCache.filter(x => x.id !== ticketId);
             });
         }
+
         async function answerOne(id) {
-            if (isBusy) return; const el = document.getElementById('jawab-' + id); const j = el ? el.value.trim() : '';
-            if (!j) { toast('Isi jawaban terlebih dahulu.', 'warn'); return; }
+            if (isBusy) return;
+            const el = document.getElementById('jawab-' + id);
+            const j = el ? el.value.trim() : '';
+            if (!j) {
+                toast('Isi jawaban terlebih dahulu.', 'warn');
+                return;
+            }
             await withLoading(async () => {
                 const r = await apiPost('answerTicket', { ticketId: id, jawaban: j, answeredByEmail: me.email });
                 toast(r.success ? `Jawaban terkirim untuk pertanyaan ${id}.` : (r.message || 'Gagal menyimpan jawaban.'), r.success ? 'success' : 'error');
                 await loadAll();
             }, 'Mengirim jawaban...');
         }
+
         async function finishOne(id) {
             if (isBusy) return;
             await withLoading(async () => {
-                const r = await apiPost('markComplete', { ticketId: id });
+                const r = await apiPost('markComplete', { ticketId: id, closedByEmail: me.email });
                 toast(r.success ? `Pertanyaan ${id} ditandai selesai.` : (r.message || 'Gagal menutup pertanyaan.'), r.success ? 'success' : 'error');
                 await loadAll();
             }, 'Menandai selesai...');
         }
+
         async function bulkAnswerSelected() {
             if (isBusy) return;
             const items = [];
             document.querySelectorAll('#adminList .item').forEach(card => {
                 const chk = card.querySelector('input[type="checkbox"]');
                 const ta = card.querySelector('textarea[id^="jawab-"]');
-                if (chk && chk.checked && ta && ta.value.trim()) items.push({ ticketId: ta.id.replace('jawab-', ''), jawaban: ta.value.trim() });
+                if (chk && chk.checked && ta && ta.value.trim()) {
+                    items.push({ ticketId: ta.id.replace('jawab-', ''), jawaban: ta.value.trim() });
+                }
             });
-            if (!items.length) { toast('Pilih pertanyaan dan isi jawaban dulu.', 'warn'); return; }
+            if (!items.length) {
+                toast('Pilih pertanyaan dan isi jawaban dulu.', 'warn');
+                return;
+            }
             await withLoading(async () => {
                 const r = await apiPost('bulkAnswer', { items, answeredByEmail: me.email });
                 $('bulkMsg').textContent = r.message || '';
                 toast(r.success ? `${items.length} jawaban berhasil terkirim.` : (r.message || 'Gagal kirim massal.'), r.success ? 'success' : 'error');
-                adminCache = []; await loadAll();
+                adminCache = [];
+                await loadAll();
             }, 'Mengirim jawaban massal...');
         }
+
+        async function replyThread(id) {
+            if (isBusy) return;
+            const el = $('reply-' + id);
+            const txt = el ? el.value.trim() : '';
+            if (!txt) {
+                toast('Balasan tidak boleh kosong.', 'warn');
+                return;
+            }
+            await withLoading(async () => {
+                const r = await apiPost('replyThread', { ticketId: id, message: txt, senderEmail: me.email });
+                toast(r.success ? 'Balasan berhasil dikirim.' : (r.message || 'Balasan gagal dikirim.'), r.success ? 'success' : 'error');
+                await loadAll();
+            }, 'Mengirim balasan...');
+        }
+
         async function loadAll() {
             const tasks = [loadMyTickets(), loadForum(), loadNotif()];
             if (role === 'ADMIN') tasks.push(loadAdmin());
             await Promise.all(tasks);
         }
 
-        /* ── Boot ── */
+        (function () {
+            window.answerOne = answerOne;
+            window.finishOne = finishOne;
+            window.bulkAnswerSelected = bulkAnswerSelected;
+            window.toggleSelect = toggleSelect;
+            window.selectAllAdmin = selectAllAdmin;
+            window.replyThread = replyThread;
+            window.openTab = openTab;
+            window.openModal = openModal;
+            window.closeModal = closeModal;
+            window.openLb = openLb;
+            window.closeLb = closeLb;
+            window.setFaqFilter = setFaqFilter;
+            window.filterFaq = filterFaq;
+            window.applyRoleFilter = applyRoleFilter;
+            window.submitTicket = submitTicket;
+            window.login = login;
+            window.logout = logout;
+        })();
+
         (async () => {
             const restored = await restoreSession();
             if (!restored) $('loginCard').classList.remove('hidden');
