@@ -10,15 +10,16 @@
 
 ## 📖 Tentang Aplikasi
 
-**Ruang Kita** adalah aplikasi berbasis web yang menjadi sarana komunikasi antara **Mitra Petugas Sensus Ekonomi 2026** dengan **Tim Admin BPS Kota Denpasar**. Aplikasi ini memungkinkan petugas lapangan mengirimkan pertanyaan atau kendala secara terstruktur, yang kemudian dapat dijawab oleh admin secara individual maupun massal.
+**Ruang Kita** adalah aplikasi berbasis web yang menjadi sarana komunikasi antara **Mitra Petugas Sensus Ekonomi 2026** dengan **Tim Admin BPS Kota Denpasar**. Aplikasi ini memungkinkan petugas lapangan mengirimkan pertanyaan atau kendala secara terstruktur, yang kemudian dapat dibalas dan didiskusikan secara dua arah antara mitra dan admin.
 
 ### Fitur Utama
 - 📚 **FAQ** — Pertanyaan umum yang dikelompokkan per topik, lengkap dengan pencarian dan filter; tampil sebagai tab utama saat login
 - 📩 **Buat Pertanyaan** — Kirim pertanyaan baru via tombol **Buat Pertanyaan** (FAB) di tab bar atau pojok kanan bawah layar (mobile); dilengkapi lampiran gambar opsional
-- 🕐 **Riwayat** — Pantau semua pertanyaan yang pernah dikirim beserta status terkininya
+- 🕐 **Riwayat** — Pantau semua pertanyaan beserta seluruh thread percakapan dan status terkininya
+- 💬 **Diskusi 2 Arah** — Setiap pertanyaan kini memiliki **thread percakapan** layaknya tiket; mitra dapat membalas jawaban admin selama status belum **Selesai**
 - 💬 **Forum Diskusi** — Lihat kumpulan pertanyaan dari seluruh mitra yang dikelompokkan otomatis berdasarkan tema (AI-powered)
 - 🔔 **Pemberitahuan** — Ringkasan status terbaru pertanyaan Anda; badge merah muncul jika ada jawaban baru
-- 🛠️ **Panel Admin** — Kelola, filter, balas, dan tutup pertanyaan secara individual maupun massal; dapat diakses via **Role Filter** setelah login sebagai admin
+- 🛠️ **Panel Admin** — Kelola, filter, balas, dan tutup pertanyaan secara individual maupun massal; setiap card menampilkan thread percakapan penuh
 
 ---
 
@@ -67,17 +68,23 @@
 
 ---
 
-### 4. Riwayat
+### 4. Riwayat & Diskusi 2 Arah
 1. Klik tab **Riwayat** di bar navigasi.
-2. Semua pertanyaan yang pernah Anda kirim ditampilkan lengkap dengan status terkini dan jawaban admin.
+2. Semua pertanyaan yang pernah Anda kirim ditampilkan lengkap dengan **thread percakapan** dan status terkini.
+3. Jika admin sudah membalas dan status masih **Sudah Dibalas**, Anda dapat melanjutkan diskusi:
+   - Scroll ke bagian bawah card pertanyaan.
+   - Ketik balasan di kotak **Balas pertanyaan ini**.
+   - Klik **Kirim Balasan**.
+4. Thread percakapan menampilkan semua pesan dengan label **USER** atau **ADMIN** beserta waktu pengiriman.
+5. Jika status sudah **Selesai**, pertanyaan dikunci dan tidak bisa dibalas lagi.
 
 **Arti Status Pertanyaan:**
 
 | Status | Arti |
 |---|---|
-| 🟠 Baru Masuk | Pertanyaan sudah diterima, belum diproses |
-| 🟢 Sudah Dibalas | Admin sudah memberikan jawaban |
-| ⚪ Selesai | Pertanyaan telah ditutup |
+| 🟠 Baru Masuk | Pertanyaan sudah diterima, belum diproses admin |
+| 🟢 Sudah Dibalas | Admin sudah menjawab; thread masih aktif, Anda bisa balas |
+| ⚪ Selesai | Pertanyaan ditutup dan dikunci |
 
 ---
 
@@ -124,11 +131,14 @@ Di bagian atas panel, tersedia **3 kartu ringkasan**:
 - **Filter Topik** — saring berdasarkan: Semua / Fasih / Konsep Lapangan / Lainnya.
 - **Urutkan** — tampilkan pertanyaan terbaru atau terlama terlebih dahulu.
 
+#### Tampilan Card Pertanyaan
+Setiap card kini menampilkan **thread percakapan penuh** (seluruh riwayat pesan antara user dan admin). Card dengan status **Selesai** ditampilkan dengan efek *locked* (sedikit transparan) sebagai penanda dikunci.
+
 #### Balas Satu Pertanyaan
 1. Temukan pertanyaan yang ingin dijawab.
-2. Isi kolom jawaban di bagian bawah kartu pertanyaan.
-3. Klik **Balas** untuk mengirim jawaban (status → Sudah Dibalas).
-4. Klik **Tutup** jika pertanyaan sudah selesai ditangani (status → Selesai).
+2. Isi kolom jawaban di bagian bawah card pertanyaan.
+3. Klik **Balas** untuk mengirim jawaban (status → Sudah Dibalas; thread tetap aktif).
+4. Klik **Tutup** jika pertanyaan sudah selesai ditangani (status → Selesai; thread dikunci).
 
 #### Balas Banyak Pertanyaan Sekaligus (Bulk)
 1. Centang pertanyaan yang ingin dijawab (atau gunakan **Pilih Semua**).
@@ -138,14 +148,24 @@ Di bagian atas panel, tersedia **3 kartu ringkasan**:
 
 ---
 
-### 3. Forum Admin (Tab "Forum Admin")
+### 3. Panduan Status (Sidebar Admin)
+
+| Status | Makna di Sisi Admin |
+|---|---|
+| 🟠 Baru Masuk | Pertanyaan baru diterima, belum dibalas |
+| 🟢 Sudah Dibalas | Thread aktif; user masih bisa mengirim balasan |
+| ⚪ Selesai | Pertanyaan ditutup dan dikunci |
+
+---
+
+### 4. Forum Admin (Tab "Forum Admin")
 1. Klik tab **Forum Admin**.
 2. Tampil kumpulan pertanyaan yang sudah dikelompokkan otomatis berdasarkan tema.
 3. Gunakan ini untuk memantau **pola pertanyaan** yang sering muncul dari mitra lapangan.
 
 ---
 
-### 4. Kembali ke Tampilan Pengguna
+### 5. Kembali ke Tampilan Pengguna
 - Pilih **👤 Tampilan Pengguna** di bar Mode tampilan untuk menyembunyikan tab admin dan kembali ke tampilan mitra.
 
 ---
@@ -162,10 +182,12 @@ Aplikasi menampilkan notifikasi singkat (toast) di pojok kanan bawah layar untuk
 | 🟡 Kuning/Oranye | Peringatan |
 
 **Contoh pesan toast:**
-- `Pertanyaan berhasil dikirim. Lampiran tersimpan.`
+- `Pertanyaan berhasil dikirim.`
 - `Jawaban terkirim untuk pertanyaan ini.`
+- `Balasan berhasil dikirim.`
 - `Pertanyaan ditandai selesai.`
 - `Isi jawaban terlebih dahulu.`
+- `Balasan tidak boleh kosong.`
 
 ---
 
@@ -205,7 +227,7 @@ ruangkita5171/
 
 - Login menggunakan **email saja** tanpa password — akses terbatas untuk email yang terdaftar di Data Mitra atau Admin.
 - Sesi login disimpan di `localStorage` browser.
-- Data pertanyaan tersimpan di **Google Sheets** yang hanya dapat diakses via Apps Script.
+- Data pertanyaan dan thread percakapan tersimpan di **Google Sheets** yang hanya dapat diakses via Apps Script.
 - Lampiran gambar disimpan di **Google Drive** dengan izin akses terbatas.
 
 ---
