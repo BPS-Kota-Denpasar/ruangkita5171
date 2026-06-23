@@ -2191,16 +2191,17 @@
             renderAdminList();
             renderAdminForum(raw);
         }
-
         function renderAdminSummary() {
             const total = adminData.length;
             const baru = adminData.filter(x => badgeStatus(x.status).txt === 'Baru Masuk').length;
-            const jawab = adminData.filter(x => badgeStatus(x.status).txt === 'Sudah Dibalas').length;
-            const done = adminData.filter(x => badgeStatus(x.status).txt === 'Selesai').length;
+            const dibalas = adminData.filter(x => badgeStatus(x.status).txt === 'Sudah Dibalas').length;
+            const selesai = adminData.filter(x => badgeStatus(x.status).txt === 'Selesai').length;
+
             $('adminSummaryGrid').innerHTML = [
                 `<div class="summary"><div class="l">Total Pertanyaan</div><div class="v">${total}</div></div>`,
                 `<div class="summary"><div class="l">Baru Masuk</div><div class="v" style="color:#a04f12">${baru}</div></div>`,
-                `<div class="summary"><div class="l">Dibalas & Selesai</div><div class="v" style="color:#1f7a46">${jawab + done}</div></div>`
+                `<div class="summary"><div class="l">Dibalas</div><div class="v" style="color:#0369a1">${dibalas}</div></div>`,
+                `<div class="summary"><div class="l">Selesai</div><div class="v" style="color:#1f7a46">${selesai}</div></div>`
             ].join('');
         }
 
