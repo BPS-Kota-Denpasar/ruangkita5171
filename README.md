@@ -3,6 +3,8 @@
 > BPS Kota Denpasar
 
 [![GitHub Pages](https://img.shields.io/badge/Live-GitHub%20Pages-brightgreen)](https://bps-kota-denpasar.github.io/ruangkita5171/)
+[![Last Updated](https://img.shields.io/badge/Last%20Updated-Juni%202026-blue)](https://github.com/BPS-Kota-Denpasar/ruangkita5171)
+[![Status](https://img.shields.io/badge/Status-Aktif-success)](https://bps-kota-denpasar.github.io/ruangkita5171/)
 
 ---
 
@@ -214,4 +216,5 @@ Jika mengalami kendala teknis, hubungi Tim IT BPS Kota Denpasar melalui jalur ko
 
 ---
 
-*Dikembangkan untuk keperluan internal BPS Kota Denpasar — Sensus Ekonomi 2026.*
+*Dikembangkan untuk keperluan internal BPS Kota Denpasar — Sensus Ekonomi 2026.*  
+*Terakhir diperbarui: Juni 2026*
